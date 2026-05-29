@@ -35,12 +35,11 @@ try {
         throw "The www bucket has uncommitted changes. Commit or discard them before running this updater.`n$dirtyBefore"
     }
 
-    $argsForCheckver = @('uotantoolbox', '-Dir', (Join-Path $bucketRoot 'bucket'), '-Update')
     if ($Force) {
-        $argsForCheckver[-1] = '-ForceUpdate'
+        & $checkver -App 'uotantoolbox' -Dir (Join-Path $bucketRoot 'bucket') -ForceUpdate
+    } else {
+        & $checkver -App 'uotantoolbox' -Dir (Join-Path $bucketRoot 'bucket') -Update
     }
-
-    & $checkver @argsForCheckver
 
     $dirtyAfter = git status --porcelain
     if ($dirtyAfter) {
