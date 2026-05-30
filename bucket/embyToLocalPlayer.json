@@ -1,0 +1,27 @@
+{
+    "version": "2025.11.13",
+    "description": "Launches local external players from Emby, Jellyfin, and Plex and syncs playback progress.",
+    "homepage": "https://github.com/kjtsune/embyToLocalPlayer",
+    "license": "Unknown",
+    "url": "https://github.com/kjtsune/embyToLocalPlayer/releases/download/2025.11.13/embyToLocalPlayer.zip",
+    "hash": "41b1682d5dd8a55cba0e741e0c813feb79edcb68f2665738c52b4999da7b825c",
+    "pre_install": "Set-Content \"$dir\\embyToLocalPlayer_d.bat\" 'echo 1 | %~dp0\\embyToLocalPlayer_debug.bat' -Encoding ASCII",
+    "bin": [
+        [
+            "embyToLocalPlayer_debug.bat",
+            "embyToLocalPlayer"
+        ],
+        [
+            "embyToLocalPlayer_d.bat",
+            "embyToLocalPlayer_d"
+        ]
+    ],
+    "persist": "embyToLocalPlayer_config.ini",
+    "checkver": {
+        "github": "https://github.com/kjtsune/embyToLocalPlayer",
+        "regex": "/releases/tag/([\\d.]+)"
+    },
+    "autoupdate": {
+        "url": "https://github.com/kjtsune/embyToLocalPlayer/releases/download/$version/embyToLocalPlayer.zip"
+    }
+}
