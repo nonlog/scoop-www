@@ -21,11 +21,7 @@
     ],
     "persist": [
         "embyToLocalPlayer_config.ini",
-        "trakt_token.json",
-        [
-            "utils\\net_tools.py",
-            "utils\\net_tools.py"
-        ]
+        "trakt_token.json"
     ],
     "checkver": {
         "github": "https://github.com/kjtsune/embyToLocalPlayer",
