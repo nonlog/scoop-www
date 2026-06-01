@@ -1,12 +1,12 @@
 {
-    "version": "0.6.9",
+    "version": "0.6.10",
     "description": "Remote bridge for continuing Codex sessions from other devices and IM channels.",
     "homepage": "https://github.com/jazzenchen/VibeAround",
     "license": "Unknown",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/jazzenchen/VibeAround/releases/download/v0.6.9/VibeAround-win-0.6.9-portable.zip",
-            "hash": "792703f4607e614bc92800b47bc5de5709d8b7b9b7863c017509fb3425d79592"
+            "url": "https://github.com/jazzenchen/VibeAround/releases/download/v0.6.10/VibeAround-win-0.6.10-portable.zip",
+            "hash": "b974f6066b7bf1bab06afe0c8cf5416eb01362481f73022b97b7aa09a64c5ae3"
         }
     },
     "shortcuts": [
