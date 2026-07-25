@@ -9,7 +9,10 @@
             "hash": "ed03ea6f3f8554bc8d9447a288a4733f6824e65f13bbc29551d16ffa7e1cf863"
         }
     },
-    "pre_install": "Remove-Item \"$dir\\`$PLUGINSDIR\" -Force -Recurse -ErrorAction SilentlyContinue",
+    "pre_install": [
+        "Expand-7zipArchive \"$dir\\`$PLUGINSDIR\\app-64.7z\" \"$dir\" -Removal",
+        "Remove-Item \"$dir\\`$PLUGINSDIR\" -Force -Recurse -ErrorAction SilentlyContinue"
+    ],
     "bin": "Kudu.exe",
     "shortcuts": [
         [
