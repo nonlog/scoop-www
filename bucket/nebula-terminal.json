@@ -1,0 +1,30 @@
+{
+    "version": "0.7.0",
+    "description": "A GPU-accelerated terminal emulator.",
+    "homepage": "https://github.com/Kuddev/nebula",
+    "license": "GPL-3.0",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Kuddev/nebula/releases/download/v0.7.0/NebulaTerminal-v0.7.0-windows-x64.zip",
+            "hash": "7800ba76bea0015b29a1288a32d7867b8e240e4809c50c2a74b29c8919667215"
+        }
+    },
+    "bin": "nebula.exe",
+    "shortcuts": [
+        [
+            "nebula.exe",
+            "Nebula Terminal"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/Kuddev/nebula",
+        "regex": "/releases/tag/v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Kuddev/nebula/releases/download/v$version/NebulaTerminal-v$version-windows-x64.zip"
+            }
+        }
+    }
+}
