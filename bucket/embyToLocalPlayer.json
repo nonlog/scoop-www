@@ -4,7 +4,7 @@
     "homepage": "https://github.com/kjtsune/embyToLocalPlayer",
     "license": "Unknown",
     "url": "https://github.com/kjtsune/embyToLocalPlayer/releases/download/2026.07.18/embyToLocalPlayer.zip",
-    "hash": "7ec5883468fb62235a30f33e7b6a398c88cb607f51c7969a88c2e949e788bc23",
+    "hash": "5dda4313b62b8acae87e62102f2851673d50a3b9acb5b08d4a4393933eef8043",
     "pre_install": [
         "Set-Content \"$dir\\embyToLocalPlayer_d.bat\" 'echo 1 | %~dp0\\embyToLocalPlayer_debug.bat' -Encoding ASCII",
         "if (!(Test-Path \"$dir\\trakt_token.json\")) { New-Item \"$dir\\trakt_token.json\" -ItemType File | Out-Null }"
