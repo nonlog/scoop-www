@@ -6,7 +6,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/Kuddev/nebula/releases/download/v0.9.0/NebulaTerminal-v0.9.0-windows-x64.zip",
-            "hash": "0ac1552a73308406f0e50737caaf0abe79a7f282917ce20c7e6daa571974f5fb"
+            "hash": "2d178c07ee3ab556ff64772e9b84f2fc5ca85f5ef80fdf1f64f2189e7ee3c783"
         }
     },
     "bin": "nebula.exe",
