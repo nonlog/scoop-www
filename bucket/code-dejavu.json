@@ -1,0 +1,28 @@
+{
+    "version": "0.2.3",
+    "description": "Local desktop tool for browsing and managing Claude Code, Codex CLI, and OpenCode sessions, instructions, and configuration data.",
+    "homepage": "https://github.com/jnchen/code_dejavu",
+    "license": "MIT",
+    "url": "https://github.com/jnchen/code_dejavu/releases/download/v0.2.3/code-dejavu_0.2.3_x64-setup.exe",
+    "hash": "94b3a67a843ef23197bbad455323cd46272c3cc09b49baa0cfe18e0a1d2b9e52",
+    "installer": {
+        "args": [
+            "/S",
+            "/D=$dir"
+        ]
+    },
+    "bin": "code-dejavu.exe",
+    "shortcuts": [
+        [
+            "code-dejavu.exe",
+            "Code Déjà Vu"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/jnchen/code_dejavu",
+        "regex": "/releases/tag/v([\\d.]+)"
+    },
+    "autoupdate": {
+        "url": "https://github.com/jnchen/code_dejavu/releases/download/v$version/code-dejavu_$version_x64-setup.exe"
+    }
+}
