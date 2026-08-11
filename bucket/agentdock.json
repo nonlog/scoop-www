@@ -1,20 +1,16 @@
 {
-    "version": "0.7.2",
+    "version": "0.7.3",
     "description": "Windows AgentDock with Scoop-managed binaries and a persistent Scoop runtime directory.",
     "homepage": "https://github.com/uvwt/agentdock",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/uvwt/agentdock/releases/download/v0.7.2/agentdock_windows_amd64.zip",
-            "hash": "ae83a6f99335ac49fa2695cdfd4fa6721295000365f161298c85942d79d20524"
+            "url": "https://github.com/uvwt/agentdock/releases/download/v0.7.3/agentdock_windows_amd64.zip",
+            "hash": "f83aebfa8a48b2e6345e3f896d591e8620c62d29eddebd92379204411a329c76"
         }
     },
-    "pre_install": [
-        "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase pre -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'"
-    ],
-    "post_install": [
-        "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase post -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'"
-    ],
+    "pre_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase pre -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
+    "post_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase post -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
     "notes": [
         "AgentDock 程序由 Scoop 管理，配置和 DPAPI 认证文件保留在 D:\\Programs\\Scoop\\persist\\agentdock。",
         "Cloudflared 由 Winget 管理，不由此 manifest 更新。",
