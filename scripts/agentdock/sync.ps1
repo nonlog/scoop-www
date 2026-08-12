@@ -16,6 +16,19 @@ $RuntimeRoot = [IO.Path]::GetFullPath($RuntimeRoot)
 $statePath = Join-Path ([IO.Path]::GetTempPath()) 'agentdock-scoop-state.json'
 $runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
 
+function Write-Utf8NoBom {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string] $Path,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Content
+    )
+
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    [IO.File]::WriteAllText($Path, $Content, $utf8NoBom)
+}
+
 $agent = Join-Path $PackageDir 'agentdock.exe'
 $tray = Join-Path $PackageDir 'agentdock-tray.exe'
 $oldAgent = 'D:\Programs\AgentDock\bin\agentdock.exe'
@@ -117,7 +130,7 @@ if ($Phase -eq 'pre') {
         TrayStartup = (Test-RunValue -Name 'AgentDockTray')
         TunnelStartup = (Test-RunValue -Name 'AgentDockCloudflared')
     }
-    $state | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding utf8
+    Write-Utf8NoBom -Path $statePath -Content ($state | ConvertTo-Json)
 
     foreach ($process in @($trayProcesses + $coreProcesses)) {
         Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
@@ -202,7 +215,7 @@ Set-JsonProperty -Object $manifest -Name 'cloudflared_binary' -Value $wingetClou
 Set-JsonProperty -Object $manifest -Name 'cloudflared_launcher' -Value $tunnelLauncher
 Set-JsonProperty -Object $manifest -Name 'install_channel' -Value 'scoop'
 $tmpManifest = "$runtimeManifestPath.scoop.tmp"
-$manifest | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $tmpManifest -Encoding utf8
+Write-Utf8NoBom -Path $tmpManifest -Content ($manifest | ConvertTo-Json -Depth 20)
 Move-Item -LiteralPath $tmpManifest -Destination $runtimeManifestPath -Force
 
 $settings = $null
@@ -225,14 +238,14 @@ $coreLines = @(
     ("& '{0}' service launch-core --runtime-root '{1}'" -f $agent, $RuntimeRoot),
     'exit $LASTEXITCODE'
 )
-$coreLines -join [Environment]::NewLine | Set-Content -LiteralPath $coreLauncher -Encoding utf8
+Write-Utf8NoBom -Path $coreLauncher -Content ($coreLines -join [Environment]::NewLine)
 
 $tunnelLines = @(
     '$ErrorActionPreference = ''Stop''',
     ("& '{0}' -Action launch-tunnel -RuntimeRoot '{1}'" -f $manager, $RuntimeRoot),
     'exit $LASTEXITCODE'
 )
-$tunnelLines -join [Environment]::NewLine | Set-Content -LiteralPath $tunnelLauncher -Encoding utf8
+Write-Utf8NoBom -Path $tunnelLauncher -Content ($tunnelLines -join [Environment]::NewLine)
 
 $trayLines = @(
     '$ErrorActionPreference = ''Stop''',
@@ -240,7 +253,7 @@ $trayLines = @(
     ("& '{0}' --background" -f $tray),
     'exit $LASTEXITCODE'
 )
-$trayLines -join [Environment]::NewLine | Set-Content -LiteralPath $trayLauncher -Encoding utf8
+Write-Utf8NoBom -Path $trayLauncher -Content ($trayLines -join [Environment]::NewLine)
 
 [Environment]::SetEnvironmentVariable('AGENTDOCK_RUNTIME_DIR', $RuntimeRoot, 'User')
 if ([bool] $state.CoreRunning) {

@@ -9,6 +9,14 @@
             "hash": "f83aebfa8a48b2e6345e3f896d591e8620c62d29eddebd92379204411a329c76"
         }
     },
+    "shortcuts": [
+        [
+            "agentdock-tray.exe",
+            "AgentDock 控制面板",
+            "",
+            "agentdock.ico"
+        ]
+    ],
     "pre_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase pre -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
     "post_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase post -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
     "notes": [
