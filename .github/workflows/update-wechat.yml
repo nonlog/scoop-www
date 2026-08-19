@@ -1,0 +1,93 @@
+name: Update modified WeChat
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "43 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-wechat
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Fetch, publish, and update manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch newest source build
+        id: fetch
+        shell: bash
+        run: |
+          asset="$RUNNER_TEMP/wechat.exe"
+          metadata="$RUNNER_TEMP/wechat-metadata.json"
+          node scripts/fetch-wechat.mjs \
+            --manifest bucket/wechat.json \
+            --output "$asset" \
+            --metadata "$metadata"
+          changed=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).changed)' "$metadata")
+          version=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).version)' "$metadata")
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub Release asset
+        if: steps.fetch.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.fetch.outputs.version }}
+        shell: bash
+        run: |
+          tag="wechat-$VERSION"
+          asset="$RUNNER_TEMP/wechat.exe"
+          named_asset="$RUNNER_TEMP/WeChat-$VERSION.exe"
+          mv "$asset" "$named_asset"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$tag" "$named_asset" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$tag" "$named_asset" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "Modified WeChat $VERSION" \
+              --notes "Unofficial source build fetched from 423Down. This release is not digitally signed."
+          fi
+
+      - name: Update manifest
+        if: steps.fetch.outputs.changed == 'true'
+        shell: bash
+        run: node scripts/write-wechat-manifest.mjs "$RUNNER_TEMP/wechat-metadata.json" "$GITHUB_REPOSITORY"
+
+      - name: Validate manifest
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const manifest = JSON.parse(fs.readFileSync('bucket/wechat.json', 'utf8'));
+          if (!manifest.version || !manifest.url || !manifest.hash) throw new Error('Incomplete WeChat manifest');
+          if (manifest.extract_dir !== 'Weixin') throw new Error('Unexpected extract_dir');
+          if (!manifest.persist || !manifest.persist.includes('WeChat Files')) throw new Error('WeChat Files is not persisted');
+          NODE
+
+      - name: Commit updated manifest
+        if: steps.fetch.outputs.changed == 'true'
+        env:
+          VERSION: ${{ steps.fetch.outputs.version }}
+        shell: bash
+        run: |
+          if git diff --quiet -- bucket/wechat.json; then
+            echo "Manifest is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bucket/wechat.json
+          git commit -m "Update WeChat to $VERSION" -m "Co-authored-by: Codex <codex@openai.com>"
+          git push
