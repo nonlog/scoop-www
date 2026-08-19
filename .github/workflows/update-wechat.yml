@@ -3,7 +3,8 @@ name: Update modified WeChat
 on:
   workflow_dispatch:
   schedule:
-    - cron: "43 */6 * * *"
+    # GitHub Actions cron uses UTC: Sunday 00:43 UTC = Sunday 08:43 Singapore time.
+    - cron: "43 0 * * 0"
 
 permissions:
   contents: write
