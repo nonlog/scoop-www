@@ -1,0 +1,160 @@
+name: Validate Hashes
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 */3 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hash-validation
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate current release hashes
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate and repair GitHub release hashes
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $headers = @{
+            'Accept' = 'application/vnd.github+json'
+            'X-GitHub-Api-Version' = '2022-11-28'
+            'User-Agent' = 'scoop-www-hash-validation'
+          }
+          if ($env:GITHUB_TOKEN) {
+            $headers['Authorization'] = "Bearer $env:GITHUB_TOKEN"
+          }
+
+          $releaseCache = @{}
+          $changedFiles = New-Object System.Collections.Generic.List[string]
+
+          function Get-HashEntries {
+            param(
+              [Parameter(Mandatory = $true)] $Manifest
+            )
+
+            $entries = New-Object System.Collections.Generic.List[object]
+
+            if ($Manifest.architecture) {
+              foreach ($arch in $Manifest.architecture.PSObject.Properties) {
+                $value = $arch.Value
+                if ($value.url -and $value.hash -and ($value.url -is [string]) -and ($value.hash -is [string])) {
+                  $entries.Add([pscustomobject]@{
+                    Name = $arch.Name
+                    Url = $value.url
+                    Hash = $value.hash
+                  })
+                }
+              }
+            }
+
+            if ($Manifest.url -and $Manifest.hash -and ($Manifest.url -is [string]) -and ($Manifest.hash -is [string])) {
+              $entries.Add([pscustomobject]@{
+                Name = 'default'
+                Url = $Manifest.url
+                Hash = $Manifest.hash
+              })
+            }
+
+            return $entries
+          }
+
+          function Get-GitHubAssetDigest {
+            param(
+              [Parameter(Mandatory = $true)] [string] $Url
+            )
+
+            $downloadUrl = ($Url -split '#')[0]
+            if ($downloadUrl -notmatch '^https://github\.com/([^/]+)/([^/]+)/releases/download/([^/]+)/([^?#]+)') {
+              Write-Host "Skipping non-GitHub-release URL: $Url"
+              return $null
+            }
+
+            $owner = $Matches[1]
+            $repo = $Matches[2]
+            $tag = [Uri]::UnescapeDataString($Matches[3])
+            $assetName = [Uri]::UnescapeDataString($Matches[4])
+            $cacheKey = "$owner/$repo@$tag"
+
+            if (-not $releaseCache.ContainsKey($cacheKey)) {
+              $apiUrl = "https://api.github.com/repos/$owner/$repo/releases/tags/$tag"
+              Write-Host "Fetching release metadata: $cacheKey"
+              $releaseCache[$cacheKey] = Invoke-RestMethod -Headers $headers -Uri $apiUrl
+            }
+
+            $asset = $releaseCache[$cacheKey].assets | Where-Object { $_.name -eq $assetName } | Select-Object -First 1
+            if (-not $asset) {
+              Write-Warning "Asset not found in $cacheKey`: $assetName"
+              return $null
+            }
+
+            if ($asset.digest -match '^sha256:([a-fA-F0-9]{64})$') {
+              return $Matches[1].ToLowerInvariant()
+            }
+
+            Write-Warning "GitHub did not return a SHA256 digest for $cacheKey/$assetName"
+            return $null
+          }
+
+          foreach ($manifestPath in Get-ChildItem -Path bucket -Filter '*.json' | Sort-Object Name) {
+            $raw = Get-Content -LiteralPath $manifestPath.FullName -Raw
+            $manifest = $raw | ConvertFrom-Json
+            $updated = $false
+
+            foreach ($entry in Get-HashEntries -Manifest $manifest) {
+              $actualHash = Get-GitHubAssetDigest -Url $entry.Url
+              if (-not $actualHash) {
+                continue
+              }
+
+              $manifestHash = $entry.Hash.ToLowerInvariant()
+              if ($manifestHash -ne $actualHash) {
+                Write-Host "Hash mismatch: $($manifestPath.Name) [$($entry.Name)]"
+                Write-Host "  manifest: $manifestHash"
+                Write-Host "  github:   $actualHash"
+                $raw = $raw.Replace($entry.Hash, $actualHash)
+                $updated = $true
+              }
+            }
+
+            if ($updated) {
+              [System.IO.File]::WriteAllText($manifestPath.FullName, $raw, [System.Text.UTF8Encoding]::new($false))
+              $changedFiles.Add($manifestPath.FullName)
+            }
+          }
+
+          if ($changedFiles.Count -eq 0) {
+            Write-Host 'All checked hashes are current.'
+            return
+          }
+
+          Write-Host 'Updated manifest hashes:'
+          $changedFiles | ForEach-Object { Write-Host "  $_" }
+
+      - name: Commit repaired hashes
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not (git status --short)) {
+            Write-Host 'No hash changes to commit.'
+            return
+          }
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add bucket/*.json
+          git commit -m 'bucket: repair current release hashes'
+          git push
