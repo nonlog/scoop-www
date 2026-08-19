@@ -1,12 +1,12 @@
 {
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Native Motrix download manager rewrite in Rust and GPUI, powered by aria2.",
     "homepage": "https://github.com/missuo/motrix-gpui",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/missuo/motrix-gpui/releases/download/v0.1.1/Motrix-windows-x86_64.zip",
-            "hash": "f87058fc82b6791489babcabc374f6f86ca7b4f34ad8fc4289a4eeb89143eb71"
+            "url": "https://github.com/missuo/motrix-gpui/releases/download/v0.1.2/Motrix-windows-x86_64.zip",
+            "hash": "bf2eed3b3aca4096d01ee05d8c450083578a1a263ad29ae69a8206e34274b103"
         }
     },
     "depends": "aria2",
