@@ -1,0 +1,70 @@
+{
+    "version": "1.18.10",
+    "description": "Cross-platform Mihomo (Clash Meta) network debugging and rule-based traffic splitting client.",
+    "homepage": "https://github.com/appshubcc/Bettbox",
+    "license": "GPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/appshubcc/Bettbox/releases/download/v1.18.10/Bettbox-1.18.10-windows-amd64-setup.exe",
+            "hash": "712d4826deed147357955f894945325317c11174bf8a278928bfa69ce291bd3a"
+        },
+        "arm64": {
+            "url": "https://github.com/appshubcc/Bettbox/releases/download/v1.18.10/Bettbox-1.18.10-windows-arm64-setup.exe",
+            "hash": "dcad35f789ea60a7962bf4445e42bf71a8844ac3b3f82780d2f373442086bb2e"
+        }
+    },
+    "innosetup": true,
+    "bin": "Bettbox.exe",
+    "shortcuts": [
+        [
+            "Bettbox.exe",
+            "Bettbox"
+        ]
+    ],
+    "post_install": [
+        "$app_data = Join-Path $env:APPDATA 'com.appshub\\Bettbox'",
+        "$persist_data = Join-Path $persist_dir 'data'",
+        "New-Item -ItemType Directory -Path $persist_dir -Force | Out-Null",
+        "New-Item -ItemType Directory -Path (Split-Path -Parent $app_data) -Force | Out-Null",
+        "if (Test-Path -LiteralPath $app_data) {",
+        "    $existing = Get-Item -LiteralPath $app_data -Force",
+        "    if ($existing.LinkType) {",
+        "        $target = $existing.Target | Select-Object -First 1",
+        "        if (-not $target -or ([IO.Path]::GetFullPath($target).TrimEnd('\\') -ne [IO.Path]::GetFullPath($persist_data).TrimEnd('\\'))) { Write-Warning 'Existing Bettbox data link was not changed.' }",
+        "    } elseif (Test-Path -LiteralPath $persist_data) {",
+        "        Copy-Item -Path (Join-Path $app_data '*') -Destination $persist_data -Recurse -Force",
+        "        Remove-Item -LiteralPath $app_data -Recurse -Force",
+        "    } else {",
+        "        Move-Item -LiteralPath $app_data -Destination $persist_data",
+        "    }",
+        "}",
+        "if (!(Test-Path -LiteralPath $persist_data)) { New-Item -ItemType Directory -Path $persist_data -Force | Out-Null }",
+        "if (!(Test-Path -LiteralPath $app_data)) { New-DirectoryJunction $app_data $persist_data | Out-Null }"
+    ],
+    "post_uninstall": [
+        "$app_data = Join-Path $env:APPDATA 'com.appshub\\Bettbox'",
+        "$persist_data = Join-Path $persist_dir 'data'",
+        "if (Test-Path -LiteralPath $app_data) {",
+        "    $existing = Get-Item -LiteralPath $app_data -Force",
+        "    $target = $existing.Target | Select-Object -First 1",
+        "    if ($existing.LinkType -eq 'Junction' -and $target -and ([IO.Path]::GetFullPath($target).TrimEnd('\\') -eq [IO.Path]::GetFullPath($persist_data).TrimEnd('\\'))) { Remove-Item -LiteralPath $app_data -Force }",
+        "}"
+    ],
+    "checkver": {
+        "github": "https://github.com/appshubcc/Bettbox"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/appshubcc/Bettbox/releases/download/v$version/Bettbox-$version-windows-amd64-setup.exe"
+            },
+            "arm64": {
+                "url": "https://github.com/appshubcc/Bettbox/releases/download/v$version/Bettbox-$version-windows-arm64-setup.exe"
+            }
+        }
+    },
+    "notes": [
+        "Bettbox configuration is redirected from %APPDATA%\\com.appshub\\Bettbox to the Scoop persist directory.",
+        "Quit Bettbox before updating. The three-step update commands are recorded in the persistent data directory."
+    ]
+}
