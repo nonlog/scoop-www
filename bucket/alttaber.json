@@ -1,0 +1,32 @@
+{
+    "version": "0.6.0",
+    "description": "A macOS-style Alt-Tab window and application switcher replacement for Windows.",
+    "homepage": "https://github.com/nonlog/AltTaber",
+    "license": "Unknown",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/nonlog/AltTaber/releases/download/v0.6.0/AltTaber-0.6.0-win64.zip",
+            "hash": "586b8327da497f4e388e3e19caf34b3f546929330cdd875a966692b86629c165"
+        }
+    },
+    "pre_install": "if (!(Test-Path -LiteralPath \"$persist_dir\\config.ini\")) { New-Item -ItemType File -Path \"$dir\\config.ini\" | Out-Null }",
+    "bin": "AltTaber.exe",
+    "shortcuts": [
+        [
+            "AltTaber.exe",
+            "AltTaber"
+        ]
+    ],
+    "persist": "config.ini",
+    "checkver": {
+        "github": "https://github.com/nonlog/AltTaber"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/nonlog/AltTaber/releases/download/v$version/AltTaber-$version-win64.zip"
+            }
+        }
+    },
+    "notes": "AltTaber stores its configuration in config.ini, which Scoop persists across updates."
+}
