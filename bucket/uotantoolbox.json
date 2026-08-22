@@ -2,6 +2,7 @@
     "version": "3.7.1",
     "description": "Modern toolbox for Android and OpenHarmony devices.",
     "homepage": "https://github.com/Uotan-Dev/UotanToolboxNT",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/uotantoolbox.ico",
     "license": "GPL-3.0-only",
     "architecture": {
         "64bit": {

@@ -2,6 +2,7 @@
     "version": "0.2.2",
     "description": "Native Codex desktop enhancement utility.",
     "homepage": "https://github.com/BLUEMOON233/Ferricodex",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/ferricodex.ico",
     "license": "Unknown",
     "architecture": {
         "64bit": {

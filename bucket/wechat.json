@@ -2,6 +2,7 @@
     "version": "4.1.13.7",
     "description": "Unofficial modified WeChat Windows build with multi-instance and anti-revoke patches.",
     "homepage": "https://www.423down.com/8718.html",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/wechat.ico",
     "license": "Unknown",
     "url": "https://github.com/nonlog/scoop-www/releases/download/wechat-4.1.13.7/WeChat-4.1.13.7.exe#/dl.7z",
     "hash": "31dee7419d9da2947c0bc97be05cda40a287cd5f757e0060ba7b0e84ba482715",

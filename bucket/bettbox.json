@@ -2,6 +2,7 @@
     "version": "1.18.10",
     "description": "Cross-platform Mihomo (Clash Meta) network debugging and rule-based traffic splitting client.",
     "homepage": "https://github.com/appshubcc/Bettbox",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/bettbox.ico",
     "license": "GPL-3.0-only",
     "architecture": {
         "64bit": {

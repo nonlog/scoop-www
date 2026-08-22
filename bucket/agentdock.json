@@ -2,6 +2,7 @@
     "version": "0.7.6",
     "description": "Windows AgentDock with Scoop-managed binaries and a persistent Scoop runtime directory.",
     "homepage": "https://github.com/uvwt/agentdock",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/agentdock.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {

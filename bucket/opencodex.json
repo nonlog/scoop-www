@@ -2,6 +2,7 @@
     "version": "2.0.3",
     "description": "Middleware layer for Codex and ChatGPT Desktop that provides browser-based remote access to a target machine.",
     "homepage": "https://github.com/RyensX/OpenCodex",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/opencodex.ico",
     "license": "AGPL-3.0",
     "url": "https://github.com/RyensX/OpenCodex/releases/download/2.0.3/OpenCodex.Setup.2.0.3.exe",
     "hash": "77664261c23c040f3e153646707b41c72a09c5cb2a151a375da27fbd31df56ab",

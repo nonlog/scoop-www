@@ -2,6 +2,7 @@
     "version": "2026.7.1",
     "description": "Windows companion suite for OpenClaw, including its system tray app, node, and PowerToys Command Palette extension.",
     "homepage": "https://github.com/openclaw/openclaw-windows-node",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/openclaw-companion.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {

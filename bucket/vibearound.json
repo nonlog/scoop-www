@@ -2,6 +2,7 @@
     "version": "0.7.6",
     "description": "Remote bridge for continuing Codex sessions from other devices and IM channels.",
     "homepage": "https://github.com/jazzenchen/VibeAround",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/vibearound.ico",
     "license": "Unknown",
     "architecture": {
         "64bit": {

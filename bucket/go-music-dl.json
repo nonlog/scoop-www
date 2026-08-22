@@ -2,6 +2,7 @@
     "version": "1.0.33",
     "description": "Music search and download tool with desktop and CLI modes.",
     "homepage": "https://github.com/guohuiyuan/go-music-dl",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/go-music-dl.ico",
     "license": "AGPL-3.0-only",
     "architecture": {
         "64bit": {

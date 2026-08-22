@@ -1,0 +1,10 @@
+# Clash Party portable package findings
+
+Research date: 2026-08-22. Scope: upstream official sources only; no manifest change was made.
+
+- The current upstream release is `v2.0.2`. For 64-bit Windows 10/11, its portable asset is `clash-party-windows-2.0.2-x64-portable.7z`. The upstream build configuration defines the Windows portable artifact pattern as `clash-party-windows-${version}-${arch}-portable.7z` and builds it as a `7z` target. [Release v2.0.2](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.2) · [build configuration](https://raw.githubusercontent.com/mihomo-party-org/clash-party/smart_core/electron-builder.yml)
+- The executable to expose is `Clash Party.exe`. This follows the official Windows build's `productName: Clash Party`; the same upstream configuration defines the portable artifact above. [build configuration](https://raw.githubusercontent.com/mihomo-party-org/clash-party/smart_core/electron-builder.yml)
+- Each official `*portable.7z` receives a zero-byte `PORTABLE` marker during the Windows release build. The application treats the marker beside its executable as portable mode and then sets all user data to an adjacent `data` directory. [release workflow](https://raw.githubusercontent.com/mihomo-party-org/clash-party/smart_core/.github/workflows/build.yml) · [portable-path source](https://raw.githubusercontent.com/mihomo-party-org/clash-party/smart_core/src/main/utils/dirs.ts)
+- Persist `data` as a whole. It contains `config.yaml`, `mihomo.yaml`, `profile.yaml`, profiles, overrides, rules, themes, logs, Mihomo work files, Sub-Store data, tasks, and plug-in vault data; preserving only selected configuration files would lose user state. [data-directory source](https://raw.githubusercontent.com/mihomo-party-org/clash-party/smart_core/src/main/utils/dirs.ts)
+
+Recommended manifest shape when implementation is authorized: use the x64 `-portable.7z` asset, `bin` `Clash Party.exe`, and Scoop `persist` `data`. Keep the upstream `PORTABLE` file in the package so the application continues to select that persisted directory.

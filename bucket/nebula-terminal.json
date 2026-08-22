@@ -2,6 +2,7 @@
     "version": "1.2.0",
     "description": "A GPU-accelerated terminal emulator.",
     "homepage": "https://github.com/Kuddev/nebula",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/nebula-terminal.ico",
     "license": "GPL-3.0",
     "architecture": {
         "64bit": {
