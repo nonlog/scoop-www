@@ -1,13 +1,13 @@
 {
-    "version": "0.6.2",
+    "version": "0.6.3",
     "description": "A macOS-style Alt-Tab window and application switcher replacement for Windows.",
     "homepage": "https://github.com/nonlog/AltTaber",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/alttaber.ico",
     "license": "Unknown",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/AltTaber/releases/download/v0.6.2/AltTaber-0.6.2-win64.zip",
-            "hash": "32485e9f59f63bbbf5d05e20b312fce58e31b2b56db0bcb39a064d273f08876b"
+            "url": "https://github.com/nonlog/AltTaber/releases/download/v0.6.3/AltTaber-0.6.3-win64.zip",
+            "hash": "103d412ee3c59676488f044cc9f99c1866a8da1de54895228cb69bf2a3491627"
         }
     },
     "pre_install": "if (!(Test-Path -LiteralPath \"$persist_dir\\config.ini\")) { New-Item -ItemType File -Path \"$dir\\config.ini\" | Out-Null }",
