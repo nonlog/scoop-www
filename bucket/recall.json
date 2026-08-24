@@ -1,0 +1,49 @@
+{
+    "version": "0.5.2",
+    "description": "Local-first search, resume, handoff, usage tracking, and safe deletion for AI coding sessions.",
+    "homepage": "https://github.com/nonlog/Recall",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.2/recall-windows-x86_64.zip",
+            "hash": "348879e16a51bdefd31bf985f8ffac678fe499b0fbbf5e30d7f8aed3d3f97304"
+        }
+    },
+    "bin": [
+        "recall.exe",
+        [
+            "rx.exe",
+            "rx"
+        ],
+        [
+            "rx.exe",
+            "rxc"
+        ],
+        [
+            "rx.exe",
+            "rxx"
+        ],
+        [
+            "rx.exe",
+            "rxo"
+        ],
+        [
+            "rx.exe",
+            "rxp"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/nonlog/Recall"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/nonlog/Recall/releases/download/v$version/recall-windows-x86_64.zip"
+            }
+        }
+    },
+    "notes": [
+        "This package follows the nonlog/Recall fork, which automatically merges upstream stable releases while retaining the custom safe session-delete feature.",
+        "Use: recall session delete --id <session-id> --dry-run"
+    ]
+}
