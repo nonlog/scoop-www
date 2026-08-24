@@ -7,11 +7,11 @@
     "hash": "43522aa3122a57784ac5db30abf85c2244475c36acd7796e2c993355f9e926ae",
     "bin": [
         [
-            "v2\\AutoHotkey64.exe",
+            "AutoHotkey64.exe",
             "autohotkey"
         ],
         [
-            "v2\\AutoHotkey32.exe",
+            "AutoHotkey32.exe",
             "autohotkey32"
         ]
     ],
