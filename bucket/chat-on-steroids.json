@@ -1,0 +1,49 @@
+{
+    "version": "1.9.8",
+    "description": "Local Windows coding and computer-use bridge for ChatGPT over MCP.",
+    "homepage": "https://github.com/totec448-spec/chat-on-steroids",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v1.9.8/Chat-On-Steroids-Setup-x64.exe#/dl.7z",
+            "hash": "216f498d3ffa0958642d7fea2b025b4876c073e2ce89c13caf8864e2a9fade45"
+        },
+        "arm64": {
+            "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v1.9.8/Chat-On-Steroids-Setup-arm64.exe#/dl.7z",
+            "hash": "d157e833e70af7b2f8ac4250f7788d1855348096bf51110c00f25515adcecdbe"
+        }
+    },
+    "pre_install": [
+        "$pluginDir = Join-Path $dir '$PLUGINSDIR'",
+        "$payload = Get-ChildItem -LiteralPath $pluginDir -Filter 'app-*.7z' -File | Select-Object -First 1",
+        "if (!$payload) { throw 'Chat On Steroids NSIS payload was not found.' }",
+        "Expand-7zipArchive -Path $payload.FullName -DestinationPath $dir",
+        "Remove-Item -LiteralPath $pluginDir -Recurse -Force",
+        "$uninstallerPayload = Join-Path $dir '$R0'",
+        "if (Test-Path -LiteralPath $uninstallerPayload) { Remove-Item -LiteralPath $uninstallerPayload -Recurse -Force }"
+    ],
+    "bin": "Chat On Steroids.exe",
+    "shortcuts": [
+        [
+            "Chat On Steroids.exe",
+            "Chat On Steroids"
+        ]
+    ],
+    "notes": [
+        "Settings, encrypted credentials and recorded sessions remain in %APPDATA%\\chat-on-steroids across Scoop updates.",
+        "The Chrome extension ships with the app. After an update, reload the unpacked Chat On Steroids extension in chrome://extensions so its version matches the desktop app."
+    ],
+    "checkver": {
+        "github": "https://github.com/totec448-spec/chat-on-steroids"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v$version/Chat-On-Steroids-Setup-x64.exe#/dl.7z"
+            },
+            "arm64": {
+                "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v$version/Chat-On-Steroids-Setup-arm64.exe#/dl.7z"
+            }
+        }
+    }
+}
