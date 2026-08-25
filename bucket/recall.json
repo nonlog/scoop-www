@@ -1,36 +1,21 @@
 {
-    "version": "0.5.3.1",
+    "version": "0.5.3.2",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.1/recall-windows-x86_64.zip",
-            "hash": "e814ff716b79a64953e7809f98c29bf08fed2f8bca6d8ea971a1337a4a4ac9c7"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.2/recall-windows-x86_64.zip",
+            "hash": "7d08290eedfc31aa3637e7c8e33a4ab4a8b7984a16c7b28b63c19619b3810af5"
         }
     },
     "bin": [
         "recall.exe",
-        [
-            "rx.exe",
-            "rx"
-        ],
-        [
-            "rx.exe",
-            "rxc"
-        ],
-        [
-            "rx.exe",
-            "rxx"
-        ],
-        [
-            "rx.exe",
-            "rxo"
-        ],
-        [
-            "rx.exe",
-            "rxp"
-        ]
+        ["rx.exe", "rx"],
+        ["rx.exe", "rxc"],
+        ["rx.exe", "rxx"],
+        ["rx.exe", "rxo"],
+        ["rx.exe", "rxp"]
     ],
     "checkver": {
         "github": "https://github.com/nonlog/Recall"
@@ -46,6 +31,6 @@
         "This package follows the customized nonlog/Recall fork. Automatic upstream release merging is disabled; upstream sync is manual only.",
         "TUI multi-select: Insert, Ctrl+Space, or Space while the search box is empty.",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Each action uses one batch confirmation.",
-        "Sources use distinct terminal colors and Unicode marks for easier visual identification."
+        "Sources use distinct terminal colors and Unicode marks. Command-only sessions get unique fallback titles instead of Untitled."
     ]
 }
