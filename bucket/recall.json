@@ -1,12 +1,12 @@
 {
-    "version": "0.5.3",
-    "description": "Local-first search, resume, handoff, usage tracking, and safe deletion for AI coding sessions.",
+    "version": "0.5.3.1",
+    "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3/recall-windows-x86_64.zip",
-            "hash": "3638daba25dc504484838beb87470353b4642a0ec0dfe410ed8e04d5125ea041"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.1/recall-windows-x86_64.zip",
+            "hash": "e814ff716b79a64953e7809f98c29bf08fed2f8bca6d8ea971a1337a4a4ac9c7"
         }
     },
     "bin": [
@@ -43,8 +43,9 @@
         }
     },
     "notes": [
-        "This package follows the nonlog/Recall fork, which automatically merges upstream stable releases while retaining the custom safe session-delete feature.",
-        "TUI delete: list view Delete/Ctrl+D; detail view d/Delete; choose T/I/P mode, then Y/Enter to confirm.",
-        "CLI preview: recall session delete --id <session-id> --dry-run"
+        "This package follows the customized nonlog/Recall fork. Automatic upstream release merging is disabled; upstream sync is manual only.",
+        "TUI multi-select: Insert, Ctrl+Space, or Space while the search box is empty.",
+        "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Each action uses one batch confirmation.",
+        "Sources use distinct terminal colors and Unicode marks for easier visual identification."
     ]
 }
