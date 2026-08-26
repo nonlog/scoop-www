@@ -1,0 +1,52 @@
+{
+    "version": "2024.1234",
+    "description": "Free office suite with TextMaker, PlanMaker and Presentations.",
+    "homepage": "https://www.freeoffice.com/",
+    "license": {
+        "identifier": "Freeware",
+        "url": "https://www.freeoffice.com/en/download/applications"
+    },
+    "url": "https://www.softmaker.net/down/freeoffice2024.msi#/dl.msi_",
+    "hash": "9b9fa638509cef02bc14ad07a9ae0b1f98994c7d687a74ba32e806e298d851a4",
+    "pre_install": "Expand-MsiArchive \"$dir\\dl.msi_\" \"$dir\" -ExtractDir 'Program Files Folder\\SoftMaker FreeOffice 2024' -Removal | Out-Null",
+    "bin": [
+        [
+            "TextMaker.exe",
+            "textmaker"
+        ],
+        [
+            "PlanMaker.exe",
+            "planmaker"
+        ],
+        [
+            "Presentations.exe",
+            "presentations"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "TextMaker.exe",
+            "FreeOffice\\TextMaker"
+        ],
+        [
+            "PlanMaker.exe",
+            "FreeOffice\\PlanMaker"
+        ],
+        [
+            "Presentations.exe",
+            "FreeOffice\\Presentations"
+        ]
+    ],
+    "notes": [
+        "This manifest extracts the official MSI as a portable Scoop package.",
+        "It does not register FreeOffice file associations or install its bundled fonts system-wide."
+    ],
+    "checkver": {
+        "url": "https://www.freeoffice.com/en/download/applications",
+        "regex": "Revision\\s+(?<revision>\\d+)\\s*\\|",
+        "replace": "2024.${revision}"
+    },
+    "autoupdate": {
+        "url": "https://www.softmaker.net/down/freeoffice2024.msi#/dl.msi_"
+    }
+}
