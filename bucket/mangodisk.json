@@ -10,10 +10,11 @@
             "hash": "75a5f7987ad1fd1e9c293b5d4ae4546c2781cac8149864332bf4fc2c581394f5"
         }
     },
-    "bin": "MangoDisk-1.0.6-windows-portable.exe",
+    "pre_install": "Get-ChildItem -LiteralPath $dir -Filter 'MangoDisk-*-windows-portable.exe' -File | Select-Object -First 1 | Rename-Item -NewName 'MangoDisk.exe'",
+    "bin": "MangoDisk.exe",
     "shortcuts": [
         [
-            "MangoDisk-1.0.6-windows-portable.exe",
+            "MangoDisk.exe",
             "MangoDisk"
         ]
     ],
