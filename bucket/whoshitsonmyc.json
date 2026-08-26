@@ -1,0 +1,55 @@
+{
+    "version": "1.1.4",
+    "description": "A lightweight disk space change comparison tool.",
+    "homepage": "https://github.com/Kami958/WhoShitsonMyC",
+    "license": "GPL-3.0-only",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/whoshitsonmyc.ico",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Kami958/WhoShitsonMyC/releases/download/v1.1.4/wsmc-v1.1.4.exe",
+            "hash": "a552246c61a40dfb1628dafdc3cd070ea46efbc2360bb24dc187ab8458c8ba6a"
+        }
+    },
+    "pre_install": "Get-ChildItem -LiteralPath $dir -Filter 'wsmc-*.exe' -File | Select-Object -First 1 | Rename-Item -NewName 'WhoShitsOnMyC.exe'",
+    "post_install": [
+        "$appData = Join-Path $env:LOCALAPPDATA 'WhoShitsOnMyC'",
+        "$persistData = Join-Path $persist_dir 'data'",
+        "New-Item -ItemType Directory -Path $persist_dir -Force | Out-Null",
+        "New-Item -ItemType Directory -Path (Split-Path -Parent $appData) -Force | Out-Null",
+        "if (Test-Path -LiteralPath $appData) {",
+        "    $existing = Get-Item -LiteralPath $appData -Force",
+        "    if ($existing.LinkType) {",
+        "        $target = $existing.Target | Select-Object -First 1",
+        "        if (-not $target -or ([IO.Path]::GetFullPath($target).TrimEnd('\\') -ne [IO.Path]::GetFullPath($persistData).TrimEnd('\\'))) { Write-Warning 'Existing WhoShitsOnMyC data link was not changed.' }",
+        "    } elseif (Test-Path -LiteralPath $persistData) {",
+        "        Copy-Item -Path (Join-Path $appData '*') -Destination $persistData -Recurse -Force",
+        "        Remove-Item -LiteralPath $appData -Recurse -Force",
+        "    } else {",
+        "        Move-Item -LiteralPath $appData -Destination $persistData",
+        "    }",
+        "}",
+        "if (!(Test-Path -LiteralPath $persistData)) { New-Item -ItemType Directory -Path $persistData -Force | Out-Null }",
+        "if (!(Test-Path -LiteralPath $appData)) { New-DirectoryJunction $appData $persistData | Out-Null }"
+    ],
+    "bin": "WhoShitsOnMyC.exe",
+    "shortcuts": [
+        [
+            "WhoShitsOnMyC.exe",
+            "WhoShitsOnMyC"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/Kami958/WhoShitsonMyC"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Kami958/WhoShitsonMyC/releases/download/v$version/wsmc-v$version.exe"
+            }
+        }
+    },
+    "notes": [
+        "WhoShitsOnMyC is distributed as a portable executable.",
+        "Its default %LOCALAPPDATA%\\WhoShitsOnMyC data is redirected to the Scoop persist directory."
+    ]
+}
