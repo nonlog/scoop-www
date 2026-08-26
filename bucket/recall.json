@@ -1,12 +1,12 @@
 {
-    "version": "0.5.3.5",
+    "version": "0.5.3.6",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.5/recall-windows-x86_64.zip",
-            "hash": "d27d10829f9dd9b131405c2f213d0ba1422d725b7ae22e5158256bc2b56cde6a"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.6/recall-windows-x86_64.zip",
+            "hash": "1278a880ff273f9a3498288f78b960dca7e7e707c0946cfbe0a28a48332e561c"
         }
     },
     "bin": [
