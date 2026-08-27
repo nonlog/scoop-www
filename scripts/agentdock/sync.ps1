@@ -63,21 +63,6 @@ function Test-RunValue {
     }
 }
 
-function Set-RunValue {
-    param(
-        [string] $Name,
-        [string] $Value,
-        [bool] $Enabled
-    )
-
-    New-Item -Path $runKey -Force | Out-Null
-    if ($Enabled) {
-        New-ItemProperty -Path $runKey -Name $Name -Value $Value -PropertyType String -Force | Out-Null
-    } else {
-        Remove-ItemProperty -LiteralPath $runKey -Name $Name -ErrorAction SilentlyContinue
-    }
-}
-
 function Set-JsonProperty {
     param(
         [Parameter(Mandatory = $true)]
@@ -122,13 +107,26 @@ if ($Phase -eq 'pre') {
         ([IO.Path]::GetFullPath($_.ExecutablePath) -eq [IO.Path]::GetFullPath($wingetCloudflared))
     })
 
+    $coreStartup = Test-RunValue -Name 'AgentDock'
+    $tunnelStartup = Test-RunValue -Name 'AgentDockCloudflared'
+    try {
+        $serviceStatus = (& $runtimeAgent service status --runtime-root $RuntimeRoot 2>$null | ConvertFrom-Json)
+        $coreStartup = [bool] $serviceStatus.startup_enabled
+    } catch {
+    }
+    try {
+        $tunnelStatus = (& $runtimeAgent tunnel status --runtime-root $RuntimeRoot 2>$null | ConvertFrom-Json)
+        $tunnelStartup = [bool] $tunnelStatus.startup_enabled
+    } catch {
+    }
+
     $state = [ordered]@{
         CoreRunning = ($coreProcesses.Count -gt 0)
         TrayRunning = ($trayProcesses.Count -gt 0)
         TunnelRunning = ($cloudProcesses.Count -gt 0)
-        CoreStartup = (Test-RunValue -Name 'AgentDock')
+        CoreStartup = $coreStartup
         TrayStartup = (Test-RunValue -Name 'AgentDockTray')
-        TunnelStartup = (Test-RunValue -Name 'AgentDockCloudflared')
+        TunnelStartup = $tunnelStartup
     }
     Write-Utf8NoBom -Path $statePath -Content ($state | ConvertTo-Json)
 
@@ -256,14 +254,15 @@ $trayLines = @(
 Write-Utf8NoBom -Path $trayLauncher -Content ($trayLines -join [Environment]::NewLine)
 
 [Environment]::SetEnvironmentVariable('AGENTDOCK_RUNTIME_DIR', $RuntimeRoot, 'User')
+$env:AGENTDOCK_RUNTIME_DIR = $RuntimeRoot
 if ([bool] $state.CoreRunning) {
     Start-HiddenPowerShell -ScriptPath $coreLauncher
 }
 if ([bool] $state.TrayRunning) {
-    Start-HiddenPowerShell -ScriptPath $trayLauncher
+    Start-Process -FilePath $tray -ArgumentList @('--background') -WindowStyle Hidden | Out-Null
 }
 if (-not [bool] $state.TunnelRunning -and [bool] $state.TunnelStartup) {
-    Start-HiddenPowerShell -ScriptPath $tunnelLauncher
+    Start-Process -FilePath $tray -ArgumentList @('--start-tunnel', '--runtime-root', $RuntimeRoot) -WindowStyle Hidden | Out-Null
 }
 
 if ([bool] $state.CoreRunning) {
@@ -284,14 +283,25 @@ if ([bool] $state.CoreRunning) {
     }
 }
 
-# AgentDock and its tray may reconcile their own startup values during launch.
-# Write the preserved startup state after the components are running.
-$coreRun = 'powershell.exe -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + $coreLauncher + '"'
-$trayRun = 'powershell.exe -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + $trayLauncher + '"'
-$tunnelRun = 'powershell.exe -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + $tunnelLauncher + '"'
-Set-RunValue -Name 'AgentDock' -Value $coreRun -Enabled ([bool] $state.CoreStartup)
-Set-RunValue -Name 'AgentDockTray' -Value $trayRun -Enabled ([bool] $state.TrayStartup)
-Set-RunValue -Name 'AgentDockCloudflared' -Value $tunnelRun -Enabled ([bool] $state.TunnelStartup)
+# Restore startup through AgentDock's native registration commands. This keeps
+# logon entries on agentdock-tray.exe instead of long-lived PowerShell wrappers,
+# and lets elevated core startup remain owned by AgentDock's scheduled task.
+$coreStartupValue = ([bool] $state.CoreStartup).ToString().ToLowerInvariant()
+$trayStartupValue = ([bool] $state.TrayStartup).ToString().ToLowerInvariant()
+$tunnelStartupValue = ([bool] $state.TunnelStartup).ToString().ToLowerInvariant()
+
+& $agent service autostart --runtime-root $RuntimeRoot --component core --enabled $coreStartupValue
+if ($LASTEXITCODE -ne 0) {
+    throw "AgentDock core 开机启动恢复失败，退出码：$LASTEXITCODE"
+}
+& $agent service autostart --runtime-root $RuntimeRoot --component tray --enabled $trayStartupValue
+if ($LASTEXITCODE -ne 0) {
+    throw "AgentDock tray 开机启动恢复失败，退出码：$LASTEXITCODE"
+}
+& $agent tunnel autostart --runtime-root $RuntimeRoot --enabled $tunnelStartupValue
+if ($LASTEXITCODE -ne 0) {
+    throw "AgentDock tunnel 开机启动恢复失败，退出码：$LASTEXITCODE"
+}
 
 Remove-Item -LiteralPath $statePath -Force -ErrorAction SilentlyContinue
 [pscustomobject]@{
