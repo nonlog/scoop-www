@@ -37,10 +37,6 @@ $manager = Join-Path $RuntimeRoot 'installer\manage-windows.ps1'
 $coreLauncher = Join-Path $RuntimeRoot 'start-agentdock.ps1'
 $tunnelLauncher = Join-Path $RuntimeRoot 'start-cloudflared.ps1'
 $trayLauncher = Join-Path $RuntimeRoot 'start-agentdock-tray.ps1'
-$selfHealSource = Join-Path $PSScriptRoot 'repair-cloudflared.ps1'
-$selfHealScript = Join-Path $RuntimeRoot 'repair-cloudflared.ps1'
-$selfHealTaskName = 'AgentDock Tunnel Self-Heal'
-$legacyWatchdogTaskName = 'AgentDock Tunnel Watchdog'
 $runtimeManifestPath = Join-Path $RuntimeRoot 'runtime.json'
 $wingetCloudflared = 'C:\Program Files (x86)\cloudflared\cloudflared.exe'
 
@@ -94,48 +90,6 @@ function Start-HiddenPowerShell {
     ) -WindowStyle Hidden | Out-Null
 }
 
-function Remove-TunnelSelfHealTask {
-    foreach ($taskName in @($selfHealTaskName, $legacyWatchdogTaskName)) {
-        & schtasks.exe /End /TN "\$taskName" 2>$null | Out-Null
-        & schtasks.exe /Delete /TN "\$taskName" /F 2>$null | Out-Null
-    }
-}
-
-function Set-TunnelSelfHealTask {
-    param([bool] $Enabled)
-
-    Remove-TunnelSelfHealTask
-    if (-not $Enabled) {
-        return
-    }
-    if (-not (Test-Path -LiteralPath $selfHealScript -PathType Leaf)) {
-        throw "AgentDock tunnel self-heal script missing: $selfHealScript"
-    }
-
-    $powershell = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
-    $taskCommand = '"' + $powershell + '" -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + $selfHealScript + '"'
-    & schtasks.exe /Create /TN "\$selfHealTaskName" /TR $taskCommand /SC MINUTE /MO 1 /RL LIMITED /IT /F | Out-Null
-    if ($LASTEXITCODE -ne 0) {
-        throw "AgentDock tunnel self-heal task creation failed, exit code: $LASTEXITCODE"
-    }
-
-    # schtasks.exe uses conservative battery defaults. Relax only the power
-    # constraints so a laptop remains reachable while unplugged.
-    $scheduler = New-Object -ComObject 'Schedule.Service'
-    $scheduler.Connect()
-    $rootFolder = $scheduler.GetFolder('\')
-    $registered = $rootFolder.GetTask($selfHealTaskName)
-    $definition = $registered.Definition
-    $definition.Settings.StartWhenAvailable = $true
-    $definition.Settings.DisallowStartIfOnBatteries = $false
-    $definition.Settings.StopIfGoingOnBatteries = $false
-    $definition.Settings.MultipleInstances = 2
-    $currentUser = [Security.Principal.WindowsIdentity]::GetCurrent().Name
-    $rootFolder.RegisterTaskDefinition($selfHealTaskName, $definition, 6, $currentUser, $null, 3, $null) | Out-Null
-
-    & schtasks.exe /Run /TN "\$selfHealTaskName" | Out-Null
-}
-
 if ($Phase -eq 'pre') {
     if (-not (Test-Path -LiteralPath $runtimeManifestPath -PathType Leaf)) {
         throw "现有 AgentDock 运行目录不存在 runtime.json：$RuntimeRoot"
@@ -176,8 +130,6 @@ if ($Phase -eq 'pre') {
     }
     Write-Utf8NoBom -Path $statePath -Content ($state | ConvertTo-Json)
 
-    Remove-TunnelSelfHealTask
-
     foreach ($process in @($trayProcesses + $coreProcesses)) {
         Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
     }
@@ -205,7 +157,6 @@ foreach ($path in @(
     (Join-Path $PackageDir 'agentdock-tray.exe'),
     (Join-Path $PackageDir 'agentdock.ico'),
     (Join-Path $PackageDir 'manage-windows.ps1'),
-    $selfHealSource,
     (Join-Path $PackageDir 'share\agentdock\core-skills\manifest.json')
 )) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
@@ -240,7 +191,6 @@ Copy-Item -LiteralPath (Join-Path $PackageDir 'agentdock.ico') -Destination (Joi
 Copy-Item -LiteralPath (Join-Path $PackageDir 'manage-windows.ps1') -Destination (Join-Path $RuntimeRoot 'manage-windows.ps1') -Force
 Copy-Item -LiteralPath (Join-Path $PackageDir 'manage-windows.ps1') -Destination (Join-Path $installerDir 'manage-windows.ps1') -Force
 Copy-Item -Path (Join-Path $PackageDir 'share\*') -Destination $shareDir -Recurse -Force
-Copy-Item -LiteralPath $selfHealSource -Destination $selfHealScript -Force
 
 if (Test-Path -LiteralPath $runtimeManifestPath -PathType Leaf) {
     $manifest = Get-Content -LiteralPath $runtimeManifestPath -Raw | ConvertFrom-Json
@@ -352,7 +302,6 @@ if ($LASTEXITCODE -ne 0) {
 if ($LASTEXITCODE -ne 0) {
     throw "AgentDock tunnel 开机启动恢复失败，退出码：$LASTEXITCODE"
 }
-Set-TunnelSelfHealTask -Enabled ([bool] $state.TunnelStartup)
 
 Remove-Item -LiteralPath $statePath -Force -ErrorAction SilentlyContinue
 [pscustomobject]@{
