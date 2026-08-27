@@ -1,0 +1,31 @@
+{
+    "version": "0.1.0",
+    "description": "Battery-first phone/Windows companion for clipboard, screenshots, notifications, and file handoff.",
+    "homepage": "https://github.com/nonlog/Conduit",
+    "icon": "https://raw.githubusercontent.com/nonlog/Conduit/v0.1.0/windows/conduit-daemon/assets/conduit-icon.ico",
+    "license": "Unknown",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/nonlog/Conduit/releases/download/v0.1.0/Conduit-0.1.0-windows-x64.zip",
+            "hash": "189d2e2bfc48c9896e4adf28f5a1cf4a35356b6cda42935afbf783b529acc5e8"
+        }
+    },
+    "bin": "Conduit.exe",
+    "post_install": "& \"$dir\\tools\\install-windows.ps1\" -SourceDir \"$dir\" -InstallDir \"$dir\"",
+    "pre_uninstall": "& \"$dir\\tools\\uninstall-windows.ps1\"",
+    "checkver": {
+        "github": "https://github.com/nonlog/Conduit"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/nonlog/Conduit/releases/download/v$version/Conduit-$version-windows-x64.zip"
+            }
+        }
+    },
+    "notes": [
+        "Conduit.exe is the user-facing control surface; conduit-daemon.exe runs silently in the background.",
+        "Pairing identity, history, Relay preferences, and tray preference live under %LOCALAPPDATA%\\Conduit and survive Scoop updates/uninstall.",
+        "The installer preserves existing Start-at-sign-in and Explorer Send with Conduit choices when migrating or updating."
+    ]
+}
