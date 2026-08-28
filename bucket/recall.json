@@ -1,12 +1,12 @@
 {
-    "version": "0.5.3.6",
+    "version": "0.5.3.7",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.6/recall-windows-x86_64.zip",
-            "hash": "1278a880ff273f9a3498288f78b960dca7e7e707c0946cfbe0a28a48332e561c"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.7/recall-windows-x86_64.zip",
+            "hash": "2857e4081e01ed28e976efacf592c295be8e173f2c00248079385effcf4e3c70"
         }
     },
     "bin": [
@@ -46,6 +46,7 @@
         "This package follows the customized nonlog/Recall fork. Automatic upstream release merging is disabled; upstream sync is manual only.",
         "TUI multi-select: Insert, Ctrl+Space, or Space while the search box is empty.",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Each action uses one batch confirmation.",
-        "Sources use distinct terminal colors and Unicode marks. Command-only sessions get unique fallback titles instead of Untitled."
+        "Sources use distinct terminal colors and Unicode marks. Command-only sessions get unique fallback titles instead of Untitled.",
+        "TUI defaults to Primary/top-level sessions; Ctrl+F exposes Primary/Subagents/All thread-role filtering, and source branding uses Nerd Font/Unicode glyphs with fallbacks."
     ]
 }
