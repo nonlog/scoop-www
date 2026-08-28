@@ -1,12 +1,12 @@
 {
-    "version": "0.5.3.7",
+    "version": "0.5.3.8",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.7/recall-windows-x86_64.zip",
-            "hash": "2857e4081e01ed28e976efacf592c295be8e173f2c00248079385effcf4e3c70"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.8/recall-windows-x86_64.zip",
+            "hash": "33cb8ec905a9e639f52ee1bff7cc01433e8e10982458e10f4fbfb71dddc1cb49"
         }
     },
     "bin": [
@@ -47,6 +47,7 @@
         "TUI multi-select: Insert, Ctrl+Space, or Space while the search box is empty.",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Each action uses one batch confirmation.",
         "Sources use distinct terminal colors and Unicode marks. Command-only sessions get unique fallback titles instead of Untitled.",
-        "TUI defaults to Primary/top-level sessions; Ctrl+F exposes Primary/Subagents/All thread-role filtering, and source branding uses Nerd Font/Unicode glyphs with fallbacks."
+        "TUI defaults to Primary/top-level sessions; Ctrl+F exposes Primary/Subagents/All thread-role filtering, and source branding uses Nerd Font/Unicode glyphs with fallbacks.",
+        "Codex native titles now follow session_index.jsonl renames; first-prompt fallback is used only when no native name exists."
     ]
 }
