@@ -63,6 +63,28 @@ function Test-RunValue {
     }
 }
 
+function Get-CoreServiceStatus {
+    param([string] $Binary)
+
+    $output = & $Binary service status --runtime-root $RuntimeRoot
+    if ($LASTEXITCODE -ne 0) {
+        throw "无法读取 AgentDock 核心状态，退出码：$LASTEXITCODE"
+    }
+    try {
+        return ($output | ConvertFrom-Json)
+    } catch {
+        throw '无法解析 AgentDock 核心状态。'
+    }
+}
+
+function Stop-CoreForUpdate {
+    param([string] $Binary)
+
+    & $Binary service stop --runtime-root $RuntimeRoot
+    if ($LASTEXITCODE -ne 0) {
+        throw "AgentDock 核心停止失败，退出码：$LASTEXITCODE"
+    }
+}
 function Set-JsonProperty {
     param(
         [Parameter(Mandatory = $true)]
@@ -102,29 +124,27 @@ if ($Phase -eq 'pre') {
     $trayPaths = @($tray, $runtimeTray, $oldTray)
     $coreProcesses = @(Get-ProcessesAtPath -Name 'agentdock' -Paths $corePaths)
     $trayProcesses = @(Get-ProcessesAtPath -Name 'agentdock-tray' -Paths $trayPaths)
+    $coreService = Get-CoreServiceStatus -Binary $runtimeAgent
     $cloudProcesses = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {
         $_.Name -eq 'cloudflared.exe' -and $_.ExecutablePath -and
         ([IO.Path]::GetFullPath($_.ExecutablePath) -eq [IO.Path]::GetFullPath($wingetCloudflared))
     })
 
-    $coreStartup = Test-RunValue -Name 'AgentDock'
+    $coreStartup = [bool] $coreService.startup_enabled
     $tunnelStartup = Test-RunValue -Name 'AgentDockCloudflared'
-    try {
-        $serviceStatus = (& $runtimeAgent service status --runtime-root $RuntimeRoot 2>$null | ConvertFrom-Json)
-        $coreStartup = [bool] $serviceStatus.startup_enabled
-    } catch {
-    }
     try {
         $tunnelStatus = (& $runtimeAgent tunnel status --runtime-root $RuntimeRoot 2>$null | ConvertFrom-Json)
         $tunnelStartup = [bool] $tunnelStatus.startup_enabled
     } catch {
     }
+    $privilegeMode = ([string] $runtime.privilege_mode).Trim().ToLowerInvariant()
 
     $state = [ordered]@{
-        CoreRunning = ($coreProcesses.Count -gt 0)
+        CoreRunning = ($coreProcesses.Count -gt 0 -or [bool] $coreService.running)
         TrayRunning = ($trayProcesses.Count -gt 0)
         TunnelRunning = ($cloudProcesses.Count -gt 0)
         CoreStartup = $coreStartup
+        CorePrivilegeMode = $privilegeMode
         TrayStartup = (Test-RunValue -Name 'AgentDockTray')
         TunnelStartup = $tunnelStartup
     }
@@ -133,20 +153,22 @@ if ($Phase -eq 'pre') {
     foreach ($process in @($trayProcesses + $coreProcesses)) {
         Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
     }
+    if ([bool] $coreService.running) {
+        Stop-CoreForUpdate -Binary $runtimeAgent
+    }
 
     $deadline = (Get-Date).AddSeconds(15)
     do {
-        $remaining = @(
-            Get-ProcessesAtPath -Name 'agentdock' -Paths $corePaths +
-            Get-ProcessesAtPath -Name 'agentdock-tray' -Paths $trayPaths
-        )
-        if ($remaining.Count -eq 0) {
+        $remaining = @(Get-ProcessesAtPath -Name 'agentdock' -Paths $corePaths) +
+            @(Get-ProcessesAtPath -Name 'agentdock-tray' -Paths $trayPaths)
+        $coreRunning = [bool] (Get-CoreServiceStatus -Binary $runtimeAgent).running
+        if ($remaining.Count -eq 0 -and -not $coreRunning) {
             break
         }
         Start-Sleep -Milliseconds 250
     } while ((Get-Date) -lt $deadline)
 
-    if ($remaining.Count -ne 0) {
+    if ($remaining.Count -ne 0 -or $coreRunning) {
         throw 'AgentDock 或托盘进程未在 15 秒内退出。'
     }
     return
@@ -177,6 +199,7 @@ if ($null -eq $state) {
         TrayRunning = $true
         TunnelRunning = $true
         CoreStartup = $true
+        CorePrivilegeMode = 'standard'
         TrayStartup = $true
         TunnelStartup = $true
     }
@@ -256,7 +279,14 @@ Write-Utf8NoBom -Path $trayLauncher -Content ($trayLines -join [Environment]::Ne
 [Environment]::SetEnvironmentVariable('AGENTDOCK_RUNTIME_DIR', $RuntimeRoot, 'User')
 $env:AGENTDOCK_RUNTIME_DIR = $RuntimeRoot
 if ([bool] $state.CoreRunning) {
-    Start-HiddenPowerShell -ScriptPath $coreLauncher
+    if ([string] $state.CorePrivilegeMode -eq 'elevated') {
+        & $agent service start --runtime-root $RuntimeRoot
+        if ($LASTEXITCODE -ne 0) {
+            throw "AgentDock 核心启动失败，退出码：$LASTEXITCODE"
+        }
+    } else {
+        Start-HiddenPowerShell -ScriptPath $coreLauncher
+    }
 }
 if ([bool] $state.TrayRunning) {
     Start-Process -FilePath $tray -ArgumentList @('--background') -WindowStyle Hidden | Out-Null
@@ -293,6 +323,13 @@ $tunnelStartupValue = ([bool] $state.TunnelStartup).ToString().ToLowerInvariant(
 & $agent service autostart --runtime-root $RuntimeRoot --component core --enabled $coreStartupValue
 if ($LASTEXITCODE -ne 0) {
     throw "AgentDock core 开机启动恢复失败，退出码：$LASTEXITCODE"
+}
+if ([string] $state.CorePrivilegeMode -eq 'elevated') {
+    Remove-ItemProperty -LiteralPath $runKey -Name 'AgentDock' -ErrorAction SilentlyContinue
+    $task = Get-ScheduledTask -TaskName 'AgentDock' -TaskPath '\' -ErrorAction Stop
+    if ([bool] $task.Settings.Enabled -ne [bool] $state.CoreStartup) {
+        throw 'AgentDock 核心计划任务状态未按更新前状态恢复。'
+    }
 }
 & $agent service autostart --runtime-root $RuntimeRoot --component tray --enabled $trayStartupValue
 if ($LASTEXITCODE -ne 0) {
