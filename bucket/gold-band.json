@@ -1,0 +1,39 @@
+{
+    "version": "0.14.1",
+    "description": "Local-first desktop client for AI Agents.",
+    "homepage": "https://github.com/diodeme/Gold-Band",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/gold-band.ico",
+    "license": "AGPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/diodeme/Gold-Band/releases/download/v0.14.1/Gold.Band_0.14.1_x64-setup.exe#/dl.7z",
+            "hash": "1b1df4eba1ef8cfe765ca7565fc3728ecab6eca87fd2d1c50fd28589fea3a61f"
+        }
+    },
+    "pre_install": [
+        "$pluginDir = Join-Path $dir '$PLUGINSDIR'",
+        "if (Test-Path -LiteralPath $pluginDir) { Remove-Item -LiteralPath $pluginDir -Recurse -Force }",
+        "Remove-Item -LiteralPath (Join-Path $dir 'uninstall.exe') -Force -ErrorAction SilentlyContinue"
+    ],
+    "bin": "gold-band-desktop.exe",
+    "shortcuts": [
+        [
+            "gold-band-desktop.exe",
+            "Gold Band"
+        ]
+    ],
+    "notes": [
+        "Gold Band stores user data under %USERPROFILE%\\.gold-band and state under %LOCALAPPDATA%\\gold-band; these locations are outside the Scoop app directory and remain across updates."
+    ],
+    "checkver": {
+        "github": "https://github.com/diodeme/Gold-Band",
+        "regex": "/releases/tag/v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/diodeme/Gold-Band/releases/download/v$version/Gold.Band_$version_x64-setup.exe#/dl.7z"
+            }
+        }
+    }
+}
