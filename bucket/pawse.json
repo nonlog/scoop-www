@@ -11,7 +11,7 @@
     }
   },
   "pre_install": [
-    "$pluginDir = Join-Path $dir \"$PLUGINSDIR\"",
+    "$pluginDir = Join-Path $dir '$PLUGINSDIR'",
     "if (Test-Path -LiteralPath $pluginDir) { Remove-Item -LiteralPath $pluginDir -Recurse -Force }",
     "Remove-Item -LiteralPath (Join-Path $dir \"uninstall.exe\") -Force -ErrorAction SilentlyContinue"
   ],
