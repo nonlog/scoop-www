@@ -9,11 +9,12 @@
   "extract_dir": "hadron-0.22.0",
   "depends": "rustup",
   "pre_install": [
-    "$targetDir = Join-Path $env:TEMP \"scoop-hadron-$version-target\"",
+    "$targetDir = Join-Path $dir '_cargo-target'",
+    "New-Item -ItemType Directory -Force -Path $targetDir | Out-Null",
     "$oldTarget = $env:CARGO_TARGET_DIR",
     "$env:CARGO_TARGET_DIR = $targetDir",
-    "try { cargo install --locked --path (Join-Path $dir \"crates\\hadron-chamber\") --root $dir --force } finally { if ($null -eq $oldTarget) { Remove-Item Env:\\CARGO_TARGET_DIR -ErrorAction SilentlyContinue } else { $env:CARGO_TARGET_DIR = $oldTarget } }",
-    "if (Test-Path -LiteralPath $targetDir) { Remove-Item -LiteralPath $targetDir -Recurse -Force }"
+    "try { & cargo install --locked --path (Join-Path $dir 'crates\\hadron-chamber') --root $dir --force; if ($LASTEXITCODE -ne 0) { throw \"cargo install failed with exit code $LASTEXITCODE\" } } finally { if ($null -eq $oldTarget) { Remove-Item Env:\\CARGO_TARGET_DIR -ErrorAction SilentlyContinue } else { $env:CARGO_TARGET_DIR = $oldTarget } }",
+    "if (Test-Path -LiteralPath $targetDir) { Remove-Item -LiteralPath $targetDir -Recurse -Force -ErrorAction SilentlyContinue }"
   ],
   "bin": [
     [
