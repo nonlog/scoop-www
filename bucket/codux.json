@@ -1,22 +1,31 @@
 {
   "version": "2.0.3",
-  "description": "Native connected terminal and workspace for AI agent development.",
+  "description": "Native GPUI desktop workspace for AI coding terminals, sessions, worktrees, memory, and remote control.",
   "homepage": "https://github.com/duxweb/codux",
   "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/codux.ico",
   "license": "GPL-3.0",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/duxweb/codux/releases/download/v2.0.3/codux-windows-x86_64.exe",
-      "hash": "9600a1d5c473f0e3788e5457f87032031826e09280525c837114974148e34aed"
+      "url": "https://github.com/duxweb/codux/releases/download/v2.0.3/codux-windows-x86_64-setup.exe#/dl.7z",
+      "hash": "f8361b1abc26e3bf9679899cf941a5bb51ebf914d434b7f52edec35d9e34f451"
     }
   },
-  "pre_install": "Get-ChildItem -LiteralPath $dir -Filter \"codux-windows-x86_64.exe\" -File | Select-Object -First 1 | Rename-Item -NewName \"codux.exe\"",
-  "bin": "codux.exe",
+  "pre_install": [
+    "$pluginDir = Join-Path $dir '$PLUGINSDIR'",
+    "if (Test-Path -LiteralPath $pluginDir) { Remove-Item -LiteralPath $pluginDir -Recurse -Force }",
+    "Remove-Item -LiteralPath (Join-Path $dir 'Uninstall.exe') -Force -ErrorAction SilentlyContinue"
+  ],
+  "persist": "Data",
+  "bin": "Codux.exe",
   "shortcuts": [
     [
-      "codux.exe",
+      "Codux.exe",
       "Codux"
     ]
+  ],
+  "notes": [
+    "This manifest installs the Codux GPUI desktop app, not the separate codux-agent headless host binary.",
+    "Codux user data under the application Data directory is persisted across Scoop updates."
   ],
   "checkver": {
     "github": "https://github.com/duxweb/codux"
@@ -24,7 +33,7 @@
   "autoupdate": {
     "architecture": {
       "64bit": {
-        "url": "https://github.com/duxweb/codux/releases/download/v$version/codux-windows-x86_64.exe"
+        "url": "https://github.com/duxweb/codux/releases/download/v$version/codux-windows-x86_64-setup.exe#/dl.7z"
       }
     }
   }
