@@ -1,0 +1,30 @@
+{
+  "version": "0.2.3",
+  "description": "Small, polished, high-performance cross-platform image viewer built with Rust and GPUI.",
+  "homepage": "https://github.com/iFence/Lumia",
+  "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/lumia.ico",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/iFence/Lumia/releases/download/v0.2.3/lumia-portable-windows-x64.zip",
+      "hash": "6ffff919bf115bd1b1652edff1d5bca67f8d0a86f0a8b4739adb370124ce49d0"
+    }
+  },
+  "bin": "lumia-app.exe",
+  "shortcuts": [
+    [
+      "lumia-app.exe",
+      "Lumia"
+    ]
+  ],
+  "checkver": {
+    "github": "https://github.com/iFence/Lumia"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/iFence/Lumia/releases/download/v$version/lumia-portable-windows-x64.zip"
+      }
+    }
+  }
+}

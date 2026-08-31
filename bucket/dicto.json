@@ -1,0 +1,30 @@
+{
+  "version": "0.6.0",
+  "description": "Fast offline GPUI desktop dictionary with MDX/MDD dictionary support.",
+  "homepage": "https://github.com/logi-camp/dicto",
+  "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/dicto.ico",
+  "license": "AGPL-3.0",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/logi-camp/dicto/releases/download/v0.6.0/dicto-v0.6.0-windows-x86_64-portable.zip",
+      "hash": "247685dac8b02cd4eecd78b99aba939d08c6bb9056b38fdaa32381dfb6148e24"
+    }
+  },
+  "bin": "dicto.exe",
+  "shortcuts": [
+    [
+      "dicto.exe",
+      "Dicto"
+    ]
+  ],
+  "checkver": {
+    "github": "https://github.com/logi-camp/dicto"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/logi-camp/dicto/releases/download/v$version/dicto-v$version-windows-x86_64-portable.zip"
+      }
+    }
+  }
+}

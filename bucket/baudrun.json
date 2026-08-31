@@ -1,0 +1,30 @@
+{
+  "version": "0.15.2",
+  "description": "Cross-platform serial terminal with saved profiles, auto-reconnect, and XMODEM/YMODEM transfer.",
+  "homepage": "https://github.com/packetThrower/Baudrun",
+  "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/baudrun.ico",
+  "license": "GPL-3.0-or-later",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/packetThrower/Baudrun/releases/download/v0.15.2/Baudrun-Windows-amd64-0.15.2.zip",
+      "hash": "c046161d0c9edd825182cc9bdf7eb1339bd7a9ff393174251f207c5e4420a425"
+    }
+  },
+  "bin": "Baudrun.exe",
+  "shortcuts": [
+    [
+      "Baudrun.exe",
+      "Baudrun"
+    ]
+  ],
+  "checkver": {
+    "github": "https://github.com/packetThrower/Baudrun"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/packetThrower/Baudrun/releases/download/v$version/Baudrun-Windows-amd64-$version.zip"
+      }
+    }
+  }
+}

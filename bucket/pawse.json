@@ -1,0 +1,35 @@
+{
+  "version": "0.5.5",
+  "description": "Fast native local music player with bit-perfect/exclusive output and a customizable GPUI interface.",
+  "homepage": "https://github.com/popovpsk/pawse",
+  "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/pawse.ico",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/popovpsk/pawse/releases/download/v0.5.5/pawse_0.5.5_x64-setup.exe#/dl.7z",
+      "hash": "8125676157669c93b2b25d6116c817f3d9dea9d4f9c35ab383a4be3bced06927"
+    }
+  },
+  "pre_install": [
+    "$pluginDir = Join-Path $dir \"$PLUGINSDIR\"",
+    "if (Test-Path -LiteralPath $pluginDir) { Remove-Item -LiteralPath $pluginDir -Recurse -Force }",
+    "Remove-Item -LiteralPath (Join-Path $dir \"uninstall.exe\") -Force -ErrorAction SilentlyContinue"
+  ],
+  "bin": "pawse.exe",
+  "shortcuts": [
+    [
+      "pawse.exe",
+      "Pawse"
+    ]
+  ],
+  "checkver": {
+    "github": "https://github.com/popovpsk/pawse"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/popovpsk/pawse/releases/download/v$version/pawse_$version_x64-setup.exe#/dl.7z"
+      }
+    }
+  }
+}

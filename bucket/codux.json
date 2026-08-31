@@ -1,0 +1,31 @@
+{
+  "version": "2.0.3",
+  "description": "Native connected terminal and workspace for AI agent development.",
+  "homepage": "https://github.com/duxweb/codux",
+  "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/codux.ico",
+  "license": "GPL-3.0",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/duxweb/codux/releases/download/v2.0.3/codux-windows-x86_64.exe",
+      "hash": "9600a1d5c473f0e3788e5457f87032031826e09280525c837114974148e34aed"
+    }
+  },
+  "pre_install": "Get-ChildItem -LiteralPath $dir -Filter \"codux-windows-x86_64.exe\" -File | Select-Object -First 1 | Rename-Item -NewName \"codux.exe\"",
+  "bin": "codux.exe",
+  "shortcuts": [
+    [
+      "codux.exe",
+      "Codux"
+    ]
+  ],
+  "checkver": {
+    "github": "https://github.com/duxweb/codux"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/duxweb/codux/releases/download/v$version/codux-windows-x86_64.exe"
+      }
+    }
+  }
+}
