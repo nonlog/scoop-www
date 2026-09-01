@@ -1,12 +1,12 @@
 {
-    "version": "2.0.0-rc.2",
+    "version": "2.0.0",
     "description": "Terminal music player inspired by Winamp, tracking stable and pre-release builds.",
     "homepage": "https://github.com/bjarneo/cliamp",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/bjarneo/cliamp/releases/download/v2.0.0-rc.2/cliamp-windows-amd64.zip",
-            "hash": "a0a6319ac1fc5a59db2470522a65444805cec2cb5ad365b07d3c6e7493f92cb7"
+            "url": "https://github.com/bjarneo/cliamp/releases/download/v2.0.0/cliamp-windows-amd64.zip",
+            "hash": "d897e98538f6ab5a36aec705558e44ce184a563a332b9d529d3a87a3a6a467ee"
         }
     },
     "bin": "cliamp-windows-amd64\\cliamp.exe",
