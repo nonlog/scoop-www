@@ -9,9 +9,7 @@
             "hash": "a0a6319ac1fc5a59db2470522a65444805cec2cb5ad365b07d3c6e7493f92cb7"
         }
     },
-    "pre_install": "[IO.File]::WriteAllBytes((Join-Path $dir 'cliamp.cmd'), [Convert]::FromBase64String('QGVjaG8gb2ZmDQpzZXQgIlhER19DT05GSUdfSE9NRT0lQVBQREFUQSVcY2xpYW1wIg0KIiV+ZHAwY2xpYW1wLXdpbmRvd3MtYW1kNjRcY2xpYW1wLmV4ZSIgJSoNCg=='))",
-    "bin": "cliamp.cmd",
-    "notes": "On Windows, the Scoop launcher isolates yt-dlp config under %APPDATA%\\cliamp\\yt-dlp\\config so CLIAMP settings do not affect other yt-dlp consumers.",
+    "bin": "cliamp-windows-amd64\\cliamp.exe",
     "checkver": {
         "url": "https://api.github.com/repos/bjarneo/cliamp/releases",
         "jsonpath": "$[?(@.draft == false)].tag_name",
@@ -29,4 +27,3 @@
         }
     }
 }
-
