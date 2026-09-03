@@ -1,12 +1,12 @@
 {
-    "version": "0.5.3.8",
+    "version": "0.5.8.1",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.3.8/recall-windows-x86_64.zip",
-            "hash": "33cb8ec905a9e639f52ee1bff7cc01433e8e10982458e10f4fbfb71dddc1cb49"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.8.1/recall-windows-x86_64.zip",
+            "hash": "57d1c32f04edc03fc0b3b8ccbe8bb8d5958f532904c66bb04cbd197c9bb90e2c"
         }
     },
     "bin": [
@@ -30,6 +30,14 @@
         [
             "rx.exe",
             "rxp"
+        ],
+        [
+            "rx.exe",
+            "rxd"
+        ],
+        [
+            "rx.exe",
+            "rxk"
         ]
     ],
     "checkver": {
@@ -43,11 +51,12 @@
         }
     },
     "notes": [
-        "This package follows the customized nonlog/Recall fork. Automatic upstream release merging is disabled; upstream sync is manual only.",
-        "TUI multi-select: Insert, Ctrl+Space, or Space while the search box is empty.",
-        "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Each action uses one batch confirmation.",
-        "Sources use distinct terminal colors and Unicode marks. Command-only sessions get unique fallback titles instead of Untitled.",
-        "TUI defaults to Primary/top-level sessions; Ctrl+F exposes Primary/Subagents/All thread-role filtering, and source branding uses Nerd Font/Unicode glyphs with fallbacks.",
-        "Codex native titles now follow session_index.jsonl renames; first-prompt fallback is used only when no native name exists."
-    ]
+        "This package follows the customized nonlog/Recall fork rebased on upstream v0.5.8.",
+        "TUI source branding keeps distinct colors/icons with Unicode fallbacks.",
+        "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
+        "The trash directory is persisted by Scoop across upgrades.",
+        "The bottom shortcut bar follows upstream; Ctrl+S Settings shows the complete keyboard shortcut reference.",
+        "rx includes upstream harness aliases rxc/rxx/rxo/rxp/rxd/rxk for Claude Code, Codex, OpenCode, Pi, DeepSeek Harness, and Kimi Code."
+    ],
+    "persist": "trash"
 }
