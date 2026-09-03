@@ -1,0 +1,61 @@
+{
+    "version": "0.1.34",
+    "description": "An alternative Windows context menu, and more.",
+    "homepage": "https://github.com/std-microblock/breeze-shell",
+    "license": "AGPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/std-microblock/breeze-shell/releases/download/0.1.34/windows-build.zip",
+            "extract_dir": "x64\\releasedbg",
+            "hash": "80294ffea75113a7f65eecbe777b579ce671559f0b49f2a83b291ec865f433c2"
+        }
+    },
+    "shortcuts": [
+        [
+            "breeze.exe",
+            "Breeze Shell"
+        ]
+    ],
+    "post_install": [
+        "$app_data = Join-Path $env:USERPROFILE '.breeze-shell'",
+        "$persist_data = Join-Path $persist_dir 'data'",
+        "New-Item -ItemType Directory -Path $persist_dir -Force | Out-Null",
+        "if (Test-Path -LiteralPath $app_data) {",
+        "    $existing = Get-Item -LiteralPath $app_data -Force",
+        "    if ($existing.LinkType) {",
+        "        $target = $existing.Target | Select-Object -First 1",
+        "        if (-not $target -or ([IO.Path]::GetFullPath($target).TrimEnd('\\') -ne [IO.Path]::GetFullPath($persist_data).TrimEnd('\\'))) { Write-Warning 'Existing Breeze data link was not changed.' }",
+        "    } elseif (Test-Path -LiteralPath $persist_data) {",
+        "        Copy-Item -Path (Join-Path $app_data '*') -Destination $persist_data -Recurse -Force",
+        "        Remove-Item -LiteralPath $app_data -Recurse -Force",
+        "    } else {",
+        "        Move-Item -LiteralPath $app_data -Destination $persist_data",
+        "    }",
+        "}",
+        "if (!(Test-Path -LiteralPath $persist_data)) { New-Item -ItemType Directory -Path $persist_data -Force | Out-Null }",
+        "if (!(Test-Path -LiteralPath $app_data)) { New-DirectoryJunction $app_data $persist_data | Out-Null }"
+    ],
+    "post_uninstall": [
+        "$app_data = Join-Path $env:USERPROFILE '.breeze-shell'",
+        "$persist_data = Join-Path $persist_dir 'data'",
+        "if (Test-Path -LiteralPath $app_data) {",
+        "    $existing = Get-Item -LiteralPath $app_data -Force",
+        "    $target = $existing.Target | Select-Object -First 1",
+        "    if ($existing.LinkType -eq 'Junction' -and $target -and ([IO.Path]::GetFullPath($target).TrimEnd('\\') -eq [IO.Path]::GetFullPath($persist_data).TrimEnd('\\'))) { Remove-Item -LiteralPath $app_data -Force }",
+        "}"
+    ],
+    "checkver": {
+        "github": "https://github.com/std-microblock/breeze-shell"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/std-microblock/breeze-shell/releases/download/$version/windows-build.zip"
+            }
+        }
+    },
+    "notes": [
+        "Breeze data is redirected from %USERPROFILE%\\.breeze-shell to the Scoop persist directory.",
+        "Breeze is a context-menu hook. Disable other context-menu hook tools, such as Nilesoft Shell, before testing it."
+    ]
+}
