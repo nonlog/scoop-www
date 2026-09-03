@@ -1,36 +1,36 @@
 {
-  "version": "1.23.6",
-  "description": "Foobar2000-style native music player for large local libraries, built with Rust and GPUI.",
-  "homepage": "https://github.com/zealsprince/rox",
-  "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/rox.ico",
-  "license": "AGPL-3.0",
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/zealsprince/rox/releases/download/v1.23.6/rox-v1.23.6-windows-x86_64.zip",
-      "hash": "11523ffbf44711a16da3f023b1c5ab06d38a928ad143a83f051c7aebbeadae2a"
-    }
-  },
-  "bin": [
-    "rox.exe",
-    [
-      "rox-mcp.exe",
-      "rox-mcp"
-    ]
-  ],
-  "shortcuts": [
-    [
-      "rox.exe",
-      "rox"
-    ]
-  ],
-  "checkver": {
-    "github": "https://github.com/zealsprince/rox"
-  },
-  "autoupdate": {
+    "version": "1.24.0",
+    "description": "Foobar2000-style native music player for large local libraries, built with Rust and GPUI.",
+    "homepage": "https://github.com/zealsprince/rox",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/rox.ico",
+    "license": "AGPL-3.0",
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/zealsprince/rox/releases/download/v$version/rox-v$version-windows-x86_64.zip"
-      }
+        "64bit": {
+            "url": "https://github.com/zealsprince/rox/releases/download/v1.24.0/rox-v1.24.0-windows-x86_64.zip",
+            "hash": "6367829ddb0ce58da24f138f819c4a04fc17d59f906d9055b86f341a175eefa3"
+        }
+    },
+    "bin": [
+        "rox.exe",
+        [
+            "rox-mcp.exe",
+            "rox-mcp"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "rox.exe",
+            "rox"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/zealsprince/rox"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/zealsprince/rox/releases/download/v$version/rox-v$version-windows-x86_64.zip"
+            }
+        }
     }
-  }
 }
