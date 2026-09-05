@@ -1,0 +1,24 @@
+{
+    "version": "4.3.2",
+    "description": "Terminal music player for a private, local music library.",
+    "homepage": "https://github.com/ravachol/kew",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/kew.ico",
+    "license": "GPL-2.0-or-later",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/ravachol/kew/releases/download/v4.3.2/kew-4.3.2-windows-x64.exe",
+            "hash": "21adb3df01cbb544a3cbf10f8abbdf249d93f4f2c8af7f6a70cdbe1884927e2d"
+        }
+    },
+    "innosetup": true,
+    "bin": "kew.exe",
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/ravachol/kew/releases/download/v$version/kew-$version-windows-x64.exe"
+            }
+        }
+    },
+    "notes": "Kew stores configuration in %APPDATA%\\kew and state/logs in %LOCALAPPDATA%\\kew, outside the Scoop app directory."
+}
