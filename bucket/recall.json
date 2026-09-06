@@ -1,12 +1,12 @@
 {
-    "version": "0.5.8.2",
+    "version": "0.5.8.3",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.8.2/recall-windows-x86_64.zip",
-            "hash": "b48f6f7068b5f8e0d6c1c85c261375e16b3761185da2aa070e44cd8506d1bfda"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.8.3/recall-windows-x86_64.zip",
+            "hash": "6862bc14723182d51d1e0896e65527eaa844899104793b6ae1bdf9f4346070fb"
         }
     },
     "bin": [
@@ -56,6 +56,7 @@
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
         "Scoop persists both trash and data across upgrades; recall.db lives under the persisted data directory on Windows.",
         "Codex native titles follow state_5.sqlite plus the latest session_index.jsonl rename.",
+        "Claude Code and Pi titles follow native/generated metadata (custom-title/ai-title and session_info.name) before prompt fallback.",
         "Skill Audit recognizes shared, Pi, Gemini, OpenCode, and Windows backslash skill paths.",
         "The bottom shortcut bar follows upstream; Ctrl+S Settings shows the complete keyboard shortcut reference.",
         "rx includes upstream harness aliases rxc/rxx/rxo/rxp/rxd/rxk for Claude Code, Codex, OpenCode, Pi, DeepSeek Harness, and Kimi Code."
