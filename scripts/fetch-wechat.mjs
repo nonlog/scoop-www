@@ -109,6 +109,8 @@ async function writeMetadata(metadata) {
     await writeFile(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, 'utf8');
 }
 
+const delay = (milliseconds) => new Promise((resolvePromise) => setTimeout(resolvePromise, milliseconds));
+
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const rootPage = await text(ROOT_URL, { headers: headers() });
 const lookupFile = rootPage.match(/url\s*:\s*'\/filemoreajax\.php\?file=(\d+)'/)?.[1];
@@ -183,12 +185,15 @@ if (!metadata.changed) {
     const downloadSign = verificationPage.match(/'sign':'([^']+)'/)?.[1];
     if (!downloadFile || !downloadSign) throw new Error('Lanzou verification page did not expose its token');
 
+    // Lanzou rejects immediate verification requests with ?SignError.
+    await delay(2_000);
     const verified = await form(new URL('ajax.php', verificationUrl).href, {
         file: downloadFile,
         el: '2',
         sign: downloadSign,
     }, verificationUrl);
     if (verified.zt !== 1 || !verified.url) throw new Error(`Lanzou verification failed: ${JSON.stringify(verified)}`);
+    if (verified.url.startsWith('?')) throw new Error(`Lanzou returned an invalid download URL: ${verified.url}`);
 
     await mkdir(dirname(resolve(outputPath)), { recursive: true });
     const download = await request(verified.url, { headers: headers({ Referer: verificationUrl }) }, 30 * 60_000);
