@@ -1,5 +1,5 @@
 {
-    "version": "0.4.7",
+    "version": "0.5.0",
     "description": "Fast, responsive YouTube Music desktop client built with Tauri, React and Rust.",
     "homepage": "https://github.com/NUber-dev/YTubic",
     "license": "GPL-3.0",
@@ -8,8 +8,8 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://github.com/NUber-dev/YTubic/releases/download/v0.4.7/YTubic_0.4.7_Windows_x64_Setup.exe#/dl.7z",
-            "hash": "15091ceaeb51d8592e1a6f6f50604dcd3e9f4dcf337ee25e0007db04b0b6612e"
+            "url": "https://github.com/NUber-dev/YTubic/releases/download/v0.5.0/YTubic_0.5.0_Windows_x64_Setup.exe#/dl.7z",
+            "hash": "1b376c46e5ce41677898dca4215ffce73795d69215c0776ff162f66226ca4148"
         }
     },
     "pre_install": "Remove-Item \"$dir\\`$*\", \"$dir\\uninst*\" -Force -Recurse -ErrorAction SilentlyContinue",
