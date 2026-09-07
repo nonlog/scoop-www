@@ -1,11 +1,11 @@
 {
-    "version": "2026.09.05.6",
+    "version": "2026.09.07",
     "description": "Launches local players from Emby/Jellyfin/Plex, syncs playback progress to Floppy, and includes a lightweight configuration GUI.",
     "homepage": "https://github.com/nonlog/embyToLocalPlayer",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/embyToLocalPlayer.svg",
     "license": "Unknown",
-    "url": "https://github.com/nonlog/embyToLocalPlayer/releases/download/2026.09.05.6/embyToLocalPlayer.zip",
-    "hash": "da1ee0f8602b11c1fdb254493025a8a7d11dd573d5615229a077c9f0ddd64606",
+    "url": "https://github.com/nonlog/embyToLocalPlayer/releases/download/2026.09.07/embyToLocalPlayer.zip",
+    "hash": "bd2f949be1cefbeb973c2a4207e7da0b2a9298716069e82e8aba3032d159ff70",
     "pre_install": [
         "Set-Content \"$dir\\embyToLocalPlayer_d.bat\" 'echo 1 | %~dp0\\embyToLocalPlayer_debug.bat' -Encoding ASCII",
         "Set-Content \"$dir\\embyToLocalPlayer_config.bat\" '@echo off' -Encoding ASCII",
