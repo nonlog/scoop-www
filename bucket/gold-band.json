@@ -1,13 +1,13 @@
 {
-    "version": "0.14.1",
+    "version": "0.15.0",
     "description": "Local-first desktop client for AI Agents.",
     "homepage": "https://github.com/diodeme/Gold-Band",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/gold-band.ico",
     "license": "AGPL-3.0-only",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/diodeme/Gold-Band/releases/download/v0.14.1/Gold.Band_0.14.1_x64-setup.exe#/dl.7z",
-            "hash": "1b1df4eba1ef8cfe765ca7565fc3728ecab6eca87fd2d1c50fd28589fea3a61f"
+            "url": "https://github.com/diodeme/Gold-Band/releases/download/v0.15.0/Gold.Band_0.15.0_x64-setup.exe#/dl.7z",
+            "hash": "e813103bd19631aaf7ffed8f4556eba2b783bc9860c70810ba0891bc84eaaabf"
         }
     },
     "pre_install": [
@@ -22,9 +22,7 @@
             "Gold Band"
         ]
     ],
-    "notes": [
-        "Gold Band stores user data under %USERPROFILE%\\.gold-band and state under %LOCALAPPDATA%\\gold-band; these locations are outside the Scoop app directory and remain across updates."
-    ],
+    "notes": "Gold Band stores user data under %USERPROFILE%\\.gold-band and state under %LOCALAPPDATA%\\gold-band; these locations are outside the Scoop app directory and remain across updates.",
     "checkver": {
         "github": "https://github.com/diodeme/Gold-Band",
         "regex": "/releases/tag/v([\\d.]+)"
