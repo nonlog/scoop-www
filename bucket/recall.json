@@ -1,12 +1,12 @@
 {
-    "version": "0.5.8.4",
+    "version": "0.5.8.5",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.8.4/recall-windows-x86_64.zip",
-            "hash": "a6a64f086f8e45720b5334a72c08e95ef9f220aa5a141a28f42882d8a4aeb7ea"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.8.5/recall-windows-x86_64.zip",
+            "hash": "a715df4847a5fcd371a9563bebb0878b54fb395755ef4e56e6d57f2dc6790448"
         }
     },
     "bin": [
@@ -54,7 +54,7 @@
         "This package follows the customized nonlog/Recall fork rebased on upstream v0.5.8.",
         "TUI source branding keeps distinct colors/icons with Unicode fallbacks.",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
-        "Native-aware deletion stages Recall index cleanup before native mutation; stale Pi paths are safely re-resolved by unique source id within configured Pi session roots.",
+        "Native-aware deletion stages Recall index cleanup before native mutation; stale Pi paths are re-resolved safely, and verified native-missing Pi orphans are cleaned from the index only after a complete scan of an available trusted root.",
         "Scoop persists both trash and data across upgrades; recall.db lives under the persisted data directory on Windows.",
         "Codex native titles follow state_5.sqlite plus the latest session_index.jsonl rename.",
         "Claude Code and Pi titles follow native/generated metadata (custom-title/ai-title and session_info.name) before prompt fallback.",
