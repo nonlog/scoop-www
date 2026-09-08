@@ -1,16 +1,16 @@
 {
-    "version": "2.0.7",
+    "version": "2.0.8",
     "description": "Local Windows coding and computer-use bridge for ChatGPT over MCP.",
     "homepage": "https://github.com/totec448-spec/chat-on-steroids",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v2.0.7/Chat-On-Steroids-Setup-x64.exe#/dl.7z",
-            "hash": "1376512ea6b5c9d886fee7ffa4f1d2a818f1ef6363b2eca1a9f6585826cad675"
+            "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v2.0.8/Chat-On-Steroids-Setup-x64.exe#/dl.7z",
+            "hash": "b9f153581d30facebcdd1183d901bf79722d110c3dfdbbc779fc5f4f76429aab"
         },
         "arm64": {
-            "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v2.0.7/Chat-On-Steroids-Setup-arm64.exe#/dl.7z",
-            "hash": "85e7937f6d2e57d0b03e76d83eb556646c92f263917b9c55a20cd1622c1c3d2c"
+            "url": "https://github.com/totec448-spec/chat-on-steroids/releases/download/v2.0.8/Chat-On-Steroids-Setup-arm64.exe#/dl.7z",
+            "hash": "0d8dad1233304df4bd94a1aab084b0df492a8aefee583868a5e0545f2925f846"
         }
     },
     "pre_install": [
