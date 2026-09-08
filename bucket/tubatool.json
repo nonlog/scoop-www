@@ -1,0 +1,44 @@
+{
+    "version": "1.6.1",
+    "description": "Community Edition hardware diagnostics and Windows maintenance toolbox.",
+    "homepage": "https://github.com/luolangaga/tubatools",
+    "license": "GPL-3.0-only",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/tubatool.png",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/luolangaga/tubatools/releases/download/v1.6.1/TubaWinUi3_Portable_1.6.1_x64.zip",
+            "hash": "0c5bb1750bf493e1ce37de110f4da33d31eccf0fac247162cac34fbaece3ada4"
+        },
+        "arm64": {
+            "url": "https://github.com/luolangaga/tubatools/releases/download/v1.6.1/TubaWinUi3_Portable_1.6.1_arm64.zip",
+            "hash": "03502ac85fce2fa0399b89473bcd7348353065210a108b1ea24dce114cbcfc76"
+        }
+    },
+    "bin": [
+        [
+            "图吧工具箱WinUI3.exe",
+            "tubatool"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "图吧工具箱WinUI3.exe",
+            "图吧工具箱CE"
+        ]
+    ],
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/luolangaga/tubatools/releases/download/v$version/TubaWinUi3_Portable_$version_x64.zip"
+            },
+            "arm64": {
+                "url": "https://github.com/luolangaga/tubatools/releases/download/v$version/TubaWinUi3_Portable_$version_arm64.zip"
+            }
+        }
+    },
+    "notes": [
+        "The app requests administrator permission at launch for hardware and driver features.",
+        "Data is stored in %LOCALAPPDATA%\\TubaWinUi3 and survives normal Scoop updates and uninstalls."
+    ]
+}
