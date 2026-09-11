@@ -1,12 +1,12 @@
 {
-    "version": "0.5.8.6",
+    "version": "0.5.8.7",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.8.6/recall-windows-x86_64.zip",
-            "hash": "27e98f07ebce3309d9d28f824554398a49c9fc7d267443bf4a98dd50813c4c89"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.5.8.7/recall-windows-x86_64.zip",
+            "hash": "789e6f3f79860899d857a7058adc2b621640ad31658761bae0f3e7317a739e95"
         }
     },
     "bin": [
@@ -54,7 +54,7 @@
         "This package follows the customized nonlog/Recall fork rebased on upstream v0.5.8.",
         "TUI source branding keeps distinct colors/icons with Unicode fallbacks.",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
-        "Native-aware deletion stages Recall index cleanup before native mutation; Pi and Codex stale paths are re-resolved inside trusted roots, and verified native-missing rows are cleaned only after authoritative checks.",
+        "Native-aware deletion now covers every source currently indexed on LOG: stale paths are re-resolved only inside trusted stores; Copilot Chat/CLI and Grok use source-specific file/directory rules; ZCode Trash uses a verified SQLite backup before native row deletion.",
         "Scoop persists both trash and data across upgrades; recall.db lives under the persisted data directory on Windows.",
         "Codex native titles follow state_5.sqlite plus the latest session_index.jsonl rename.",
         "Claude Code and Pi titles follow native/generated metadata (custom-title/ai-title and session_info.name) before prompt fallback.",
