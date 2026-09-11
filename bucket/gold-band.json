@@ -1,13 +1,13 @@
 {
-    "version": "0.15.0",
+    "version": "0.15.2",
     "description": "Local-first desktop client for AI Agents.",
     "homepage": "https://github.com/diodeme/Gold-Band",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/gold-band.ico",
     "license": "AGPL-3.0-only",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/diodeme/Gold-Band/releases/download/v0.15.0/Gold.Band_0.15.0_x64-setup.exe#/dl.7z",
-            "hash": "e813103bd19631aaf7ffed8f4556eba2b783bc9860c70810ba0891bc84eaaabf"
+            "url": "https://github.com/diodeme/Gold-Band/releases/download/v0.15.2/Gold.Band_0.15.2_x64-setup.exe#/dl.7z",
+            "hash": "f106ba117d01fe0322318e3fdb212e8e5ac9fb93487a15e4f0de51e22912f4c3"
         }
     },
     "pre_install": [
