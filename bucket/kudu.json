@@ -1,13 +1,13 @@
 {
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "Free Windows, Mac and Linux cleaner, scanner, and more.",
     "homepage": "https://github.com/AdventDevInc/kudu",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/kudu.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/AdventDevInc/kudu/releases/download/v3.0.0/Kudu-Setup-3.0.0.exe#/dl.7z",
-            "hash": "34fbc830f9254fe12cccb9a8335fb634224fcce232a4810960f12ad972b6f6eb"
+            "url": "https://github.com/AdventDevInc/kudu/releases/download/v3.1.0/Kudu-Setup-3.1.0.exe#/dl.7z",
+            "hash": "5ac0204fd49d71ae6f8da47eb6f50250fb6bbb469fdfec3df45794c64d294af4"
         }
     },
     "pre_install": [
