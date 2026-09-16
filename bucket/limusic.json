@@ -1,5 +1,5 @@
 {
-    "version": "0.7.1",
+    "version": "0.7.2",
     "description": "Native-style YouTube Music desktop client using Rust, Tauri and libmpv, with no Electron.",
     "homepage": "https://github.com/SimoHypers/limusic",
     "license": "GPL-3.0",
@@ -8,8 +8,8 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://github.com/SimoHypers/limusic/releases/download/v0.7.1/limusic_0.7.1_x64_en-US.msi",
-            "hash": "6fe073cf8d9d58f0ec14994c91ab5ddfc07540a9dff7d8f5d054a8cdeeaab782"
+            "url": "https://github.com/SimoHypers/limusic/releases/download/v0.7.2/limusic_0.7.2_x64_en-US.msi",
+            "hash": "6543ba5a644b2e0e2f5a03660f37f29c4d306299f2a12f3628dfae8d10ac5093"
         }
     },
     "extract_dir": "PFiles\\limusic",
