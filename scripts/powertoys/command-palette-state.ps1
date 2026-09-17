@@ -22,19 +22,6 @@ function Copy-StateFile {
     }
 }
 
-function Get-PinnedCommandCount {
-    param([string] $Path)
-
-    try {
-        $settings = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
-        $property = $settings.PSObject.Properties['PinnedCommands']
-        if ($null -eq $property) { return 0 }
-        return @($property.Value).Count
-    } catch {
-        return -1
-    }
-}
-
 if ($Phase -eq 'Backup') {
     New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
     foreach ($file in @('settings.json', 'state.json')) {
@@ -61,17 +48,13 @@ Add-AppxPackage -Path $msix[0].FullName -ForceApplicationShutdown | Out-Null
 $backupSettings = Join-Path $backupDir 'settings.json'
 $targetSettings = Join-Path $localState 'settings.json'
 if (Test-Path -LiteralPath $backupSettings -PathType Leaf) {
-    $backupPinned = Get-PinnedCommandCount -Path $backupSettings
-    $targetPinned = Get-PinnedCommandCount -Path $targetSettings
-    if ((-not (Test-Path -LiteralPath $targetSettings)) -or ($backupPinned -gt 0 -and $targetPinned -eq 0)) {
-        New-Item -ItemType Directory -Path $localState -Force | Out-Null
-        Copy-StateFile -Source $backupSettings -Destination $targetSettings
-    }
+    New-Item -ItemType Directory -Path $localState -Force | Out-Null
+    Copy-StateFile -Source $backupSettings -Destination $targetSettings
 }
 
 $backupState = Join-Path $backupDir 'state.json'
 $targetState = Join-Path $localState 'state.json'
-if ((Test-Path -LiteralPath $backupState -PathType Leaf) -and -not (Test-Path -LiteralPath $targetState -PathType Leaf)) {
+if (Test-Path -LiteralPath $backupState -PathType Leaf) {
     New-Item -ItemType Directory -Path $localState -Force | Out-Null
     Copy-StateFile -Source $backupState -Destination $targetState
 }
