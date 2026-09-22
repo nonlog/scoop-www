@@ -24,4 +24,5 @@ jobs:
         uses: ScoopInstaller/GithubActions@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCOOP_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SKIP_UPDATED: 1
