@@ -11,6 +11,12 @@
         }
     },
     "bin": "zeron.exe",
+    "shortcuts": [
+        [
+            "zeron.exe",
+            "Zeron"
+        ]
+    ],
     "post_install": [
         "$updateFile = Join-Path $dir 'zeron-update.json'",
         "if (Test-Path -LiteralPath $updateFile) { Remove-Item -LiteralPath $updateFile -Force }",
