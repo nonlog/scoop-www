@@ -41,7 +41,8 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/nonlog/Recall"
+        "url": "https://github.com/nonlog/Recall/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

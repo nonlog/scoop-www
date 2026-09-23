@@ -18,7 +18,8 @@
     ]
   ],
   "checkver": {
-    "github": "https://github.com/StudentWeis/ropy"
+    "url": "https://github.com/StudentWeis/ropy/releases/latest",
+    "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
   },
   "autoupdate": {
     "architecture": {

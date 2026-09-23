@@ -18,7 +18,8 @@
     ]
   ],
   "checkver": {
-    "github": "https://github.com/packetThrower/Baudrun"
+    "url": "https://github.com/packetThrower/Baudrun/releases/latest",
+    "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
   },
   "autoupdate": {
     "architecture": {

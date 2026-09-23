@@ -23,7 +23,8 @@
     ]
   ],
   "checkver": {
-    "github": "https://github.com/hummingbird-player/hummingbird"
+    "url": "https://github.com/hummingbird-player/hummingbird/releases/latest",
+    "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
   },
   "autoupdate": {
     "architecture": {

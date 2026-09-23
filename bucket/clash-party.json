@@ -26,7 +26,8 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/mihomo-party-org/clash-party"
+        "url": "https://github.com/mihomo-party-org/clash-party/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

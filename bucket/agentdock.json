@@ -26,7 +26,7 @@
         "更新命令：scoop update agentdock"
     ],
     "checkver": {
-        "github": "https://github.com/uvwt/agentdock",
+        "url": "https://github.com/uvwt/agentdock/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

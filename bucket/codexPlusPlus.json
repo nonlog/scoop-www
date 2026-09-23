@@ -22,7 +22,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/BigPizzaV3/CodexPlusPlus",
+        "url": "https://github.com/BigPizzaV3/CodexPlusPlus/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

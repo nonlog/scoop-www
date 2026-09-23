@@ -52,7 +52,8 @@
         "}"
     ],
     "checkver": {
-        "github": "https://github.com/appshubcc/Bettbox"
+        "url": "https://github.com/appshubcc/Bettbox/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

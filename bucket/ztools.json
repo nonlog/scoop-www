@@ -16,7 +16,10 @@
             "ZTools"
         ]
     ],
-    "checkver": "github",
+    "checkver": {
+        "url": "https://github.com/ZToolsCenter/ZTools/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
+    },
     "autoupdate": {
         "architecture": {
             "64bit": {

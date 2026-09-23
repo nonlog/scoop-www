@@ -39,7 +39,8 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/Kami958/WhoShitsonMyC"
+        "url": "https://github.com/Kami958/WhoShitsonMyC/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

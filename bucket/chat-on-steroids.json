@@ -34,7 +34,8 @@
         "The Chrome extension ships with the app. After an update, reload the unpacked Chat On Steroids extension in chrome://extensions so its version matches the desktop app."
     ],
     "checkver": {
-        "github": "https://github.com/totec448-spec/chat-on-steroids"
+        "url": "https://github.com/totec448-spec/chat-on-steroids/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

@@ -27,7 +27,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/guohuiyuan/go-music-dl",
+        "url": "https://github.com/guohuiyuan/go-music-dl/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

@@ -31,7 +31,7 @@
         "trakt_token.json"
     ],
     "checkver": {
-        "github": "https://github.com/nonlog/embyToLocalPlayer",
+        "url": "https://github.com/nonlog/embyToLocalPlayer/releases/latest",
         "regex": "/releases/tag/([\\d.]+)"
     },
     "autoupdate": {

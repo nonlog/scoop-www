@@ -26,7 +26,10 @@
             "图吧工具箱CE"
         ]
     ],
-    "checkver": "github",
+    "checkver": {
+        "url": "https://github.com/luolangaga/tubatools/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
+    },
     "autoupdate": {
         "architecture": {
             "64bit": {

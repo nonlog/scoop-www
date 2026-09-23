@@ -24,7 +24,7 @@
     ],
     "notes": "Gold Band stores user data under %USERPROFILE%\\.gold-band and state under %LOCALAPPDATA%\\gold-band; these locations are outside the Scoop app directory and remain across updates.",
     "checkver": {
-        "github": "https://github.com/diodeme/Gold-Band",
+        "url": "https://github.com/diodeme/Gold-Band/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

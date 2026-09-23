@@ -23,7 +23,10 @@
             "Waku"
         ]
     ],
-    "checkver": "github",
+    "checkver": {
+        "url": "https://github.com/egoist/waku/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
+    },
     "autoupdate": {
         "architecture": {
             "64bit": {

@@ -17,7 +17,7 @@
         "WeChat Files"
     ],
     "checkver": {
-        "github": "https://github.com/nonlog/scoop-www",
+        "url": "https://github.com/nonlog/scoop-www/releases/latest",
         "regex": "/releases/tag/wechat-([\\d.]+)"
     },
     "autoupdate": {

@@ -22,7 +22,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/openclaw/openclaw-windows-node",
+        "url": "https://github.com/openclaw/openclaw-windows-node/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

@@ -18,7 +18,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/Kuddev/nebula",
+        "url": "https://github.com/Kuddev/nebula/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

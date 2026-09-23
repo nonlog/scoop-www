@@ -18,7 +18,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/BLUEMOON233/Ferricodex",
+        "url": "https://github.com/BLUEMOON233/Ferricodex/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

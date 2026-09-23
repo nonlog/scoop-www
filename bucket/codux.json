@@ -28,7 +28,8 @@
     "Codux user data under the application Data directory is persisted across Scoop updates."
   ],
   "checkver": {
-    "github": "https://github.com/duxweb/codux"
+    "url": "https://github.com/duxweb/codux/releases/latest",
+    "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
   },
   "autoupdate": {
     "architecture": {

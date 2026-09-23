@@ -20,7 +20,8 @@
     ],
     "persist": "config.ini",
     "checkver": {
-        "github": "https://github.com/nonlog/AltTaber"
+        "url": "https://github.com/nonlog/AltTaber/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

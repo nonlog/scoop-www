@@ -18,7 +18,8 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/feigeCode/navop"
+        "url": "https://github.com/feigeCode/navop/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

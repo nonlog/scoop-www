@@ -19,7 +19,8 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/harry0703/MangoDisk"
+        "url": "https://github.com/harry0703/MangoDisk/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

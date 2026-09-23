@@ -20,7 +20,8 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/NUber-dev/YTubic"
+        "url": "https://github.com/NUber-dev/YTubic/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {

@@ -22,7 +22,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/AdventDevInc/kudu",
+        "url": "https://github.com/AdventDevInc/kudu/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

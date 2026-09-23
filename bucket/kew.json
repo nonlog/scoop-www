@@ -12,7 +12,10 @@
     },
     "innosetup": true,
     "bin": "kew.exe",
-    "checkver": "github",
+    "checkver": {
+        "url": "https://github.com/ravachol/kew/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
+    },
     "autoupdate": {
         "architecture": {
             "64bit": {

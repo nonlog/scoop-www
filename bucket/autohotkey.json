@@ -16,7 +16,8 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/AutoHotkey/AutoHotkey"
+        "url": "https://github.com/AutoHotkey/AutoHotkey/releases/latest",
+        "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
     },
     "autoupdate": {
         "url": "https://github.com/AutoHotkey/AutoHotkey/releases/download/v$version/AutoHotkey_$version.zip",

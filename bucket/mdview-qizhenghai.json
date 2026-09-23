@@ -14,7 +14,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/qizhenghai2020/mdview",
+        "url": "https://github.com/qizhenghai2020/mdview/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {

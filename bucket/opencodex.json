@@ -20,7 +20,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/RyensX/OpenCodex",
+        "url": "https://github.com/RyensX/OpenCodex/releases/latest",
         "regex": "/releases/tag/([\\d.]+)"
     },
     "autoupdate": {

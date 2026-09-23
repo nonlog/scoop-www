@@ -15,7 +15,7 @@
         ]
     ],
     "checkver": {
-        "github": "https://github.com/jnchen/code_dejavu",
+        "url": "https://github.com/jnchen/code_dejavu/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
     },
     "autoupdate": {
