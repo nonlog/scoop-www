@@ -1,0 +1,60 @@
+{
+    "version": "0.2.84",
+    "description": "A local control plane for coding agents, with optional multi-device sync.",
+    "homepage": "https://github.com/zeronsh/zeron",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/zeron.ico",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/zeronsh/zeron/releases/download/v0.2.84/zeron-0.2.84-windows-x86_64.zip",
+            "hash": "309eb0b87da113ee27a1ccbd7d1f46917e8e28d51422f23aab3b3043aa7f49f4"
+        }
+    },
+    "bin": "zeron.exe",
+    "post_install": [
+        "$updateFile = Join-Path $dir 'zeron-update.json'",
+        "if (Test-Path -LiteralPath $updateFile) { Remove-Item -LiteralPath $updateFile -Force }",
+        "$appData = Join-Path $env:LOCALAPPDATA 'Zeron'",
+        "$persistData = Join-Path $persist_dir 'data'",
+        "New-Item -ItemType Directory -Path $persist_dir -Force | Out-Null",
+        "New-Item -ItemType Directory -Path (Split-Path -Parent $appData) -Force | Out-Null",
+        "if (Test-Path -LiteralPath $appData) {",
+        "    $existing = Get-Item -LiteralPath $appData -Force",
+        "    if ($existing.LinkType) {",
+        "        $target = $existing.Target | Select-Object -First 1",
+        "        if (-not $target -or ([IO.Path]::GetFullPath($target).TrimEnd('\\') -ne [IO.Path]::GetFullPath($persistData).TrimEnd('\\'))) { Write-Warning 'Existing Zeron data link was not changed.' }",
+        "    } else {",
+        "        if (-not $existing.PSIsContainer) { throw 'Existing Zeron data path is not a directory.' }",
+        "        New-Item -ItemType Directory -Path $persistData -Force | Out-Null",
+        "        Get-ChildItem -LiteralPath $appData -Force | Copy-Item -Destination $persistData -Recurse -Force -ErrorAction Stop",
+        "        Remove-Item -LiteralPath $appData -Recurse -Force -ErrorAction Stop",
+        "    }",
+        "}",
+        "if (!(Test-Path -LiteralPath $persistData)) { New-Item -ItemType Directory -Path $persistData -Force | Out-Null }",
+        "if (!(Test-Path -LiteralPath $appData)) { New-DirectoryJunction $appData $persistData | Out-Null }"
+    ],
+    "post_uninstall": [
+        "$appData = Join-Path $env:LOCALAPPDATA 'Zeron'",
+        "$persistData = Join-Path $persist_dir 'data'",
+        "if (Test-Path -LiteralPath $appData) {",
+        "    $existing = Get-Item -LiteralPath $appData -Force",
+        "    $target = $existing.Target | Select-Object -First 1",
+        "    if ($existing.LinkType -eq 'Junction' -and $target -and ([IO.Path]::GetFullPath($target).TrimEnd('\\') -eq [IO.Path]::GetFullPath($persistData).TrimEnd('\\'))) { Remove-Item -LiteralPath $appData -Force }",
+        "}"
+    ],
+    "checkver": {
+        "url": "https://github.com/zeronsh/zeron/releases/latest",
+        "regex": "/releases/tag/v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/zeronsh/zeron/releases/download/v$version/zeron-$version-windows-x86_64.zip"
+            }
+        }
+    },
+    "notes": [
+        "Zeron stores its profile, settings, and local sessions in %LOCALAPPDATA%\\Zeron; this path is redirected to Scoop's persistent data directory.",
+        "In-app updates are disabled so Scoop remains the update manager. Use scoop update www/zeron."
+    ]
+}
