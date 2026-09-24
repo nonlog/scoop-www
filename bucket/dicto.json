@@ -7,7 +7,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/logi-camp/dicto/releases/download/v0.6.2/dicto-v0.6.2-windows-x86_64-portable.zip",
-            "hash": "d67e05002facbaa036287ad7fd62c74eca5e7ae77abc8bc8f690872b01e20328"
+            "hash": "883dacb3cfe48c368b4f049859aa6e6ccb00ab4d08bde5c0d45c68efea40c2ae"
         }
     },
     "bin": "dicto.exe",
