@@ -1,0 +1,41 @@
+{
+    "version": "1.8.0",
+    "description": "Fingerprint browser for multi-account isolation, per-profile proxies and local environment management.",
+    "homepage": "https://github.com/black-ant/Ant-Browser",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/ant-browser.ico",
+    "license": "Unknown",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/black-ant/Ant-Browser/releases/download/V1.8.0/AntBrowser-1.8.0-windows-amd64-portable.zip",
+            "extract_dir": "AntBrowser-1.8.0-windows-amd64-portable",
+            "hash": "3cc83fe57ec3dba353ff5f5f21624c400751eaa9d512613aebd8d7e232ec70be"
+        }
+    },
+    "shortcuts": [
+        [
+            "ant-chrome.exe",
+            "Ant Browser"
+        ]
+    ],
+    "persist": [
+        "config.yaml",
+        "chrome",
+        "data"
+    ],
+    "checkver": {
+        "url": "https://github.com/black-ant/Ant-Browser/releases/latest",
+        "regex": "/releases/tag/V([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/black-ant/Ant-Browser/releases/download/V$version/AntBrowser-$version-windows-amd64-portable.zip",
+                "extract_dir": "AntBrowser-$version-windows-amd64-portable"
+            }
+        }
+    },
+    "notes": [
+        "Profiles, database and settings persist in D:\\Programs\\Scoop\\persist\\ant-browser.",
+        "Browser kernels are not bundled; place a fingerprint-chromium build in the persisted chrome directory."
+    ]
+}
