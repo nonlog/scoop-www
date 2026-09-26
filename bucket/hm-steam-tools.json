@@ -1,0 +1,43 @@
+{
+    "version": "4.0.9",
+    "description": "Steam depot manifest and library management tool.",
+    "homepage": "https://github.com/YS-CODE-GO/HM-STEAM-TOOLS",
+    "license": "Unknown",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/hm-steam-tools.png",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/YS-CODE-GO/HM-STEAM-TOOLS/releases/download/4.0.9/HM-STEAM-TOOLS-v4.0.9.7z#/hm-steam-tools.pkg",
+            "hash": "74b7cc6849d4ff0f0f202cd7795d8cb05289785abe94fc048ca0876b4878d1ed"
+        }
+    },
+    "pre_install": [
+        "$sevenZip = Get-HelperPath -Helper 7zip",
+        "$archive = Get-ChildItem -LiteralPath $dir -Filter '*.pkg' -File | Select-Object -First 1",
+        "& $sevenZip x $archive.FullName \"-o$dir\" -pyingshu -y | Out-Null",
+        "if ($LASTEXITCODE -ne 0) { throw 'Could not extract the password-protected release archive.' }",
+        "Remove-Item -LiteralPath $archive.FullName -Force"
+    ],
+    "bin": [
+        [
+            "HM-STEAM-TOOLS\\HM-STEAM-TOOLS.exe",
+            "hm-steam-tools"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "HM-STEAM-TOOLS\\HM-STEAM-TOOLS.exe",
+            "HM-STEAM-TOOLS"
+        ]
+    ],
+    "checkver": {
+        "url": "https://github.com/YS-CODE-GO/HM-STEAM-TOOLS/releases/latest",
+        "regex": "/releases/tag/([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/YS-CODE-GO/HM-STEAM-TOOLS/releases/download/$version/HM-STEAM-TOOLS-v$version.7z#/hm-steam-tools.pkg"
+            }
+        }
+    }
+}
