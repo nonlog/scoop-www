@@ -12,7 +12,7 @@
     },
     "bin": "Conduit.exe",
     "post_install": "& \"$dir\\tools\\install-windows.ps1\" -SourceDir \"$dir\" -InstallDir \"$dir\"",
-    "pre_uninstall": "& \"$dir\\tools\\uninstall-windows.ps1\"",
+    "pre_uninstall": "if ($cmd -eq 'uninstall') { & \"$dir\\tools\\uninstall-windows.ps1\" }",
     "checkver": {
         "url": "https://github.com/nonlog/Conduit/releases/latest",
         "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
