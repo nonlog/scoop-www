@@ -1,11 +1,11 @@
 {
-    "version": "4.1.15.11",
+    "version": "4.1.15.13",
     "description": "Unofficial modified WeChat Windows build with multi-instance and anti-revoke patches.",
     "homepage": "https://www.423down.com/8718.html",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/wechat.ico",
     "license": "Unknown",
-    "url": "https://github.com/nonlog/scoop-www/releases/download/wechat-4.1.15.11/WeChat-4.1.15.11.exe#/dl.7z",
-    "hash": "b68a5ba997edbb18fc4a177f50e7bdfc3145c4f766025ca6e7038880c00e60eb",
+    "url": "https://github.com/nonlog/scoop-www/releases/download/wechat-4.1.15.13/WeChat-4.1.15.13.exe#/dl.7z",
+    "hash": "72b5b5ce902002ceaa6b003e9c34d1a16344d40c3c71e4200f1ad3a9aa475871",
     "extract_dir": "Weixin",
     "shortcuts": [
         [
