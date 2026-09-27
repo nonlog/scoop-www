@@ -54,6 +54,9 @@ async function request(url, options = {}, timeoutMs = 60_000) {
             throw new Error(`HTTP ${response.status} from ${url}: ${body.slice(0, 200)}`);
         }
         return response;
+    } catch (error) {
+        const cause = error.cause?.code || error.cause?.message;
+        throw new Error(`${error.message} from ${url}${cause ? ` (${cause})` : ''}`, { cause: error });
     } finally {
         clearTimeout(timer);
     }
@@ -69,7 +72,7 @@ async function form(url, values, referer, extraHeaders = {}) {
         method: 'POST',
         headers: headers({
             Referer: referer,
-            Origin: new URL(url).origin,
+            Origin: new URL(referer).origin,
             'X-Requested-With': 'XMLHttpRequest',
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             ...extraHeaders,
@@ -168,19 +171,48 @@ if (!metadata.changed) {
     const webSignValue = iframePage.match(/var wp_sign\s*=\s*'([^']+)'/)?.[1];
     if (!ajaxFile || !webSign || !webSignValue) throw new Error('Could not parse the Lanzou download token page');
 
-    const token = await form(`${ROOT_ORIGIN}/ajaxfile.php?file=${ajaxFile}`, {
-        action: 'downprocess',
-        websignkey: webSign,
-        signs: webSign,
-        sign: webSignValue,
-        websign: '',
-        kd: '0',
-        ves: '1',
-    }, filePageUrl, { Cookie: cookie });
-    if (token.zt !== 1 || !token.dom || !token.url) throw new Error(`Lanzou token request failed: ${JSON.stringify(token)}`);
+    // The share page now calls a separate API host; posting to the share host
+    // returns a 407 WAF response instead of the download token.
+    const tokenUrls = [
+        iframePage.match(/url\s*:\s*'(https?:\/\/[^']+\/ajaxfile\.php\?file=\d+)'/i)?.[1],
+        `https://apifile.woozooo.com/ajaxfile.php?file=${ajaxFile}`,
+        `https://apifile.lanzouw.com/ajaxfile.php?file=${ajaxFile}`,
+    ].filter((value, index, values) => value && values.indexOf(value) === index);
+
+    let token;
+    let tokenError;
+    for (const tokenUrl of tokenUrls) {
+        try {
+            token = await form(tokenUrl, {
+                action: 'downprocess',
+                websignkey: webSign,
+                signs: webSign,
+                sign: webSignValue,
+                websign: '',
+                kd: '1',
+                ves: '1',
+            }, filePageUrl, { Cookie: cookie });
+            if (token.zt === 1 && token.dom && token.url) break;
+            tokenError = new Error(`Lanzou token request failed: ${JSON.stringify(token)}`);
+        } catch (error) {
+            tokenError = error;
+        }
+    }
+    if (!token || token.zt !== 1 || !token.dom || !token.url) {
+        throw tokenError || new Error('Lanzou token request failed');
+    }
 
     const verificationUrl = `${token.dom}/file/${token.url}`;
-    const verificationPage = await text(verificationUrl, { headers: headers({ Referer: filePageUrl }) });
+    let verificationPage = await text(verificationUrl, { headers: headers({ Referer: filePageUrl }) });
+    let verificationCookie;
+    if (verificationPage.includes('acw_sc__v2')) {
+        const verificationChallenge = verificationPage.match(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/i)?.[1];
+        if (!verificationChallenge) throw new Error('Lanzou verification challenge was not found');
+        verificationCookie = calculateChallengeCookie(verificationChallenge);
+        verificationPage = await text(verificationUrl, {
+            headers: headers({ Referer: filePageUrl, Cookie: verificationCookie }),
+        });
+    }
     const downloadFile = verificationPage.match(/'file':'([^']+)'/)?.[1];
     const downloadSign = verificationPage.match(/'sign':'([^']+)'/)?.[1];
     if (!downloadFile || !downloadSign) throw new Error('Lanzou verification page did not expose its token');
@@ -191,7 +223,7 @@ if (!metadata.changed) {
         file: downloadFile,
         el: '2',
         sign: downloadSign,
-    }, verificationUrl);
+    }, verificationUrl, verificationCookie ? { Cookie: verificationCookie } : {});
     if (verified.zt !== 1 || !verified.url) throw new Error(`Lanzou verification failed: ${JSON.stringify(verified)}`);
     if (verified.url.startsWith('?')) throw new Error(`Lanzou returned an invalid download URL: ${verified.url}`);
 
