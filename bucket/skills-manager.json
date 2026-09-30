@@ -1,0 +1,39 @@
+{
+    "version": "1.40.2",
+    "description": "Manage, sync, and organize AI agent skills across coding tools.",
+    "homepage": "https://github.com/xingkongliang/skills-manager",
+    "license": "MIT",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/skills-manager.ico",
+    "suggest": {
+        "Microsoft Edge WebView2": "extras/webview2"
+    },
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/xingkongliang/skills-manager/releases/download/v1.40.2/skills-manager_1.40.2_x64_en-US.msi",
+            "hash": "52b39e4b7dff305cee699d8dbd09b7465ff1d7d28e72f3f1f58dedc8957a06a9"
+        }
+    },
+    "extract_dir": "PFiles\\skills-manager",
+    "bin": "skills-manager-cli.exe",
+    "shortcuts": [
+        [
+            "skills-manager.exe",
+            "Skills Manager"
+        ]
+    ],
+    "checkver": {
+        "url": "https://github.com/xingkongliang/skills-manager/releases/latest",
+        "regex": "/releases/tag/v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/xingkongliang/skills-manager/releases/download/v$version/skills-manager_$version_x64_en-US.msi"
+            }
+        }
+    },
+    "notes": [
+        "The desktop app stores its library and settings in %USERPROFILE%\\.skills-manager.",
+        "The bundled CLI is exposed as skills-manager-cli."
+    ]
+}
