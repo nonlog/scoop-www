@@ -1,13 +1,13 @@
 {
-    "version": "4.0.11",
+    "version": "4.0.12",
     "description": "Steam depot manifest and library management tool.",
     "homepage": "https://github.com/YS-CODE-GO/HM-STEAM-TOOLS",
     "license": "Unknown",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/hm-steam-tools.png",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/YS-CODE-GO/HM-STEAM-TOOLS/releases/download/4.0.11/HM-STEAM-TOOLS-v4.0.11.7z#/hm-steam-tools.pkg",
-            "hash": "8bb04cee8b9842740e5dff0dd0c2c843d5763f6232f4456742295ccc51b62a15"
+            "url": "https://github.com/YS-CODE-GO/HM-STEAM-TOOLS/releases/download/4.0.12/HM-STEAM-TOOLS-v4.0.12.7z#/hm-steam-tools.pkg",
+            "hash": "49af4b3117ce638274e53c3b61136405dceb2510155f242fd75f9f5521703a09"
         }
     },
     "pre_install": [
