@@ -1,13 +1,13 @@
 {
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "A GPU-accelerated terminal emulator.",
     "homepage": "https://github.com/Kuddev/pebrel",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/nebula-terminal.ico",
     "license": "GPL-3.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Kuddev/pebrel/releases/download/v2.1.0/Pebrel-v2.1.0-windows-x64.zip",
-            "hash": "55e5c99c4a634f11658d7a7eb0d32a657a937455958f95e03a73f17d520fb3a2"
+            "url": "https://github.com/Kuddev/pebrel/releases/download/v2.1.1/Pebrel-v2.1.1-windows-x64.zip",
+            "hash": "2e95f1e49dd73668015a568ee6b6f22f7cf7b70101c9e5ec5b12d882fbe0f22d"
         }
     },
     "bin": [
