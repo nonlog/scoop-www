@@ -16,7 +16,12 @@
             "extract_dir": "spotifast-v0.11.2-aarch64-pc-windows-msvc"
         }
     },
-    "bin": "spotifast.exe",
+    "bin": [
+        [
+            "spotifast.exe",
+            "fastpotify"
+        ]
+    ],
     "shortcuts": [
         [
             "spotifast.exe",
