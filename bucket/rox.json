@@ -1,13 +1,13 @@
 {
-    "version": "1.29.2",
+    "version": "1.29.3",
     "description": "Foobar2000-style native music player for large local libraries, built with Rust and GPUI.",
     "homepage": "https://github.com/zealsprince/rox",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/rox.ico",
     "license": "AGPL-3.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/zealsprince/rox/releases/download/v1.29.2/rox-v1.29.2-windows-x86_64.zip",
-            "hash": "48e8de81d3eb93733725a321024b00cba619c73d94f20b7c31501fc2cbe74fd5"
+            "url": "https://github.com/zealsprince/rox/releases/download/v1.29.3/rox-v1.29.3-windows-x86_64.zip",
+            "hash": "c573bbbbf98d06a79db4272375174225357c6da785035ac99e7e9a997dfe92ac"
         }
     },
     "bin": [
