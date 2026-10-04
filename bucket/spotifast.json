@@ -1,8 +1,8 @@
 {
     "version": "0.12.0",
-    "description": "A native Spotify client with local playback and Spotify Connect.",
+    "description": "A native Spotify client with local playback and Spotify Connect (formerly Fastpotify).",
     "homepage": "https://github.com/crmne/spotifast",
-    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/fastpotify.ico",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/spotifast.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {
@@ -17,6 +17,10 @@
         }
     },
     "bin": [
+        [
+            "spotifast.exe",
+            "spotifast"
+        ],
         [
             "spotifast.exe",
             "fastpotify"
@@ -51,5 +55,8 @@
                 "extract_dir": "spotifast-v$version-aarch64-pc-windows-msvc"
             }
         }
-    }
+    },
+    "notes": [
+        "Fastpotify was renamed to Spotifast. Existing Fastpotify settings and sign-ins are preserved."
+    ]
 }
