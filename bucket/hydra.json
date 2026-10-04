@@ -2,8 +2,8 @@
     "version": "1.0.1",
     "description": "A fast, resilient, multi-source file retriever and download engine.",
     "homepage": "https://hydra.javad.dev",
-    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/hydra.ico",
     "license": "GPL-3.0-or-later",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/hydra.ico",
     "architecture": {
         "64bit": {
             "url": "https://github.com/ja7ad/hydra/releases/download/v1.0.1/hydra-1.0.1-windows-portable-amd64.zip",
@@ -11,7 +11,6 @@
             "extract_dir": "HydraPortable"
         }
     },
-    "persist": "Data",
     "bin": [
         [
             "App\\Hydra\\hydra.exe",
@@ -28,6 +27,7 @@
             "Hydra"
         ]
     ],
+    "persist": "Data",
     "checkver": {
         "url": "https://github.com/ja7ad/hydra/releases/latest",
         "regex": "/releases/tag/v([\\d.]+)"
