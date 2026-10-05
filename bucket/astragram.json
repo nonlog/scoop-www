@@ -1,0 +1,64 @@
+{
+    "version": "7.2.9.21",
+    "description": "A customizable Telegram Desktop fork based on AyuGram.",
+    "homepage": "https://github.com/Kindness-Kismet/AstraGram-Desktop",
+    "license": "GPL-3.0-or-later",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/astragram.ico",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v7.2.9.21/AstraGram-v7.2.9.21-win-x64.zip",
+            "hash": "aa99119e2e98328bf1dd455b2b716258d44ee387be8a388b3c40bd8a72e6e131"
+        },
+        "arm64": {
+            "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v7.2.9.21/AstraGram-v7.2.9.21-win-arm64.zip",
+            "hash": "0e929ee1b953a582e3a65e8fea294afff19b4b86ddd40b09fb6a541eec97e34a"
+        }
+    },
+    "bin": [
+        [
+            "AstraGram.exe",
+            "astragram"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "AstraGram.exe",
+            "AstraGram"
+        ]
+    ],
+    "persist": "TelegramForcePortable",
+    "post_install": [
+        "$portable = Join-Path $persist_dir 'TelegramForcePortable'",
+        "$external = Join-Path $portable 'externalupdater.d'",
+        "New-Item -ItemType Directory -Path $external -Force | Out-Null",
+        "$exe = Join-Path (appdir $app $global) 'current\\AstraGram.exe'",
+        "Set-Content -LiteralPath (Join-Path $external 'scoop') -Value $exe -Encoding ascii"
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/Kindness-Kismet/AstraGram-Desktop/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v$version/AstraGram-v$version-win-x64.zip",
+                "hash": {
+                    "url": "https://api.github.com/repos/Kindness-Kismet/AstraGram-Desktop/releases/latest",
+                    "regex": "\"name\":\\s*\"AstraGram-v$version-win-x64\\.zip\"[\\s\\S]*?\"digest\":\\s*\"sha256:([a-fA-F0-9]{64})\""
+                }
+            },
+            "arm64": {
+                "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v$version/AstraGram-v$version-win-arm64.zip",
+                "hash": {
+                    "url": "https://api.github.com/repos/Kindness-Kismet/AstraGram-Desktop/releases/latest",
+                    "regex": "\"name\":\\s*\"AstraGram-v$version-win-arm64\\.zip\"[\\s\\S]*?\"digest\":\\s*\"sha256:([a-fA-F0-9]{64})\""
+                }
+            }
+        }
+    },
+    "notes": [
+        "AstraGram data is stored in the TelegramForcePortable directory under the Scoop persist folder.",
+        "The built-in updater is disabled so Scoop and UniGetUI remain the update source."
+    ]
+}
