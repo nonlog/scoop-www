@@ -1,13 +1,13 @@
 {
-    "version": "1.5.2",
+    "version": "1.5.4",
     "description": "Enhancement tool for the Codex desktop app.",
     "homepage": "https://github.com/BigPizzaV3/CodexPlusPlus",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/codexPlusPlus.ico",
     "license": "Unlicense",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v1.5.2/CodexPlusPlus-1.5.2-windows-x64-setup.exe#/dl.7z",
-            "hash": "e3409cc57a9e0ad0b6ee8eba750675dbc390866dbd85b30a4e4c37516f3aade3"
+            "url": "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v1.5.4/CodexPlusPlus-1.5.4-windows-x64-setup.exe#/dl.7z",
+            "hash": "fc4d3f8a75fd00d4006b34b61c2f67d74e2e48a736f5bd08a39ab6191909f3ef"
         }
     },
     "pre_install": "Remove-Item \"$dir\\`$PLUGINSDIR\" -Force -Recurse -ErrorAction SilentlyContinue",
