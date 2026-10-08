@@ -1,45 +1,16 @@
 {
-    "version": "0.6.2.2",
+    "version": "0.6.3.1",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
+    "depends": "www/rx",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.2.2/recall-windows-x86_64.zip",
-            "hash": "0338c567b6c69a8b398fad9854321f16bce6b74ddf74a63d6ca6d72de5400469"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.3.1/recall-windows-x86_64.zip",
+            "hash": "8b2d47ee2e88eaa22dfd5d163eb981c8a1871f17c2bcad97d1e19f86498ce326"
         }
     },
-    "bin": [
-        "recall.exe",
-        [
-            "rx.exe",
-            "rx"
-        ],
-        [
-            "rx.exe",
-            "rxc"
-        ],
-        [
-            "rx.exe",
-            "rxx"
-        ],
-        [
-            "rx.exe",
-            "rxo"
-        ],
-        [
-            "rx.exe",
-            "rxp"
-        ],
-        [
-            "rx.exe",
-            "rxd"
-        ],
-        [
-            "rx.exe",
-            "rxk"
-        ]
-    ],
+    "bin": ["recall.exe"],
     "checkver": {
         "url": "https://github.com/nonlog/Recall/releases/latest",
         "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
@@ -52,7 +23,7 @@
         }
     },
     "notes": [
-        "This package follows the customized nonlog/Recall fork merged through upstream Recall 0.6.2.",
+        "This package follows the customized nonlog/Recall fork merged through upstream Recall 0.6.3.",
         "TUI source branding keeps distinct colors/icons with Unicode fallbacks.",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
         "Native-aware deletion now covers every source currently indexed on LOG: stale paths are re-resolved only inside trusted stores; Copilot Chat/CLI and Grok use source-specific file/directory rules; ZCode Trash uses a verified SQLite backup before native row deletion.",
@@ -61,7 +32,7 @@
         "Claude Code and Pi titles follow native/generated metadata (custom-title/ai-title and session_info.name) before prompt fallback.",
         "Skill Audit recognizes shared, Pi, Gemini, OpenCode, and Windows backslash skill paths.",
         "The bottom shortcut bar follows upstream: Ctrl+S runs Sync and Ctrl+P opens Settings.",
-        "rx includes upstream harness aliases rxc/rxx/rxo/rxp/rxd/rxk for Claude Code, Codex, OpenCode, Pi, DeepSeek Harness, and Kimi Code."
+        "The separate www/rx dependency provides rx, rxc, rxx, rxo, rxp, rxd, and rxk; it updates independently from Recall."
     ],
     "persist": [
         "trash",
