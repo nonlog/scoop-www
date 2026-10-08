@@ -7,7 +7,7 @@ on:
       - "bucket/rx.json"
       - ".github/workflows/validate-recall-rx.yml"
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - "bucket/recall.json"
       - "bucket/rx.json"
