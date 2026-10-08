@@ -1,13 +1,13 @@
 {
-    "version": "0.6.3.1",
+    "version": "0.6.3.2",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "depends": "www/rx",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.3.1/recall-windows-x86_64.zip",
-            "hash": "8b2d47ee2e88eaa22dfd5d163eb981c8a1871f17c2bcad97d1e19f86498ce326"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.3.2/recall-windows-x86_64.zip",
+            "hash": "ee89c2d2ea34719f4e287a7f28347b366bdb808ed1d9710ec0baee5075263d29"
         }
     },
     "bin": ["recall.exe"],
@@ -25,6 +25,7 @@
     "notes": [
         "This package follows the customized nonlog/Recall fork merged through upstream Recall 0.6.3.",
         "TUI source branding keeps distinct colors/icons with Unicode fallbacks.",
+        "Optional Herdr Agent Icons Max logos: configure an icon-capable terminal font and set RECALL_ICON_STYLE=herdr (Windows Terminal: start a new session after setting the user environment variable).",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
         "Native-aware deletion now covers every source currently indexed on LOG: stale paths are re-resolved only inside trusted stores; Copilot Chat/CLI and Grok use source-specific file/directory rules; ZCode Trash uses a verified SQLite backup before native row deletion.",
         "Scoop persists both trash and data across upgrades; recall.db lives under the persisted data directory on Windows.",
