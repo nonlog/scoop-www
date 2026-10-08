@@ -1,0 +1,75 @@
+name: Validate Recall and rx packages
+
+on:
+  pull_request:
+    paths:
+      - "bucket/recall.json"
+      - "bucket/rx.json"
+      - ".github/workflows/validate-recall-rx.yml"
+  push:
+    branches: [main]
+    paths:
+      - "bucket/recall.json"
+      - "bucket/rx.json"
+      - ".github/workflows/validate-recall-rx.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify archive hashes, binaries and Scoop migration contract
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $rx = Get-Content -LiteralPath 'bucket/rx.json' -Raw | ConvertFrom-Json
+          $recall = Get-Content -LiteralPath 'bucket/recall.json' -Raw | ConvertFrom-Json
+
+          $expectedAliases = @('rx', 'rxc', 'rxx', 'rxo', 'rxp', 'rxd', 'rxk')
+          $actualAliases = @($rx.bin | ForEach-Object { if ($_ -is [array]) { $_[1] } else { [IO.Path]::GetFileNameWithoutExtension($_) } })
+          if (@(Compare-Object $expectedAliases $actualAliases).Count -ne 0) {
+            throw "rx command aliases differ from the bundled Recall contract: $($actualAliases -join ', ')"
+          }
+          if (@($recall.persist) -notcontains 'data' -or @($recall.persist) -notcontains 'trash') {
+            throw 'recall must persist data and trash across upgrades'
+          }
+          if ([version]$recall.version -ge [version]'0.6.3') {
+            if (@($recall.bin).Count -ne 1 -or $recall.bin[0] -ne 'recall.exe') {
+              throw 'Recall 0.6.3+ must only shim recall.exe, not the extracted rx.exe'
+            }
+            if ($recall.depends -ne 'www/rx') {
+              throw 'Recall 0.6.3+ must depend on independent www/rx for existing users'
+            }
+          }
+
+          Add-Type -AssemblyName System.IO.Compression
+          function Assert-PackageArchive {
+            param([string]$Name, $Manifest)
+            $arch = $Manifest.architecture.'64bit'
+            $zipPath = Join-Path $env:RUNNER_TEMP "$Name.zip"
+            Invoke-WebRequest -Uri $arch.url -OutFile $zipPath
+            $actual = (Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($actual -ne $arch.hash.ToLowerInvariant()) {
+              throw "$Name release SHA256 mismatch: $actual"
+            }
+            $archive = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
+            try {
+              $members = @($archive.Entries | ForEach-Object { $_.FullName })
+              foreach ($entry in $Manifest.bin) {
+                $target = if ($entry -is [array]) { $entry[0] } else { [string]$entry }
+                if ($members -notcontains $target) {
+                  throw "$Name declares $target but its release archive does not contain it"
+                }
+              }
+              Write-Host "$Name archive verified: $($members -join ', ')"
+            } finally {
+              $archive.Dispose()
+            }
+          }
+
+          Assert-PackageArchive 'rx' $rx
+          Assert-PackageArchive 'recall' $recall
