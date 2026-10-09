@@ -1,0 +1,32 @@
+{
+    "version": "1.7.0",
+    "description": "Terminal text editor IDE with LSP, git integration, tabs, and multi-cursor editing, in a single zero-config binary.",
+    "homepage": "https://tttedit.dev",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/eugenioenko/ttt/releases/download/v1.7.0/ttt-windows-amd64.exe",
+            "hash": "c3bf7c931bac8c6aef6a3fab08f43812dcbee3eb25d9217a2c7448d01af5787b"
+        }
+    },
+    "bin": [
+        [
+            "ttt-windows-amd64.exe",
+            "ttt"
+        ]
+    ],
+    "notes": [
+        "Config lives in ~/.config/ttt (on Windows: %USERPROFILE%\\.config\\ttt), not %APPDATA%. Override with the TTT_CONFIG_DIR environment variable.",
+        "Project search needs ripgrep (rg) and git features need git on PATH."
+    ],
+    "checkver": {
+        "github": "https://github.com/eugenioenko/ttt"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/eugenioenko/ttt/releases/download/v$version/ttt-windows-amd64.exe"
+            }
+        }
+    }
+}
