@@ -9,7 +9,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/SimoHypers/limusic/releases/download/v1.2.0/limusic_1.2.0_x64_en-US.msi",
-            "hash": "939711831a38fe674f547fe95824216c69fd5562459e9b13e4403a7f4bc939a8"
+            "hash": "82094438fe71dd63d90a846f66eba887bc967c23b6df393c535960d476e470f2"
         }
     },
     "extract_dir": "PFiles\\limusic",
