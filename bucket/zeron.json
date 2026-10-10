@@ -1,13 +1,13 @@
 {
-    "version": "0.2.108",
+    "version": "0.2.109",
     "description": "A local control plane for coding agents, with optional multi-device sync.",
     "homepage": "https://github.com/zeronsh/zeron",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/zeron.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/zeronsh/zeron/releases/download/v0.2.108/zeron-0.2.108-windows-x86_64.zip",
-            "hash": "2915f8e5532455e7481c8e24230113500a7643601a4e0cbe2767b67093c727b3"
+            "url": "https://github.com/zeronsh/zeron/releases/download/v0.2.109/zeron-0.2.109-windows-x86_64.zip",
+            "hash": "8fbf237e9e4f9f28043251d1e208c4911c46b7d0e777b7531e85e5d8f4375b0d"
         }
     },
     "bin": "zeron.exe",
