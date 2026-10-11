@@ -1,0 +1,36 @@
+{
+    "version": "0.7.0",
+    "description": "A third-party Windows client for UU Remote, written in Rust.",
+    "homepage": "https://github.com/djkcyl/openuuyc",
+    "license": "Unknown",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/openuuyc.ico",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/djkcyl/openuuyc/releases/download/v0.7.0/OpenUUYC-v0.7.0-windows-x86_64.exe#/OpenUUYC.exe",
+            "hash": "d5ada7d9b308fcfae41ca70e8dd4218a1caea98feda75c31fa2beb0cff556572"
+        }
+    },
+    "bin": "OpenUUYC.exe",
+    "shortcuts": [
+        [
+            "OpenUUYC.exe",
+            "OpenUUYC"
+        ]
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/djkcyl/openuuyc/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/djkcyl/openuuyc/releases/download/v$version/OpenUUYC-v$version-windows-x86_64.exe#/OpenUUYC.exe"
+            }
+        }
+    },
+    "notes": [
+        "The Scoop package is the portable client. Installing the resident service from inside the app copies it to %ProgramFiles%\\OpenUUYC.",
+        "Releases from 1.0.0-rc on can update that installed copy from a newer package with: OpenUUYC.exe update --silent --no-elevate (run from an elevated shell)."
+    ]
+}
