@@ -1,17 +1,17 @@
 {
-    "version": "7.3.0",
+    "version": "7.3.1.1",
     "description": "A customizable Telegram Desktop fork based on AyuGram.",
     "homepage": "https://github.com/Kindness-Kismet/AstraGram-Desktop",
     "license": "GPL-3.0-or-later",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/astragram.ico",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v7.3.0/AstraGram-v7.3.0-win-x64.zip",
-            "hash": "0200301e49ce43810b185ec083b8c248ef4cc1aea20615e5d2e23e4e025a08f9"
+            "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v7.3.1.1/AstraGram-v7.3.1.1-win-x64.zip",
+            "hash": "d97519e5f28d6f7ee32cbc9d7dfca46c5442fbdf54daa30c0eb8c489a63e5234"
         },
         "arm64": {
-            "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v7.3.0/AstraGram-v7.3.0-win-arm64.zip",
-            "hash": "483fe6d1fdded08dc6337fef187b5ab52cfe1b4b252afe8b88c78c573b27f243"
+            "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v7.3.1.1/AstraGram-v7.3.1.1-win-arm64.zip",
+            "hash": "cd4315b0f0fdc1409a32bf4ec8620989fc19ba2ff70d1ffe08ba022c5c44307d"
         }
     },
     "bin": [
