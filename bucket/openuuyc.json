@@ -1,13 +1,13 @@
 {
-    "version": "0.7.0",
-    "description": "A third-party Windows client for UU Remote, written in Rust.",
+    "version": "1.0.0-rc.2",
+    "description": "Farwing (formerly OpenUUYC) remote desktop client, tracking stable and RC releases.",
     "homepage": "https://github.com/djkcyl/farwing",
     "license": "Unknown",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/openuuyc.ico",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/djkcyl/farwing/releases/download/v0.7.0/OpenUUYC-v0.7.0-windows-x86_64.exe#/OpenUUYC.exe",
-            "hash": "d5ada7d9b308fcfae41ca70e8dd4218a1caea98feda75c31fa2beb0cff556572"
+            "url": "https://github.com/djkcyl/farwing/releases/download/v1.0.0-rc.2/OpenUUYC-v1.0.0-rc.2-windows-x86_64.exe#/OpenUUYC.exe",
+            "hash": "540052acc96b088a6e58e4c3ff12aed13c72ef84d2ef96f5ad71d951ef582009"
         }
     },
     "bin": "OpenUUYC.exe",
@@ -18,14 +18,15 @@
         ]
     ],
     "checkver": {
-        "url": "https://api.github.com/repos/djkcyl/farwing/releases/latest",
+        "url": "https://api.github.com/repos/djkcyl/farwing/releases?per_page=100",
         "script": [
-            "$release = $page | ConvertFrom-Json",
+            "$release = $page | ConvertFrom-Json | Where-Object { -not $_.draft -and $_.tag_name -match '^v?\\d+\\.\\d+\\.\\d+(-rc[.-]\\d+)?$' } | Sort-Object @{ Expression = { [version](($_.tag_name -replace '^v', '') -split '-')[0] } }, @{ Expression = { if ($_.tag_name -match '-rc') { 0 } else { 1 } } }, @{ Expression = { if ($_.tag_name -match '-rc[.-](\\d+)$') { [int]$Matches[1] } else { 0 } } } -Descending | Select-Object -First 1",
+            "if (-not $release) { throw 'No stable or RC release found.' }",
             "$asset = $release.assets | Where-Object { $_.name -match '^(OpenUUYC|Farwing).*windows-x86_64\\.exe$' } | Select-Object -First 1",
             "if (-not $asset) { throw 'Windows x64 release asset not found.' }",
             "Write-Output ($release.tag_name.TrimStart('v') + ' ' + $asset.browser_download_url)"
         ],
-        "regex": "^(?<version>[\\d.]+) (?<url>https://\\S+)$"
+        "regex": "^(?<version>[\\d.]+(?:-rc[.-]\\d+)?) (?<url>https://\\S+)$"
     },
     "autoupdate": {
         "architecture": {
