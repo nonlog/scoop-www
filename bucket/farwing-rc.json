@@ -1,0 +1,44 @@
+{
+    "version": "1.0.0-rc.2",
+    "description": "Farwing (formerly OpenUUYC) remote desktop client, release candidate channel.",
+    "homepage": "https://github.com/djkcyl/farwing",
+    "license": "Unknown",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/openuuyc.ico",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/djkcyl/farwing/releases/download/v1.0.0-rc.2/OpenUUYC-v1.0.0-rc.2-windows-x86_64.exe#/Farwing-RC.exe",
+            "hash": "540052acc96b088a6e58e4c3ff12aed13c72ef84d2ef96f5ad71d951ef582009"
+        }
+    },
+    "bin": [
+        [
+            "Farwing-RC.exe",
+            "farwing-rc"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "Farwing-RC.exe",
+            "Farwing RC"
+        ]
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/djkcyl/farwing/releases?per_page=100",
+        "script": [
+            "$release = $page | ConvertFrom-Json | Where-Object { -not $_.draft -and $_.tag_name -match '^v?\\d+\\.\\d+\\.\\d+-rc[.-]\\d+$' } | Sort-Object { [version]($_.tag_name -replace '^v', '' -replace '-rc[.-]', '.') } -Descending | Select-Object -First 1",
+            "if (-not $release) { throw 'No release candidate found.' }",
+            "$asset = $release.assets | Where-Object { $_.name -match '^(OpenUUYC|Farwing).*windows-x86_64\\.exe$' } | Select-Object -First 1",
+            "if (-not $asset) { throw 'Windows x64 release asset not found.' }",
+            "Write-Output ($release.tag_name.TrimStart('v') + ' ' + $asset.browser_download_url)"
+        ],
+        "regex": "^(?<version>[\\d.]+-rc[.-]\\d+) (?<url>https://\\S+)$"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "$matchUrl#/Farwing-RC.exe"
+            }
+        }
+    },
+    "notes": "This RC client may share user settings with OpenUUYC. Installing a service inside the app creates a separate installation outside Scoop."
+}

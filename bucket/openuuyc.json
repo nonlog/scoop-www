@@ -1,12 +1,12 @@
 {
     "version": "0.7.0",
     "description": "A third-party Windows client for UU Remote, written in Rust.",
-    "homepage": "https://github.com/djkcyl/openuuyc",
+    "homepage": "https://github.com/djkcyl/farwing",
     "license": "Unknown",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/openuuyc.ico",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/djkcyl/openuuyc/releases/download/v0.7.0/OpenUUYC-v0.7.0-windows-x86_64.exe#/OpenUUYC.exe",
+            "url": "https://github.com/djkcyl/farwing/releases/download/v0.7.0/OpenUUYC-v0.7.0-windows-x86_64.exe#/OpenUUYC.exe",
             "hash": "d5ada7d9b308fcfae41ca70e8dd4218a1caea98feda75c31fa2beb0cff556572"
         }
     },
@@ -18,14 +18,19 @@
         ]
     ],
     "checkver": {
-        "url": "https://api.github.com/repos/djkcyl/openuuyc/releases/latest",
-        "jsonpath": "$.tag_name",
-        "regex": "v([\\d.]+)"
+        "url": "https://api.github.com/repos/djkcyl/farwing/releases/latest",
+        "script": [
+            "$release = $page | ConvertFrom-Json",
+            "$asset = $release.assets | Where-Object { $_.name -match '^(OpenUUYC|Farwing).*windows-x86_64\\.exe$' } | Select-Object -First 1",
+            "if (-not $asset) { throw 'Windows x64 release asset not found.' }",
+            "Write-Output ($release.tag_name.TrimStart('v') + ' ' + $asset.browser_download_url)"
+        ],
+        "regex": "^(?<version>[\\d.]+) (?<url>https://\\S+)$"
     },
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://github.com/djkcyl/openuuyc/releases/download/v$version/OpenUUYC-v$version-windows-x86_64.exe#/OpenUUYC.exe"
+                "url": "$matchUrl#/OpenUUYC.exe"
             }
         }
     },
