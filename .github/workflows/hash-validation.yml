@@ -92,7 +92,17 @@ jobs:
             if (-not $releaseCache.ContainsKey($cacheKey)) {
               $apiUrl = "https://api.github.com/repos/$owner/$repo/releases/tags/$tag"
               Write-Host "Fetching release metadata: $cacheKey"
-              $releaseCache[$cacheKey] = Invoke-RestMethod -Headers $headers -Uri $apiUrl
+              try {
+                $releaseCache[$cacheKey] = Invoke-RestMethod -Headers $headers -Uri $apiUrl
+              } catch {
+                # Releases are sometimes deleted upstream; report and skip instead of failing the whole run.
+                Write-Warning "Could not fetch release metadata for $cacheKey`: $($_.Exception.Message)"
+                $releaseCache[$cacheKey] = $null
+              }
+            }
+
+            if (-not $releaseCache[$cacheKey]) {
+              return $null
             }
 
             $asset = $releaseCache[$cacheKey].assets | Where-Object { $_.name -eq $assetName } | Select-Object -First 1
