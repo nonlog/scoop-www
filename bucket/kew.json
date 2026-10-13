@@ -1,13 +1,13 @@
 {
-    "version": "4.4.0",
+    "version": "4.4.1",
     "description": "Terminal music player for a private, local music library.",
     "homepage": "https://github.com/ravachol/kew",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/kew.ico",
     "license": "GPL-2.0-or-later",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/ravachol/kew/releases/download/v4.4.0/kew-4.4.0-windows-x64.exe",
-            "hash": "ec83720020df3b4a45058c03cb8baea4d63932c31c97051833b9d2f47f9aced7"
+            "url": "https://github.com/ravachol/kew/releases/download/v4.4.1/kew-4.4.1-windows-x64.exe",
+            "hash": "d7d3ef4f30c55d4d68d0ca2d28847853edefb7aff7452bb0ed66edf12c13d643"
         }
     },
     "innosetup": true,
