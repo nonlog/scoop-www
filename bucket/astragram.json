@@ -35,25 +35,17 @@
         "Set-Content -LiteralPath (Join-Path $external 'scoop') -Value $exe -Encoding ascii"
     ],
     "checkver": {
-        "url": "https://api.github.com/repos/Kindness-Kismet/AstraGram-Desktop/releases/latest",
+        "github": "https://api.github.com/repos/Kindness-Kismet/AstraGram-Desktop/releases/latest",
         "jsonpath": "$.tag_name",
         "regex": "v([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v$version/AstraGram-v$version-win-x64.zip",
-                "hash": {
-                    "url": "https://api.github.com/repos/Kindness-Kismet/AstraGram-Desktop/releases/latest",
-                    "regex": "\"name\":\\s*\"AstraGram-v$version-win-x64\\.zip\"[\\s\\S]*?\"digest\":\\s*\"sha256:([a-fA-F0-9]{64})\""
-                }
+                "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v$version/AstraGram-v$version-win-x64.zip"
             },
             "arm64": {
-                "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v$version/AstraGram-v$version-win-arm64.zip",
-                "hash": {
-                    "url": "https://api.github.com/repos/Kindness-Kismet/AstraGram-Desktop/releases/latest",
-                    "regex": "\"name\":\\s*\"AstraGram-v$version-win-arm64\\.zip\"[\\s\\S]*?\"digest\":\\s*\"sha256:([a-fA-F0-9]{64})\""
-                }
+                "url": "https://github.com/Kindness-Kismet/AstraGram-Desktop/releases/download/v$version/AstraGram-v$version-win-arm64.zip"
             }
         }
     },

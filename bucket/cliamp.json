@@ -11,7 +11,11 @@
     },
     "bin": "cliamp-windows-amd64\\cliamp.exe",
     "checkver": {
-        "url": "https://api.github.com/repos/bjarneo/cliamp/releases",
+        "github": "https://api.github.com/repos/bjarneo/cliamp/releases",
+        "script": [
+            "# GitHub API mode replaces jsonpath with $.tag_name unless a script is present",
+            "Write-Output $page"
+        ],
         "jsonpath": "$[?(@.draft == false)].tag_name",
         "regex": "v(?<version>[\\w.-]+)"
     },

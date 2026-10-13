@@ -86,7 +86,11 @@
         ]
     ],
     "checkver": {
-        "url": "https://api.github.com/repos/microsoft/PowerToys/releases",
+        "github": "https://api.github.com/repos/microsoft/PowerToys/releases",
+        "script": [
+            "# GitHub API mode replaces jsonpath with $.tag_name unless a script is present",
+            "Write-Output $page"
+        ],
         "jsonpath": "$[0].assets[*].browser_download_url",
         "regex": "/releases/download/(?<tag>[\\w.]+)/PowerToysUserSetup-([\\d.]+)-x64\\.exe"
     },
