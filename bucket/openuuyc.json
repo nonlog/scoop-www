@@ -1,13 +1,13 @@
 {
-    "version": "1.0.0-rc.3",
+    "version": "1.0.0-rc.4",
     "description": "Farwing (formerly OpenUUYC) remote desktop client, tracking stable and RC releases.",
     "homepage": "https://github.com/djkcyl/farwing",
     "license": "Unknown",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/openuuyc.ico",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/djkcyl/farwing/releases/download/v1.0.0-rc.3/OpenUUYC-v1.0.0-rc.3-windows-x86_64.exe#/OpenUUYC.exe",
-            "hash": "92f2c86b7866faf35df474430bdfea423540047fc31bde6d0e1b2e58ddf43f4a"
+            "url": "https://github.com/djkcyl/farwing/releases/download/v1.0.0-rc.4/OpenUUYC-v1.0.0-rc.4-windows-x86_64.exe#/OpenUUYC.exe",
+            "hash": "33f3dbf45ceff47b4770cf7b81f85cc2308988ff9011eeb1b76050c5c04a5cba"
         }
     },
     "bin": "OpenUUYC.exe",
