@@ -17,7 +17,7 @@
             "诗蓝语音助手"
         ]
     ],
-    "post_install": "& \"$bucketsdir\\$bucket\\scripts\\shilan-sound\\extract.ps1\" -Dir $dir",
+    "pre_install": "& \"$bucketsdir\\$bucket\\scripts\\shilan-sound\\extract.ps1\" -Dir $dir",
     "checkver": {
         "url": "https://www.timeweii.com/sound.html",
         "script": [
@@ -34,7 +34,7 @@
         }
     },
     "notes": [
-        "The outer upstream installer is unpacked by the Scoop post-install script; the embedded SoundInstaller.exe is the portable program managed by Scoop.",
+        "The outer upstream installer is unpacked by the Scoop pre-install script; the embedded SoundInstaller.exe is the portable program managed by Scoop.",
         "The program requires .NET Framework 4.6.2 or newer and may need administrator rights to modify League of Legends files.",
         "Scoop uses the official direct CDN URL shown on the upstream download page; the Lanzou share page is only used by the website as a redirect.",
         "The program's own voice-resource downloads are separate from Scoop updates."
