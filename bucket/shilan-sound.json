@@ -14,7 +14,7 @@
     "shortcuts": [
         [
             "SoundInstaller.exe",
-            "诗蓝语音助手"
+            "Shilan Sound"
         ]
     ],
     "pre_install": "& \"$bucketsdir\\$bucket\\scripts\\shilan-sound\\extract.ps1\" -Dir $dir",
