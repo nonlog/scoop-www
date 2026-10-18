@@ -7,15 +7,15 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.3/music-dl-desktop-rust-windows-amd64.zip",
-            "hash": "b6667adda7ad9ec1338534238978df156a529b534dd54b1be339b4437664d7d8"
+            "hash": "1ac97fd1126716eabbf649891a5afd8fbd5f0c2b75442f0b8d0e8a490f460d1e"
         },
         "32bit": {
             "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.3/music-dl-desktop-rust-windows-386.zip",
-            "hash": "0acf93c6005addc4ff9c103f6faaf396134f1372ca1e587fe228c55c7db49fa4"
+            "hash": "c52682408a423103f474e8b3e125032b74ab6557aa1abf723164dc54222e6926"
         },
         "arm64": {
             "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.3/music-dl-desktop-rust-windows-arm64.zip",
-            "hash": "671b198241a09582c8a951d4dcfcf7517cd60b23210d3c104338ec6f747b218a"
+            "hash": "f6d8a9033e06ad68484cd77aad423fb8150d0dd4dea05830471f0e85d597cc1f"
         }
     },
     "pre_install": "Get-ChildItem \"$dir\\music-dl-desktop*.exe\" | Rename-Item -NewName 'music-dl-desktop.exe'",
