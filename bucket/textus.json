@@ -1,0 +1,45 @@
+{
+    "version": "1.1.2",
+    "description": "Next-generation Markdown editor with an AI writing assistant.",
+    "homepage": "https://github.com/CatVinci-Studio/Textus",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/textus.ico",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v1.1.2/Textus_1.1.2_x64-setup.exe#/dl.7z",
+            "hash": "9b246bc9a2c912ee2f31337122b99bbaf04170301c35f589bf5453714d0cb6db"
+        },
+        "arm64": {
+            "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v1.1.2/Textus_1.1.2_arm64-setup.exe#/dl.7z",
+            "hash": "e0870d354fd130f30b03c8246adc86c17326607f91332703a4f770ba52181655"
+        }
+    },
+    "pre_install": [
+        "$pluginDir = Join-Path $dir '$PLUGINSDIR'",
+        "if (Test-Path -LiteralPath $pluginDir) { Remove-Item -LiteralPath $pluginDir -Recurse -Force }",
+        "Remove-Item -LiteralPath (Join-Path $dir 'uninstall.exe') -Force -ErrorAction SilentlyContinue"
+    ],
+    "bin": "textus.exe",
+    "shortcuts": [
+        [
+            "textus.exe",
+            "Textus"
+        ]
+    ],
+    "checkver": {
+        "github": "https://api.github.com/repos/CatVinci-Studio/Textus/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v$version/Textus_$version_x64-setup.exe#/dl.7z"
+            },
+            "arm64": {
+                "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v$version/Textus_$version_arm64-setup.exe#/dl.7z"
+            }
+        }
+    },
+    "notes": "Update this installation through Scoop."
+}

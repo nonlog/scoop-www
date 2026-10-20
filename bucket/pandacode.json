@@ -1,0 +1,38 @@
+{
+    "version": "0.3.7",
+    "description": "Calm desktop workspace for coding agents.",
+    "homepage": "https://github.com/aicodeking/pandacode",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/pandacode.ico",
+    "license": "Unknown",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/aicodeking/pandacode/releases/download/v0.3.7/PandaCode-Windows-x64-setup.exe#/dl.7z",
+            "hash": "fe3e31d1dd14f97cce8b08742d8b9eb7915ae6f095ca743ed2665aa1b4823c4c"
+        }
+    },
+    "pre_install": [
+        "$pluginDir = Join-Path $dir '$PLUGINSDIR'",
+        "if (Test-Path -LiteralPath $pluginDir) { Remove-Item -LiteralPath $pluginDir -Recurse -Force }",
+        "Remove-Item -LiteralPath (Join-Path $dir 'uninstall.exe') -Force -ErrorAction SilentlyContinue"
+    ],
+    "bin": "pandacode.exe",
+    "shortcuts": [
+        [
+            "pandacode.exe",
+            "PandaCode"
+        ]
+    ],
+    "checkver": {
+        "github": "https://api.github.com/repos/aicodeking/pandacode/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/aicodeking/pandacode/releases/download/v$version/PandaCode-Windows-x64-setup.exe#/dl.7z"
+            }
+        }
+    },
+    "notes": "PandaCode uses a custom MIT-with-attribution license. Update this installation through Scoop."
+}
