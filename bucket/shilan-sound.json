@@ -1,13 +1,13 @@
 {
-    "version": "4.0.8.3",
+    "version": "4.0.8.4",
     "description": "League of Legends voice assistant and language voice pack manager.",
     "homepage": "https://www.timeweii.com/sound.html",
     "license": "Unknown",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/shilan-sound.ico",
     "architecture": {
         "64bit": {
-            "url": "https://cdn.sc1.timeweii.com/d/PanAlist189PCPan3/SoundInstaller/%E8%AF%97%E8%93%9D%E8%AF%AD%E9%9F%B3%E5%8A%A9%E6%89%8Bv4.0.8.3_Release.zip",
-            "hash": "67d01f7706900693f0f0c0bc7d7d28865c5caad30f0e0a9fa42651b52c02cdcd"
+            "url": "https://cdn.sc1.timeweii.com/d/PanAlist189PCPan3/SoundInstaller/%E8%AF%97%E8%93%9D%E8%AF%AD%E9%9F%B3%E5%8A%A9%E6%89%8Bv4.0.8.4_Release.zip",
+            "hash": "93c680aefb87861d479e40da8bfc86f50047a72b326ae837fc4451b896ae2942"
         }
     },
     "bin": "SoundInstaller.exe",
