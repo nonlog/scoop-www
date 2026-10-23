@@ -1,0 +1,34 @@
+{
+    "version": "0.1.0-rc.1",
+    "description": "Native Windows Codex Responses capacity-retry manager with tray UI and safe provider restoration.",
+    "homepage": "https://github.com/nonlog/codex-recovery-manager",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/nonlog/codex-recovery-manager/releases/download/v0.1.0-rc.1/codex-recovery-manager.exe",
+            "hash": "7e3c2edf1dfc3fcdda0c9b312b840ceb4b3adef4bff0c58c3dcb441096c4d8ff"
+        }
+    },
+    "shortcuts": [
+        [
+            "codex-recovery-manager.exe",
+            "Codex Recovery Manager"
+        ]
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/nonlog/codex-recovery-manager/releases",
+        "jsonpath": "$[0].tag_name",
+        "regex": "v([0-9]+\\.[0-9]+\\.[0-9]+(?:-(?:rc|beta|alpha)\\.[0-9]+)?)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/nonlog/codex-recovery-manager/releases/download/v$version/codex-recovery-manager.exe"
+            }
+        }
+    },
+    "notes": [
+        "Close the window to keep the Rust proxy running in the system tray. Disable recovery in the app before uninstalling it, to restore your original Codex provider URL.",
+        "If migrating from the NSIS installer, stop and uninstall that copy before launching the Scoop copy. Personal configuration remains in your Windows profile."
+    ]
+}
