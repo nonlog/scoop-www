@@ -1,13 +1,13 @@
 {
-    "version": "0.3.33",
+    "version": "0.3.34",
     "description": "Calm desktop workspace for coding agents.",
     "homepage": "https://github.com/aicodeking/pandacode",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/pandacode.ico",
     "license": "Unknown",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/aicodeking/pandacode/releases/download/v0.3.33/PandaCode-Windows-x64-setup.exe#/dl.7z",
-            "hash": "64af506316701cc09c190fc12d5e5ab9a9c235f84a221bb2a81622406824100b"
+            "url": "https://github.com/aicodeking/pandacode/releases/download/v0.3.34/PandaCode-Windows-x64-setup.exe#/dl.7z",
+            "hash": "c413aa4025b72843d53598aec620769ea5fa5f71ddf118838c423ad2b30aa8da"
         }
     },
     "pre_install": [
