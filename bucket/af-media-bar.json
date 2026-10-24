@@ -1,13 +1,13 @@
 {
-    "version": "1.5.0",
+    "version": "1.6.0",
     "description": "Portable Windows taskbar media controller with playback controls, lyrics, and audio device switching.",
     "homepage": "https://github.com/Fervent-Tempo/AF-Media-Bar",
     "license": "MIT",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/af-media-bar.ico",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Fervent-Tempo/AF-Media-Bar/releases/download/v1.5.0/AFMediaBar-v1.5.0-win-x64.zip",
-            "hash": "1e0b22c85841a307bf477be87f634a68ac052a0bc444653ca318d71790b3bc56"
+            "url": "https://github.com/Fervent-Tempo/AF-Media-Bar/releases/download/v1.6.0/AFMediaBar-v1.6.0-win-x64.zip",
+            "hash": "764b153e5ca829b71053c0d9a8cccf9425aa2a3dcafc1033df6f2e3eced501d6"
         }
     },
     "bin": [
