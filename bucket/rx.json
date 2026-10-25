@@ -1,22 +1,43 @@
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Launch Claude Code, Codex, OpenCode, Pi, DeepSeek Harness, and Kimi Code with a shared provider configuration.",
     "homepage": "https://github.com/samzong/rx",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/samzong/rx/releases/download/v0.1.0/rx-windows-x86_64.zip",
-            "hash": "8e5f15206a65a7f7be42ded20b661c3a7cc39a3d78b96acbd9bd492dd698155e"
+            "url": "https://github.com/samzong/rx/releases/download/v0.2.0/rx-windows-x86_64.zip",
+            "hash": "cc5a1bd105340abdc4916a172b7a3784111f78280dbf11bdb2c8955166a7e2ed"
         }
     },
     "bin": [
-        ["rx.exe", "rx"],
-        ["rx.exe", "rxc"],
-        ["rx.exe", "rxx"],
-        ["rx.exe", "rxo"],
-        ["rx.exe", "rxp"],
-        ["rx.exe", "rxd"],
-        ["rx.exe", "rxk"]
+        [
+            "rx.exe",
+            "rx"
+        ],
+        [
+            "rx.exe",
+            "rxc"
+        ],
+        [
+            "rx.exe",
+            "rxx"
+        ],
+        [
+            "rx.exe",
+            "rxo"
+        ],
+        [
+            "rx.exe",
+            "rxp"
+        ],
+        [
+            "rx.exe",
+            "rxd"
+        ],
+        [
+            "rx.exe",
+            "rxk"
+        ]
     ],
     "checkver": {
         "url": "https://github.com/samzong/rx/releases/latest",
