@@ -36,14 +36,16 @@ function Write-Metadata {
 
 function Resolve-SourceUrl {
     $response = Invoke-WebRequest -Uri $DownloadPage -UseBasicParsing
-    $urls = [regex]::Matches(
-        $response.Content,
-        'https://dldir1v6\.qq\.com/weixin/Universal/Windows/WeChatWin_[0-9.]+\.exe'
-    ) | ForEach-Object Value | Sort-Object -Unique
-    if ($urls.Count -ne 1) {
-        throw "Expected one official WeChat installer URL on $DownloadPage, found $($urls.Count)."
+    $candidates = @(
+        [regex]::Matches(
+            $response.Content,
+            'https://dldir1v6\.qq\.com/weixin/Universal/Windows/WeChatWin_[0-9.]+\.exe'
+        ) | ForEach-Object { $_.Value } | Sort-Object -Unique
+    )
+    if ($candidates.Length -ne 1) {
+        throw "Expected one official WeChat installer URL on $DownloadPage, found $($candidates.Length)."
     }
-    return $urls[0]
+    return $candidates[0]
 }
 
 function Invoke-RangeDownload {
@@ -254,10 +256,19 @@ try {
 
     $patchStatus = (Invoke-Checked $betterwxPath @('status', $weixinExe)) -join "`n"
     Write-Host $patchStatus
-    foreach ($expected in @('防撤回：已启用', '多账号共存：已启用', '不要更新：已启用')) {
-        if (-not $patchStatus.Contains($expected)) {
-            throw "BetterWX did not report the expected patch state: $expected"
+    $patchLines = $patchStatus -split "`r?`n"
+    $featureLabels = @{
+        revoke = [string][char]0x9632 + [char]0x64A4 + [char]0x56DE
+        coexist = [string][char]0x591A + [char]0x8D26 + [char]0x53F7 + [char]0x5171 + [char]0x5B58
+        'no-updates' = [string][char]0x4E0D + [char]0x8981 + [char]0x66F4 + [char]0x65B0
+    }
+    $enabledSuffix = [string][char]0xFF1A + [char]0x5DF2 + [char]0x542F + [char]0x7528
+    foreach ($feature in $featureLabels.GetEnumerator()) {
+        $line = $patchLines | Where-Object { $_.StartsWith($feature.Value + [char]0xFF1A) } | Select-Object -First 1
+        if (-not $line -or -not $line.EndsWith($enabledSuffix)) {
+            throw "BetterWX did not report the expected patch state: $($feature.Key)"
         }
+        Write-Host "BetterWX $($feature.Key): enabled"
     }
 
     $dllHashAfter = (Get-FileHash -LiteralPath $weixinDll -Algorithm SHA256).Hash
