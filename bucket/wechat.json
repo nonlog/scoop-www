@@ -1,7 +1,7 @@
 {
     "version": "4.1.15.13",
-    "description": "Unofficial modified WeChat Windows build with multi-instance and anti-revoke patches.",
-    "homepage": "https://www.423down.com/8718.html",
+    "description": "Unofficial WeChat Windows build patched with BetterWX for multi-instance, anti-revoke, and disabled updates.",
+    "homepage": "https://github.com/zetaloop/BetterWX",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/wechat.ico",
     "license": "Unknown",
     "url": "https://github.com/nonlog/scoop-www/releases/download/wechat-4.1.15.13/WeChat-4.1.15.13.exe#/dl.7z",
@@ -25,6 +25,7 @@
     },
     "notes": [
         "This is an unofficial modified build and is not digitally signed.",
-        "The updater workflow republishes new source builds as GitHub Release assets."
+        "The updater workflow downloads Tencent's official installer, applies BetterWX, and publishes the patched build as a GitHub Release asset.",
+        "The embedded updater is disabled; update this installation through Scoop."
     ]
 }

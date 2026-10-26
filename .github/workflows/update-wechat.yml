@@ -16,7 +16,7 @@ concurrency:
 jobs:
   update:
     name: Fetch, publish, and update manifest
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,69 +26,79 @@ jobs:
         with:
           node-version: 20
 
+      - name: Download BetterWX
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = gh release view --repo zetaloop/BetterWX --json tagName --jq .tagName
+          if ($LASTEXITCODE -ne 0) { throw 'Could not resolve the latest BetterWX release.' }
+          gh release download $tag --repo zetaloop/BetterWX --pattern betterwx.exe --dir $env:RUNNER_TEMP --clobber
+          if ($LASTEXITCODE -ne 0) { throw 'Could not download BetterWX.' }
+          "BETTERWX_RELEASE=$tag" >> $env:GITHUB_ENV
+
       - name: Fetch newest source build
         id: fetch
-        shell: bash
+        shell: pwsh
         run: |
-          asset="$RUNNER_TEMP/wechat.exe"
-          metadata="$RUNNER_TEMP/wechat-metadata.json"
-          node scripts/fetch-wechat.mjs \
-            --manifest bucket/wechat.json \
-            --output "$asset" \
-            --metadata "$metadata"
-          changed=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).changed)' "$metadata")
-          version=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).version)' "$metadata")
-          echo "changed=$changed" >> "$GITHUB_OUTPUT"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          $metadata = "$env:RUNNER_TEMP/wechat-metadata.json"
+          pwsh -NoProfile -File scripts/build-wechat.ps1 `
+            -Manifest bucket/wechat.json `
+            -Output "$env:RUNNER_TEMP/wechat-package.7z" `
+            -Metadata $metadata `
+            -BetterWX "$env:RUNNER_TEMP/betterwx.exe"
+          if ($LASTEXITCODE -ne 0) { throw 'WeChat build failed.' }
+
+          $result = Get-Content -LiteralPath $metadata -Raw | ConvertFrom-Json
+          "changed=$($result.changed.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "version=$($result.version)" >> $env:GITHUB_OUTPUT
 
       - name: Publish GitHub Release asset
         if: steps.fetch.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.fetch.outputs.version }}
-        shell: bash
+        shell: pwsh
         run: |
-          tag="wechat-$VERSION"
-          asset="$RUNNER_TEMP/wechat.exe"
-          named_asset="$RUNNER_TEMP/WeChat-$VERSION.exe"
-          mv "$asset" "$named_asset"
-          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$tag" "$named_asset" --repo "$GITHUB_REPOSITORY" --clobber
-          else
-            gh release create "$tag" "$named_asset" \
-              --repo "$GITHUB_REPOSITORY" \
-              --title "Modified WeChat $VERSION" \
-              --notes "Unofficial source build fetched from 423Down. This release is not digitally signed."
-          fi
+          $tag = "wechat-$env:VERSION"
+          $asset = "$env:RUNNER_TEMP/wechat-package.7z"
+          $namedAsset = "$env:RUNNER_TEMP/WeChat-$env:VERSION.exe"
+          Move-Item -LiteralPath $asset -Destination $namedAsset -Force
+
+          gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag $namedAsset --repo $env:GITHUB_REPOSITORY --clobber
+          } else {
+            gh release create $tag $namedAsset `
+              --repo $env:GITHUB_REPOSITORY `
+              --title "Modified WeChat $env:VERSION" `
+              --notes "Built from Tencent's official installer and patched with BetterWX $env:BETTERWX_RELEASE. This release is not digitally signed."
+          }
+          if ($LASTEXITCODE -ne 0) { throw 'Could not publish the WeChat release asset.' }
 
       - name: Update manifest
         if: steps.fetch.outputs.changed == 'true'
-        shell: bash
+        shell: pwsh
         run: node scripts/write-wechat-manifest.mjs "$RUNNER_TEMP/wechat-metadata.json" "$GITHUB_REPOSITORY"
 
       - name: Validate manifest
-        shell: bash
+        shell: pwsh
         run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const manifest = JSON.parse(fs.readFileSync('bucket/wechat.json', 'utf8'));
-          if (!manifest.version || !manifest.url || !manifest.hash) throw new Error('Incomplete WeChat manifest');
-          if (manifest.extract_dir !== 'Weixin') throw new Error('Unexpected extract_dir');
-          if (!manifest.persist || !manifest.persist.includes('WeChat Files')) throw new Error('WeChat Files is not persisted');
-          NODE
+          node -e "const fs=require('fs');const m=JSON.parse(fs.readFileSync('bucket/wechat.json','utf8'));if(!m.version||!m.url||!m.hash)throw Error('Incomplete WeChat manifest');if(m.extract_dir!=='Weixin')throw Error('Unexpected extract_dir');if(!m.persist||!m.persist.includes('WeChat Files'))throw Error('WeChat Files is not persisted');"
 
       - name: Commit updated manifest
         if: steps.fetch.outputs.changed == 'true'
         env:
           VERSION: ${{ steps.fetch.outputs.version }}
-        shell: bash
+        shell: pwsh
         run: |
-          if git diff --quiet -- bucket/wechat.json; then
-            echo "Manifest is already current."
+          git diff --quiet -- bucket/wechat.json
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host 'Manifest is already current.'
             exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add bucket/wechat.json
-          git commit -m "Update WeChat to $VERSION" -m "Co-authored-by: Codex <codex@openai.com>"
+          git commit -m "Update WeChat to $env:VERSION" -m "Co-authored-by: Codex <codex@openai.com>"
           git push
