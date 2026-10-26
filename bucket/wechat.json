@@ -1,11 +1,11 @@
 {
-    "version": "4.1.15.13",
+    "version": "4.1.15.56",
     "description": "Unofficial WeChat Windows build patched with BetterWX for multi-instance, anti-revoke, and disabled updates.",
     "homepage": "https://github.com/zetaloop/BetterWX",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/wechat.ico",
     "license": "Unknown",
-    "url": "https://github.com/nonlog/scoop-www/releases/download/wechat-4.1.15.13/WeChat-4.1.15.13.exe#/dl.7z",
-    "hash": "72b5b5ce902002ceaa6b003e9c34d1a16344d40c3c71e4200f1ad3a9aa475871",
+    "url": "https://github.com/nonlog/scoop-www/releases/download/wechat-4.1.15.56/WeChat-4.1.15.56.exe#/dl.7z",
+    "hash": "5daf305041ee55cda76b45aea26cdd7a63c3ac800f210467ed9d32f8bd9e6ee3",
     "extract_dir": "Weixin",
     "shortcuts": [
         [
