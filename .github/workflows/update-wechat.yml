@@ -79,7 +79,10 @@ jobs:
       - name: Update manifest
         if: steps.fetch.outputs.changed == 'true'
         shell: pwsh
-        run: node scripts/write-wechat-manifest.mjs "$RUNNER_TEMP/wechat-metadata.json" "$GITHUB_REPOSITORY"
+        run: |
+          $metadata = [IO.Path]::GetFullPath("$env:RUNNER_TEMP/wechat-metadata.json")
+          node scripts/write-wechat-manifest.mjs $metadata "$env:GITHUB_REPOSITORY"
+          if ($LASTEXITCODE -ne 0) { throw 'Could not update the WeChat manifest.' }
 
       - name: Validate manifest
         shell: pwsh
