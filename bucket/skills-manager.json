@@ -1,5 +1,5 @@
 {
-    "version": "1.43.0",
+    "version": "1.43.1",
     "description": "Manage, sync, and organize AI agent skills across coding tools.",
     "homepage": "https://github.com/xingkongliang/skills-manager",
     "license": "MIT",
@@ -9,8 +9,8 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://github.com/xingkongliang/skills-manager/releases/download/v1.43.0/skills-manager_1.43.0_x64_en-US.msi",
-            "hash": "b1415c26749020eb4eed593f12b518191b7dfab466c25b48001804cf70cbb927"
+            "url": "https://github.com/xingkongliang/skills-manager/releases/download/v1.43.1/skills-manager_1.43.1_x64_en-US.msi",
+            "hash": "f8fe76033f1264cfbc04ea3e0d170de9ca83dd2bf6426e030819c4ea01bd1e22"
         }
     },
     "extract_dir": "PFiles\\skills-manager",
