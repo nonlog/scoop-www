@@ -1,13 +1,13 @@
 {
-    "version": "0.21.2",
+    "version": "0.22.0",
     "description": "Native all-in-one workspace for databases, SSH, SFTP, terminals, remote desktop, monitoring, and AI.",
     "homepage": "https://github.com/feigeCode/navop",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/navop.ico",
     "license": "Apache-2.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/feigeCode/navop/releases/download/v0.21.2/navop-0.21.2-windows-x64-portable.zip",
-            "hash": "240f01bd267322712c864310dc1bc8d45dab73596525c4ccd15a5b2ced7a26e7"
+            "url": "https://github.com/feigeCode/navop/releases/download/v0.22.0/navop-0.22.0-windows-x64-portable.zip",
+            "hash": "cac7065a47aacf48ead4433f5941aa47b3a9d58fc1efed564940879dcd5a8bd1"
         }
     },
     "bin": "navop.exe",
