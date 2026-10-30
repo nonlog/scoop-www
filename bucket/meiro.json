@@ -1,13 +1,13 @@
 {
-    "version": "0.4.15",
+    "version": "0.5.0",
     "description": "Lightweight YouTube Music client.",
     "homepage": "https://github.com/elianiva/meiro",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/meiro.png",
     "license": "GPL-3.0-only",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/elianiva/meiro/releases/download/desktop-v0.4.15/Meiro-0.4.15-windows-amd64-portable.zip",
-            "hash": "66882f36ec94b09356a911bcd8c3a5b4a58136e4f69eaf26baa2cf3eb394c322"
+            "url": "https://github.com/elianiva/meiro/releases/download/desktop-v0.5.0/Meiro-0.5.0-windows-amd64-portable.zip",
+            "hash": "956f15ed075e2229a4a65ed5cf0dcca5740064fb7497df4a02f9b04d1b5a661d"
         }
     },
     "extract_dir": "Meiro",
