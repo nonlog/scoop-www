@@ -1,13 +1,13 @@
 {
-    "version": "0.1.12",
+    "version": "0.1.13",
     "description": "Battery-first phone/Windows companion for clipboard, screenshots, notifications, and file handoff.",
     "homepage": "https://github.com/nonlog/Conduit",
     "icon": "https://raw.githubusercontent.com/nonlog/Conduit/v0.1.0/windows/conduit-daemon/assets/conduit-icon.ico",
     "license": "Unknown",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Conduit/releases/download/v0.1.12/Conduit-0.1.12-windows-x64.zip",
-            "hash": "2e3549181772e719ec67b9e1f236be2f91f670d778cd7531690f9ce229e368dd"
+            "url": "https://github.com/nonlog/Conduit/releases/download/v0.1.13/Conduit-0.1.13-windows-x64.zip",
+            "hash": "78c0462b4f3044cd38e05be5064e9c86e72a119e2c7d8debc6e1a2db5d5e64f0"
         }
     },
     "bin": "Conduit.exe",
@@ -25,7 +25,7 @@
         }
     },
     "notes": [
-        "Nova is the default desktop; Conduit.exe remains the Windows Share Target and WinUI rollback host.",
+        "Rune is the default native desktop; Nova remains a fallback and Conduit.exe retains Windows Share Target and WinUI rollback.",
         "Scoop persists pairing identity, history, Relay and tray settings under persist/conduit/data across updates.",
         "The installer preserves existing Start-at-sign-in and Explorer Send with Conduit choices when migrating or updating."
     ]
