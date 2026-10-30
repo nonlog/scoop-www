@@ -1,0 +1,37 @@
+{
+    "version": "0.4.15",
+    "description": "Lightweight YouTube Music client.",
+    "homepage": "https://github.com/elianiva/meiro",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/meiro.png",
+    "license": "GPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/elianiva/meiro/releases/download/desktop-v0.4.15/Meiro-0.4.15-windows-amd64-portable.zip",
+            "hash": "66882f36ec94b09356a911bcd8c3a5b4a58136e4f69eaf26baa2cf3eb394c322"
+        }
+    },
+    "extract_dir": "Meiro",
+    "bin": "Meiro.exe",
+    "shortcuts": [
+        [
+            "Meiro.exe",
+            "Meiro"
+        ]
+    ],
+    "notes": [
+        "Settings and listening history are kept in %APPDATA%\\Meiro and caches in %LOCALAPPDATA%\\Meiro, outside the Scoop app directory, so they survive updates.",
+        "Update this installation through Scoop. Meiro's built-in updater installs a second copy under %LOCALAPPDATA%\\Programs\\Meiro if you run it."
+    ],
+    "checkver": {
+        "github": "https://api.github.com/repos/elianiva/meiro/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "desktop-v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/elianiva/meiro/releases/download/desktop-v$version/Meiro-$version-windows-amd64-portable.zip"
+            }
+        }
+    }
+}
