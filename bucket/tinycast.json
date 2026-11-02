@@ -1,0 +1,32 @@
+{
+  "version": "0.1.0-preview.1",
+  "description": "Native Windows Tinycast preview without a browser runtime",
+  "homepage": "https://github.com/nonlog/tinycast",
+  "license": "AGPL-3.0",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/nonlog/tinycast/releases/download/windows-v0.1.0-preview.1/Tinycast-Windows-x64.zip",
+      "hash": "7222d267edacea3ba951f1024a0bfd326e5380ea7720ea523987442f326e554b"
+    }
+  },
+  "bin": "Tinycast.exe",
+  "shortcuts": [
+    [
+      "Tinycast.exe",
+      "Tinycast"
+    ]
+  ],
+  "notes": "Preview: Ctrl+Alt+Space opens the palette. Clipboard history and sign-in startup are off by default. Quit the tray app before updating. Settings live in %LOCALAPPDATA%\\TinycastWindows. Raycast extensions and AI/MCP are not yet ported.",
+  "checkver": {
+    "jsonpath": "$[0].tag_name",
+    "url": "https://api.github.com/repos/nonlog/tinycast/releases",
+    "regex": "windows-v(.+)"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/nonlog/tinycast/releases/download/windows-v$version/Tinycast-Windows-x64.zip"
+      }
+    }
+  }
+}
