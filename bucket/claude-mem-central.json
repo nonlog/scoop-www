@@ -1,0 +1,35 @@
+{
+    "version": "15.8.3",
+    "description": "Manual one-click update of the Ubuntu-us Claude-mem Worker and all Windows Claude/Codex/npm clients. Do not install the standalone npm package separately.",
+    "homepage": "https://github.com/nonlog/central-memory-bridges",
+    "license": "MIT",
+    "url": "https://registry.npmjs.org/claude-mem/15.8.3#/release.json",
+    "hash": "a4d0d80a515f14313ef89b7436c356bb571a20c3842cc0ba425f5f0dce9d5d42",
+    "pre_install": [
+        "$target = [string]$Manifest.version",
+        "if ($target -notmatch '^\\d+\\.\\d+\\.\\d+$') { throw 'Invalid official Claude-mem version in Scoop manifest' }",
+        "$updater = Join-Path $env:USERPROFILE '.claude\\maintenance\\sync-claude-mem-central.ps1'",
+        "if (!(Test-Path -LiteralPath $updater)) { throw 'Claude-mem central updater not configured on Windows' }",
+        "$previousManual = [Environment]::GetEnvironmentVariable('CLAUDE_MEM_MANUAL_UPDATE', 'Process')",
+        "try {",
+        "  $env:CLAUDE_MEM_MANUAL_UPDATE = '1'",
+        "  & pwsh -NoLogo -NoProfile -File $updater -UpdateCentral -TargetVersion $target",
+        "  if ($LASTEXITCODE -ne 0) { throw \"Central Claude-mem update failed ($LASTEXITCODE). Scoop package remains on the previous version.\" }",
+        "} finally {",
+        "  if ($null -eq $previousManual) { Remove-Item Env:CLAUDE_MEM_MANUAL_UPDATE -ErrorAction SilentlyContinue } else { $env:CLAUDE_MEM_MANUAL_UPDATE = $previousManual }",
+        "}"
+    ],
+    "checkver": {
+        "url": "https://registry.npmjs.org/claude-mem/latest",
+        "jsonpath": "$.version"
+    },
+    "autoupdate": {
+        "url": "https://registry.npmjs.org/claude-mem/$version#/release.json"
+    },
+    "notes": [
+        "UniGetUI -> Software Updates -> Scoop / claude-mem-central -> Update is the only supported manual upgrade action.",
+        "The original npm/claude-mem row stays ignored in UniGetUI to prevent local-only upgrades.",
+        "The Scoop update first runs official-package compatibility tests in GitHub Actions, upgrades the central Worker with backup/rollback, then synchronizes all local clients.",
+        "No automatic Worker upgrade, Windows scheduled sync, or automatic GitHub approval is enabled."
+    ]
+}
