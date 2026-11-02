@@ -1,0 +1,38 @@
+name: Validate manual Claude-mem Scoop package
+on:
+  push:
+    paths:
+      - 'bucket/claude-mem-central.json'
+      - '.github/workflows/validate-claude-mem-central.yml'
+  pull_request:
+    paths:
+      - 'bucket/claude-mem-central.json'
+      - '.github/workflows/validate-claude-mem-central.yml'
+permissions:
+  contents: read
+jobs:
+  metadata-and-hook:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate exact official npm artifact and manual-only hook
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $manifest = Get-Content 'bucket/claude-mem-central.json' -Raw | ConvertFrom-Json
+          if ($manifest.version -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid release version' }
+          $expectedUrl = "https://registry.npmjs.org/claude-mem/$($manifest.version)#/release.json"
+          if ($manifest.url -ne $expectedUrl) { throw 'Official npm metadata URL does not match version' }
+          $file = Join-Path $env:RUNNER_TEMP 'release.json'
+          Invoke-WebRequest -Uri ($manifest.url -split '#')[0] -OutFile $file
+          $digest = (Get-FileHash -Algorithm SHA256 -LiteralPath $file).Hash.ToLowerInvariant()
+          if ($digest -ne $manifest.hash.ToLowerInvariant()) { throw 'Registry metadata SHA256 mismatch' }
+          if ((Get-Content $file -Raw | ConvertFrom-Json).version -ne $manifest.version) { throw 'Registry package version mismatch' }
+          $hook = $manifest.pre_install -join "`n"
+          [scriptblock]::Create($hook) | Out-Null
+          foreach ($required in @('CLAUDE_MEM_MANUAL_UPDATE', '-UpdateCentral', '-TargetVersion', '$Manifest.version', '$LASTEXITCODE')) {
+            if (!$hook.Contains($required)) { throw "Missing required manual-only hook contract: $required" }
+          }
+          if ($manifest.autoupdate.url -notmatch '\$version') { throw 'Version metadata is not updatable' }
+          Write-Host "Validated claude-mem-central $($manifest.version) manual update entry"
