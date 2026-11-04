@@ -1,17 +1,17 @@
 {
-    "version": "1.3.5",
+    "version": "1.3.6",
     "description": "Next-generation Markdown editor with an AI writing assistant.",
     "homepage": "https://github.com/CatVinci-Studio/Textus",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/textus.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v1.3.5/Textus_1.3.5_x64-setup.exe#/dl.7z",
-            "hash": "278bc183d1b55d59ad7d636cb075cbaabf12aaaff1fda23cd5d14bc1586c1189"
+            "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v1.3.6/Textus_1.3.6_x64-setup.exe#/dl.7z",
+            "hash": "a7dd30c08bfa72377ab8114882bbd96648c7452bda16890baa2e57d1ee33c2c5"
         },
         "arm64": {
-            "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v1.3.5/Textus_1.3.5_arm64-setup.exe#/dl.7z",
-            "hash": "845964d81f1f35eb96d56891f7ea2227324734b5681ff39d0340c49669b6f5f4"
+            "url": "https://github.com/CatVinci-Studio/Textus/releases/download/v1.3.6/Textus_1.3.6_arm64-setup.exe#/dl.7z",
+            "hash": "f3114ca6da1cd86e5088dc8b70b340d34404d73778b776ea049bd68e73886227"
         }
     },
     "pre_install": [
