@@ -1,0 +1,46 @@
+{
+    "version": "20261104.1",
+    "description": "Native GPUI desktop client for Herdr and herdr-core terminals (formerly Herdr UI).",
+    "homepage": "https://sheprd.org/",
+    "license": "Apache-2.0",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/sheprd.png",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/sheprd-labs/sheprd/releases/download/v20261104.1/Sheprd-20261104.1-x86_64-pc-windows-msvc.zip",
+            "hash": "dc73aacb25dcaafdcd05f63b34b5623e741f9fe0b87474ed35cf2d7795955b82",
+            "extract_dir": "Sheprd-20261104.1-x86_64-pc-windows-msvc"
+        },
+        "arm64": {
+            "url": "https://github.com/sheprd-labs/sheprd/releases/download/v20261104.1/Sheprd-20261104.1-aarch64-pc-windows-msvc.zip",
+            "hash": "413061e7de168aff4632dd676ba6d5d565d010cdbea009a1467fd6bab972b02a",
+            "extract_dir": "Sheprd-20261104.1-aarch64-pc-windows-msvc"
+        }
+    },
+    "bin": "sheprd.exe",
+    "shortcuts": [
+        [
+            "sheprd-launcher.exe",
+            "Sheprd"
+        ]
+    ],
+    "notes": [
+        "Attaches to an existing Herdr daemon, or to the herdr-core bundled with this release.",
+        "Settings, sign-ins and caches stay in %APPDATA% and %LOCALAPPDATA%, outside the Scoop app directory, so they survive updates and the rename from Herdr UI.",
+        "This is an extracted copy, so Sheprd's in-app updater does not apply; update through Scoop."
+    ],
+    "checkver": {
+        "github": "https://github.com/sheprd-labs/sheprd"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/sheprd-labs/sheprd/releases/download/v$version/Sheprd-$version-x86_64-pc-windows-msvc.zip",
+                "extract_dir": "Sheprd-$version-x86_64-pc-windows-msvc"
+            },
+            "arm64": {
+                "url": "https://github.com/sheprd-labs/sheprd/releases/download/v$version/Sheprd-$version-aarch64-pc-windows-msvc.zip",
+                "extract_dir": "Sheprd-$version-aarch64-pc-windows-msvc"
+            }
+        }
+    }
+}
