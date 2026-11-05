@@ -1,10 +1,10 @@
 {
-    "version": "15.9.0",
+    "version": "15.10.0",
     "description": "Manual one-click update of the Ubuntu-us Claude-mem Worker and all Windows Claude/Codex/npm clients. Do not install the standalone npm package separately.",
     "homepage": "https://github.com/nonlog/central-memory-bridges",
     "license": "MIT",
-    "url": "https://registry.npmjs.org/claude-mem/15.9.0#/release.json",
-    "hash": "39a96ae0b066c643f19df1b2c5df8bb72ebc45fb0d6001f8fe10a15589eebbed",
+    "url": "https://registry.npmjs.org/claude-mem/15.10.0#/release.json",
+    "hash": "527d466fff4ec5c7cf2ad8a584c46cff8ec14c06fd5329d2b2024390943fd1e0",
     "pre_install": [
         "$target = [string]$Manifest.version",
         "if ($target -notmatch '^\\d+\\.\\d+\\.\\d+$') { throw 'Invalid official Claude-mem version in Scoop manifest' }",
