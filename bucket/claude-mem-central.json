@@ -1,22 +1,36 @@
 {
     "version": "15.10.0",
-    "description": "Manual one-click update of the Ubuntu-us Claude-mem Worker and all Windows Claude/Codex/npm clients. Do not install the standalone npm package separately.",
+    "description": "Manually update the central Worker when needed and synchronize this computer's Claude/Codex/npm clients.",
     "homepage": "https://github.com/nonlog/central-memory-bridges",
     "license": "MIT",
-    "url": "https://registry.npmjs.org/claude-mem/15.10.0#/release.json",
-    "hash": "527d466fff4ec5c7cf2ad8a584c46cff8ec14c06fd5329d2b2024390943fd1e0",
+    "url": [
+        "https://registry.npmjs.org/claude-mem/15.10.0#/release.json",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/install-central-client.ps1",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/sync-claude-mem-central.ps1",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-remote-worker-guard.cjs",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-ensure-launcher-path.cjs",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/central-client-compatibility.json"
+    ],
+    "hash": [
+        "527d466fff4ec5c7cf2ad8a584c46cff8ec14c06fd5329d2b2024390943fd1e0",
+        "f85036bdf08cbad795280cd2f5276d532747016f2d8dfea88af0d0fdbdf45917",
+        "000c2a0e08b57f77fd44068f78ff52412c6c66d760339b8c2cee4b76274dabe0",
+        "87c5f592b1eeba01bd74796e328c91d3931cecf53ee234fd9b18e8aba5318adf",
+        "27b10677c3f7999b093497309d73fb4edd0c5ed4b95d4b7addd55520e075cc04",
+        "824ff98cab3215373fa60c643d859e178e225724760e4254faa8f8448dd5ff34"
+    ],
     "pre_install": [
         "$target = [string]$Manifest.version",
         "if ($target -notmatch '^\\d+\\.\\d+\\.\\d+$') { throw 'Invalid official Claude-mem version in Scoop manifest' }",
-        "$updater = Join-Path $env:USERPROFILE '.claude\\maintenance\\sync-claude-mem-central.ps1'",
-        "if (!(Test-Path -LiteralPath $updater)) { throw 'Claude-mem central updater not configured on Windows' }",
-        "$previousManual = [Environment]::GetEnvironmentVariable('CLAUDE_MEM_MANUAL_UPDATE', 'Process')",
+        "$installer = Join-Path $dir 'install-central-client.ps1'",
         "try {",
-        "  $env:CLAUDE_MEM_MANUAL_UPDATE = '1'",
-        "  & pwsh -NoLogo -NoProfile -File $updater -UpdateCentral -TargetVersion $target",
-        "  if ($LASTEXITCODE -ne 0) { throw \"Central Claude-mem update failed ($LASTEXITCODE). Scoop package remains on the previous version.\" }",
-        "} finally {",
-        "  if ($null -eq $previousManual) { Remove-Item Env:CLAUDE_MEM_MANUAL_UPDATE -ErrorAction SilentlyContinue } else { $env:CLAUDE_MEM_MANUAL_UPDATE = $previousManual }",
+        "  & pwsh -NoLogo -NoProfile -File $installer -UpdateCentral -TargetVersion $target",
+        "  if ($LASTEXITCODE -ne 0) { throw \"Claude-mem synchronization failed ($LASTEXITCODE). Retry local sync after correcting the reported problem.\" }",
+        "} catch {",
+        "  $failure = $_",
+        "  $scoopScript = (Get-Command scoop.ps1 -ErrorAction SilentlyContinue).Source",
+        "  if ($scoopScript) { & pwsh -NoLogo -NoProfile -File $scoopScript reset claude-mem-central 2>$null | Out-Null }",
+        "  throw $failure",
         "}"
     ],
     "checkver": {
@@ -24,12 +38,19 @@
         "jsonpath": "$.version"
     },
     "autoupdate": {
-        "url": "https://registry.npmjs.org/claude-mem/$version#/release.json"
+        "url": [
+            "https://registry.npmjs.org/claude-mem/$version#/release.json",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/install-central-client.ps1",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/sync-claude-mem-central.ps1",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-remote-worker-guard.cjs",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-ensure-launcher-path.cjs",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/central-client-compatibility.json"
+        ]
     },
     "notes": [
-        "UniGetUI -> Software Updates -> Scoop / claude-mem-central -> Update is the only supported manual upgrade action.",
-        "The original npm/claude-mem row stays ignored in UniGetUI to prevent local-only upgrades.",
-        "The Scoop update first runs official-package compatibility tests in GitHub Actions, upgrades the central Worker with backup/rollback, then synchronizes all local clients.",
-        "No automatic Worker upgrade, Windows scheduled sync, or automatic GitHub approval is enabled."
+        "This manual action upgrades the central Worker only when necessary, then synchronizes this computer.",
+        "Other computers follow the healthy central version when they are updated; stale requests never downgrade the server.",
+        "Use sync-claude-mem-central.ps1 -SyncLocal to retry only this computer. Restart Claude/Codex after changing plugins.",
+        "The original npm/claude-mem row stays ignored in UniGetUI. No scheduled Worker upgrade or background client updater is enabled."
     ]
 }

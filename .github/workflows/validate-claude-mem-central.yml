@@ -23,16 +23,36 @@ jobs:
           $manifest = Get-Content 'bucket/claude-mem-central.json' -Raw | ConvertFrom-Json
           if ($manifest.version -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid release version' }
           $expectedUrl = "https://registry.npmjs.org/claude-mem/$($manifest.version)#/release.json"
-          if ($manifest.url -ne $expectedUrl) { throw 'Official npm metadata URL does not match version' }
+          if (@($manifest.url).Count -ne 6 -or @($manifest.hash).Count -ne 6) { throw 'Expected registry metadata and five updater files' }
+          if ($manifest.url[0] -ne $expectedUrl) { throw 'Official npm metadata URL does not match version' }
           $file = Join-Path $env:RUNNER_TEMP 'release.json'
-          Invoke-WebRequest -Uri ($manifest.url -split '#')[0] -OutFile $file
+          Invoke-WebRequest -Uri ($manifest.url[0] -split '#')[0] -OutFile $file
           $digest = (Get-FileHash -Algorithm SHA256 -LiteralPath $file).Hash.ToLowerInvariant()
-          if ($digest -ne $manifest.hash.ToLowerInvariant()) { throw 'Registry metadata SHA256 mismatch' }
+          if ($digest -ne $manifest.hash[0].ToLowerInvariant()) { throw 'Registry metadata SHA256 mismatch' }
           if ((Get-Content $file -Raw | ConvertFrom-Json).version -ne $manifest.version) { throw 'Registry package version mismatch' }
           $hook = $manifest.pre_install -join "`n"
           [scriptblock]::Create($hook) | Out-Null
-          foreach ($required in @('CLAUDE_MEM_MANUAL_UPDATE', '-UpdateCentral', '-TargetVersion', '$Manifest.version', '$LASTEXITCODE')) {
+          foreach ($required in @('install-central-client.ps1', '-UpdateCentral', '-TargetVersion', '$Manifest.version', '$LASTEXITCODE', 'reset claude-mem-central', 'throw $failure')) {
             if (!$hook.Contains($required)) { throw "Missing required manual-only hook contract: $required" }
           }
-          if ($manifest.autoupdate.url -notmatch '\$version') { throw 'Version metadata is not updatable' }
+          if ($manifest.autoupdate.url[0] -notmatch '\$version' -or @($manifest.autoupdate.url).Count -ne 6) { throw 'Version metadata is not updatable' }
+          $commit=$null
+          $expectedFiles=@('install-central-client.ps1','sync-claude-mem-central.ps1','claude-mem-remote-worker-guard.cjs','claude-mem-ensure-launcher-path.cjs','central-client-compatibility.json')
+          for ($i=1; $i -lt 6; $i++) {
+            if ($manifest.url[$i] -notmatch '^https://raw\.githubusercontent\.com/nonlog/central-memory-bridges/([a-f0-9]{40})/deploy/windows/([^/]+)$') { throw 'Updater source must be pinned to a full commit' }
+            if ($commit -and $commit -ne $Matches[1]) { throw 'Updater files use different commits' }
+            $commit=$Matches[1]
+            if ($Matches[2] -ne $expectedFiles[$i-1]) { throw 'Unexpected updater file' }
+            if ($manifest.autoupdate.url[$i] -ne $manifest.url[$i]) { throw 'Excavator must preserve pinned updater URLs' }
+            $artifact=Join-Path $env:RUNNER_TEMP $Matches[2]
+            Invoke-WebRequest -Uri $manifest.url[$i] -OutFile $artifact
+            if ((Get-FileHash $artifact -Algorithm SHA256).Hash.ToLowerInvariant() -ne $manifest.hash[$i]) { throw 'Updater SHA256 mismatch' }
+            if ($artifact.EndsWith('.ps1')) {
+              $tokens=$null; $errors=$null
+              [Management.Automation.Language.Parser]::ParseFile($artifact,[ref]$tokens,[ref]$errors) | Out-Null
+              if ($errors.Count) { throw ($errors.Message -join '; ') }
+            }
+          }
+          $installer=Get-Content (Join-Path $env:RUNNER_TEMP 'install-central-client.ps1') -Raw
+          if (!$installer.Contains('CLAUDE_MEM_MANUAL_UPDATE') -or !$installer.Contains('-SyncLocal')) { throw 'Installer lost explicit central/local modes' }
           Write-Host "Validated claude-mem-central $($manifest.version) manual update entry"
