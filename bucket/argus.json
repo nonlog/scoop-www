@@ -1,0 +1,31 @@
+{
+    "version": "0.4.0",
+    "description": "A fast, modern and informative task manager for Windows.",
+    "homepage": "https://argustask.com/en/",
+    "license": "AGPL-3.0-or-later",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Ray-lea/Argus/releases/download/v0.4.0/Argus_0.4.0_x64.exe",
+            "hash": "eef111d449b3f425283b316bc7af8346475e7de925f2991e75fdf4c5131b835c"
+        }
+    },
+    "pre_install": "$file = Get-ChildItem -LiteralPath \"$dir\" -Filter 'Argus_*_x64.exe' -File | Select-Object -First 1; if (-not $file) { throw 'Argus portable executable not found.' }; Rename-Item -LiteralPath $file.FullName -NewName 'Argus.exe'",
+    "bin": "Argus.exe",
+    "shortcuts": [
+        [
+            "Argus.exe",
+            "Argus"
+        ]
+    ],
+    "checkver": {
+        "url": "https://github.com/Ray-lea/Argus/releases/latest",
+        "regex": "/releases/tag/v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Ray-lea/Argus/releases/download/v$version/Argus_$version_x64.exe"
+            }
+        }
+    }
+}
