@@ -1,16 +1,16 @@
 {
-    "version": "0.1.18",
+    "version": "0.1.19",
     "description": "Battery-first phone/Windows companion for clipboard, screenshots, notifications, and file handoff.",
     "homepage": "https://github.com/nonlog/Conduit",
-    "icon": "https://raw.githubusercontent.com/nonlog/Conduit/v0.1.18/windows/conduit-daemon/assets/conduit-icon.ico",
+    "icon": "https://raw.githubusercontent.com/nonlog/Conduit/v0.1.19/windows/conduit-daemon/assets/conduit-icon.ico",
     "license": "Unknown",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Conduit/releases/download/v0.1.18/Conduit-0.1.18-windows-x64.zip",
-            "hash": "d05115742eacf94edc0e18c418af6c12e593c5879ef2027dcfed6fcc0e9572fa"
+            "url": "https://github.com/nonlog/Conduit/releases/download/v0.1.19/Conduit-0.1.19-windows-x64.zip",
+            "hash": "b6425c46d2449c6387f477a1df389137d7af2ffad3fa9f65f908f7fe1a5a5595"
         }
     },
-    "bin": "Conduit.exe",
+    "bin": "conduit-rune.exe",
     "persist": "data",
     "post_install": "& \"$dir\\tools\\install-windows.ps1\" -SourceDir \"$dir\" -InstallDir \"$dir\"",
     "pre_uninstall": "if ($cmd -eq 'uninstall') { & \"$dir\\tools\\uninstall-windows.ps1\" }",
@@ -26,7 +26,7 @@
         }
     },
     "notes": [
-        "Rune is the native Windows desktop; Nova is retired. Conduit.exe remains the Windows Share Target compatibility entrypoint.",
+        "Rune is the native Windows desktop; the Share Target is a separate Rust host with a signed MSIX identity package.",
         "Scoop persists pairing identity, history, Relay and tray settings under persist/conduit/data across updates.",
         "The installer preserves existing Start-at-sign-in and Explorer Send with Conduit choices when migrating or updating."
     ]
