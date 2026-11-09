@@ -1,21 +1,21 @@
 {
-    "version": "1.1.4",
+    "version": "1.1.5",
     "description": "Music search and download tool with desktop and CLI modes.",
     "homepage": "https://github.com/guohuiyuan/go-music-dl",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/go-music-dl.ico",
     "license": "AGPL-3.0-only",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.4/music-dl-desktop-rust-windows-amd64.zip",
-            "hash": "bd54984ea7606e4ab99ee3946a1da898f370c2940fc0375bc00669a71819b4ac"
+            "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.5/music-dl-desktop-rust-windows-amd64.zip",
+            "hash": "d02ba1dd1c3a473df928dd88c5ac9f604a56635082e1b54af0ba336dc48cf1b9"
         },
         "32bit": {
-            "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.4/music-dl-desktop-rust-windows-386.zip",
-            "hash": "779da2798e5a268d95cd58b12257e95501ee997e0a7a5be9e467020f9d27448e"
+            "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.5/music-dl-desktop-rust-windows-386.zip",
+            "hash": "1a662016197dbd9cb8503076a9cd612f72f3a4b19a2dd3a210d2520a1e1aa7be"
         },
         "arm64": {
-            "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.4/music-dl-desktop-rust-windows-arm64.zip",
-            "hash": "b5cea3aaf5800686fb74cb3c4c61570eb337b45d5ecb280f6b2c6743b61b4e9d"
+            "url": "https://github.com/guohuiyuan/go-music-dl/releases/download/v1.1.5/music-dl-desktop-rust-windows-arm64.zip",
+            "hash": "231df3896a396e3ea1f029993c4b451d7c06abf4f6d49226e6347982151a5813"
         }
     },
     "pre_install": "Get-ChildItem \"$dir\\music-dl-desktop*.exe\" | Rename-Item -NewName 'music-dl-desktop.exe'",
