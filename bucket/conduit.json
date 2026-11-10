@@ -1,13 +1,13 @@
 {
-    "version": "0.1.19",
+    "version": "0.1.20",
     "description": "Battery-first phone/Windows companion for clipboard, screenshots, notifications, and file handoff.",
     "homepage": "https://github.com/nonlog/Conduit",
-    "icon": "https://raw.githubusercontent.com/nonlog/Conduit/v0.1.19/windows/conduit-daemon/assets/conduit-icon.ico",
+    "icon": "https://raw.githubusercontent.com/nonlog/Conduit/v0.1.20/windows/conduit-daemon/assets/conduit-icon.ico",
     "license": "Unknown",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Conduit/releases/download/v0.1.19/Conduit-0.1.19-windows-x64.zip",
-            "hash": "b6425c46d2449c6387f477a1df389137d7af2ffad3fa9f65f908f7fe1a5a5595"
+            "url": "https://github.com/nonlog/Conduit/releases/download/v0.1.20/Conduit-0.1.20-windows-x64.zip",
+            "hash": "2cc103d0909e2ee0e990c3318d49250ac5e79573be96bb1bb01cb02dd8b77477"
         }
     },
     "bin": "conduit-rune.exe",
