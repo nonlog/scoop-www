@@ -1,10 +1,10 @@
 {
-    "version": "15.13.0",
+    "version": "15.15.0",
     "description": "Manually update the central Worker when needed and synchronize this computer's Claude/Codex/npm clients.",
     "homepage": "https://github.com/nonlog/central-memory-bridges",
     "license": "MIT",
     "url": [
-        "https://registry.npmjs.org/claude-mem/15.13.0#/release.json",
+        "https://registry.npmjs.org/claude-mem/15.15.0#/release.json",
         "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/install-central-client.ps1",
         "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/sync-claude-mem-central.ps1",
         "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-remote-worker-guard.cjs",
@@ -12,7 +12,7 @@
         "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/central-client-compatibility.json"
     ],
     "hash": [
-        "db9147362f09dc60a7f02b797131b467c9e4316a0a5ea968fd05f7d8d4103dfb",
+        "5c73381068a6d24fa03e1f31dac959c9ae33d1407429677bb334ca542cc69bf2",
         "f85036bdf08cbad795280cd2f5276d532747016f2d8dfea88af0d0fdbdf45917",
         "000c2a0e08b57f77fd44068f78ff52412c6c66d760339b8c2cee4b76274dabe0",
         "87c5f592b1eeba01bd74796e328c91d3931cecf53ee234fd9b18e8aba5318adf",
