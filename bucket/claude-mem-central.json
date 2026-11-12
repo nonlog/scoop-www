@@ -5,11 +5,11 @@
     "license": "MIT",
     "url": [
         "https://registry.npmjs.org/claude-mem/15.18.1#/release.json",
-        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/install-central-client.ps1",
-        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/sync-claude-mem-central.ps1",
-        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-remote-worker-guard.cjs",
-        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-ensure-launcher-path.cjs",
-        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/central-client-compatibility.json"
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/install-central-client.ps1",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/sync-claude-mem-central.ps1",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/claude-mem-remote-worker-guard.cjs",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/claude-mem-ensure-launcher-path.cjs",
+        "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/central-client-compatibility.json"
     ],
     "hash": [
         "3d996566aa9e6c200c6c1699b29b31f7b6c2c012e9c18367c4402428c491f7cc",
@@ -40,11 +40,11 @@
     "autoupdate": {
         "url": [
             "https://registry.npmjs.org/claude-mem/$version#/release.json",
-            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/install-central-client.ps1",
-            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/sync-claude-mem-central.ps1",
-            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-remote-worker-guard.cjs",
-            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/claude-mem-ensure-launcher-path.cjs",
-            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/c92522701b176a379069cb57619bf6a5be8a6c96/deploy/windows/central-client-compatibility.json"
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/install-central-client.ps1",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/sync-claude-mem-central.ps1",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/claude-mem-remote-worker-guard.cjs",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/claude-mem-ensure-launcher-path.cjs",
+            "https://raw.githubusercontent.com/nonlog/central-memory-bridges/e7f46799b601bea35902be9c183d5732f3d09601/deploy/windows/central-client-compatibility.json"
         ]
     },
     "notes": [

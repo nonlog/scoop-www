@@ -21,9 +21,9 @@
     ],
     "pre_install": [
         "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\unpack.ps1\" -PackageDir $dir -SetupPath \"$dir\\$fname\"",
-        "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase pre -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'"
+        "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase pre -PackageDir \"$dir\" -PreviousVersion \"$old_version\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'"
     ],
-    "post_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase post -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
+    "post_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase post -PackageDir \"$original_dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
     "notes": [
         "AgentDock 程序由 Scoop 管理，配置和 DPAPI 认证文件保留在 D:\\Programs\\Scoop\\persist\\agentdock。",
         "升级时将现有已签名 cloudflared 导入 AgentDock components；后续由 AgentDock 组件管理器维护。",

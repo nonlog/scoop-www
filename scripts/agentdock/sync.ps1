@@ -7,6 +7,8 @@ param(
     [Parameter(Mandatory = $true)]
     [string] $PackageDir,
 
+    [string] $PreviousVersion = '',
+
     [string] $RuntimeRoot = 'D:\Programs\Scoop\persist\agentdock'
 )
 
@@ -130,6 +132,10 @@ if ($Phase -eq 'pre') {
     $runtime = Get-Content -LiteralPath $runtimeManifestPath -Raw | ConvertFrom-Json
     $runtimeAgent = [string] $runtime.agentdock_binary
     $runtimeTray = [string] $runtime.tray_binary
+    if (!(Test-Path -LiteralPath $runtimeAgent -PathType Leaf) -and $PreviousVersion -match '^[\w.\-+]+$') {
+        $previousAgent = Join-Path (Split-Path $PackageDir -Parent) "$PreviousVersion\agentdock.exe"
+        if (Test-Path -LiteralPath $previousAgent -PathType Leaf) { $runtimeAgent = $previousAgent }
+    }
     $corePaths = @($agent, $runtimeAgent, $oldAgent)
     $trayPaths = @(
         $tray, $runtimeTray, $oldTray,
