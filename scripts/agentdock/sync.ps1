@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet('pre', 'post')]
+    [ValidateSet('pre', 'post', 'task')]
     [string] $Phase,
 
     [Parameter(Mandatory = $true)]
@@ -31,6 +31,9 @@ function Write-Utf8NoBom {
 
 $agent = Join-Path $PackageDir 'agentdock.exe'
 $tray = Join-Path $PackageDir 'agentdock-tray.exe'
+if (Test-Path -LiteralPath (Join-Path $PackageDir 'control-panel\agentdock-tray.exe')) {
+    $tray = Join-Path $PackageDir 'control-panel\agentdock-tray.exe'
+}
 $oldAgent = 'D:\Programs\AgentDock\bin\agentdock.exe'
 $oldTray = 'D:\Programs\AgentDock\bin\agentdock-tray.exe'
 $manager = Join-Path $RuntimeRoot 'installer\manage-windows.ps1'
@@ -39,6 +42,13 @@ $tunnelLauncher = Join-Path $RuntimeRoot 'start-cloudflared.ps1'
 $trayLauncher = Join-Path $RuntimeRoot 'start-agentdock-tray.ps1'
 $runtimeManifestPath = Join-Path $RuntimeRoot 'runtime.json'
 $wingetCloudflared = 'C:\Program Files (x86)\cloudflared\cloudflared.exe'
+
+if ($Phase -eq 'task') {
+    if (!(Test-Path -LiteralPath $tray -PathType Leaf)) { throw "Tray not found: $tray" }
+    $action = New-ScheduledTaskAction -Execute $tray -Argument "--run-core-task --runtime-root `"$RuntimeRoot`""
+    Set-ScheduledTask -TaskName 'AgentDock' -TaskPath '\' -Action $action -ErrorAction Stop | Out-Null
+    return
+}
 
 function Get-ProcessesAtPath {
     param(
@@ -121,7 +131,11 @@ if ($Phase -eq 'pre') {
     $runtimeAgent = [string] $runtime.agentdock_binary
     $runtimeTray = [string] $runtime.tray_binary
     $corePaths = @($agent, $runtimeAgent, $oldAgent)
-    $trayPaths = @($tray, $runtimeTray, $oldTray)
+    $trayPaths = @(
+        $tray, $runtimeTray, $oldTray,
+        (Join-Path $PackageDir '..\current\agentdock-tray.exe'),
+        (Join-Path $PackageDir '..\current\control-panel\agentdock-tray.exe')
+    )
     $coreProcesses = @(Get-ProcessesAtPath -Name 'agentdock' -Paths $corePaths)
     $trayProcesses = @(Get-ProcessesAtPath -Name 'agentdock-tray' -Paths $trayPaths)
     $coreService = Get-CoreServiceStatus -Binary $runtimeAgent
@@ -132,9 +146,11 @@ if ($Phase -eq 'pre') {
 
     $coreStartup = [bool] $coreService.startup_enabled
     $tunnelStartup = Test-RunValue -Name 'AgentDockCloudflared'
+    $tunnelRunning = ($cloudProcesses.Count -gt 0)
     try {
         $tunnelStatus = (& $runtimeAgent tunnel status --runtime-root $RuntimeRoot 2>$null | ConvertFrom-Json)
         $tunnelStartup = [bool] $tunnelStatus.startup_enabled
+        $tunnelRunning = [bool] $tunnelStatus.running
     } catch {
     }
     $privilegeMode = ([string] $runtime.privilege_mode).Trim().ToLowerInvariant()
@@ -142,7 +158,7 @@ if ($Phase -eq 'pre') {
     $state = [ordered]@{
         CoreRunning = ($coreProcesses.Count -gt 0 -or [bool] $coreService.running)
         TrayRunning = ($trayProcesses.Count -gt 0)
-        TunnelRunning = ($cloudProcesses.Count -gt 0)
+        TunnelRunning = $tunnelRunning
         CoreStartup = $coreStartup
         CorePrivilegeMode = $privilegeMode
         TrayStartup = (Test-RunValue -Name 'AgentDockTray')
@@ -150,11 +166,15 @@ if ($Phase -eq 'pre') {
     }
     Write-Utf8NoBom -Path $statePath -Content ($state | ConvertTo-Json)
 
-    foreach ($process in @($trayProcesses + $coreProcesses)) {
+    foreach ($process in $trayProcesses) {
         Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
     }
     if ([bool] $coreService.running) {
         Stop-CoreForUpdate -Binary $runtimeAgent
+    }
+    # Legacy installs can have both a scheduled core and a separate user core.
+    foreach ($process in $coreProcesses) {
+        Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
     }
 
     $deadline = (Get-Date).AddSeconds(15)
@@ -176,7 +196,7 @@ if ($Phase -eq 'pre') {
 
 foreach ($path in @(
     (Join-Path $PackageDir 'agentdock.exe'),
-    (Join-Path $PackageDir 'agentdock-tray.exe'),
+    $tray,
     (Join-Path $PackageDir 'agentdock.ico'),
     (Join-Path $PackageDir 'manage-windows.ps1'),
     (Join-Path $PackageDir 'share\agentdock\core-skills\manifest.json')
@@ -185,8 +205,19 @@ foreach ($path in @(
         throw "Scoop 包缺少必需文件：$path"
     }
 }
-if (-not (Test-Path -LiteralPath $wingetCloudflared -PathType Leaf)) {
-    throw "找不到 Winget 管理的 cloudflared：$wingetCloudflared"
+$componentStatus = (& $agent component status cloudflared --runtime-root $RuntimeRoot --json | ConvertFrom-Json)
+if ($LASTEXITCODE -ne 0) { throw 'Cannot read the cloudflared component status.' }
+if (-not $componentStatus.ready) {
+    if (!(Test-Path -LiteralPath $wingetCloudflared -PathType Leaf)) {
+        throw "找不到可导入的 cloudflared：$wingetCloudflared"
+    }
+    & $agent component __import-legacy cloudflared --runtime-root $RuntimeRoot --source $wingetCloudflared --json
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot import the existing signed cloudflared component.' }
+    $componentStatus = (& $agent component status cloudflared --runtime-root $RuntimeRoot --json | ConvertFrom-Json)
+}
+$cloudflared = [string] $componentStatus.path
+if (-not $componentStatus.ready -or !(Test-Path -LiteralPath $cloudflared -PathType Leaf)) {
+    throw 'The managed cloudflared component is not ready.'
 }
 
 $state = $null
@@ -232,7 +263,7 @@ if (Test-Path -LiteralPath $runtimeManifestPath -PathType Leaf) {
 Set-JsonProperty -Object $manifest -Name 'agentdock_binary' -Value $agent
 Set-JsonProperty -Object $manifest -Name 'tray_binary' -Value $tray
 Set-JsonProperty -Object $manifest -Name 'agentdock_launcher' -Value $coreLauncher
-Set-JsonProperty -Object $manifest -Name 'cloudflared_binary' -Value $wingetCloudflared
+Set-JsonProperty -Object $manifest -Name 'cloudflared_binary' -Value $cloudflared
 Set-JsonProperty -Object $manifest -Name 'cloudflared_launcher' -Value $tunnelLauncher
 Set-JsonProperty -Object $manifest -Name 'install_channel' -Value 'scoop'
 $tmpManifest = "$runtimeManifestPath.scoop.tmp"
@@ -278,6 +309,19 @@ Write-Utf8NoBom -Path $trayLauncher -Content ($trayLines -join [Environment]::Ne
 
 [Environment]::SetEnvironmentVariable('AGENTDOCK_RUNTIME_DIR', $RuntimeRoot, 'User')
 $env:AGENTDOCK_RUNTIME_DIR = $RuntimeRoot
+if ([string] $state.CorePrivilegeMode -eq 'elevated') {
+    $task = Get-ScheduledTask -TaskName 'AgentDock' -TaskPath '\' -ErrorAction Stop
+    if ($task.Actions.Execute -ne $tray) {
+        # The native autostart command toggles Enabled but does not update the task executable.
+        $repairHost = Join-Path $PSHOME 'pwsh.exe'
+        if (!(Test-Path -LiteralPath $repairHost)) { $repairHost = Join-Path $PSHOME 'powershell.exe' }
+        $repair = Start-Process -FilePath $repairHost -Verb RunAs -WindowStyle Hidden -PassThru -Wait -ArgumentList @(
+            '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$PSCommandPath`"",
+            '-Phase', 'task', '-PackageDir', "`"$PackageDir`"", '-RuntimeRoot', "`"$RuntimeRoot`""
+        )
+        if ($repair.ExitCode -ne 0) { throw 'AgentDock core scheduled task migration failed.' }
+    }
+}
 if ([bool] $state.CoreRunning) {
     if ([string] $state.CorePrivilegeMode -eq 'elevated') {
         & $agent service start --runtime-root $RuntimeRoot
@@ -290,9 +334,6 @@ if ([bool] $state.CoreRunning) {
 }
 if ([bool] $state.TrayRunning) {
     Start-Process -FilePath $tray -ArgumentList @('--background') -WindowStyle Hidden | Out-Null
-}
-if (-not [bool] $state.TunnelRunning -and [bool] $state.TunnelStartup) {
-    Start-Process -FilePath $tray -ArgumentList @('--start-tunnel', '--runtime-root', $RuntimeRoot) -WindowStyle Hidden | Out-Null
 }
 
 if ([bool] $state.CoreRunning) {
@@ -310,6 +351,14 @@ if ([bool] $state.CoreRunning) {
     }
     if (-not $healthy) {
         throw ("AgentDock 未能在 127.0.0.1:{0} 恢复健康。" -f $port)
+    }
+}
+
+# Core shutdown can terminate its tunnel supervisor; preserve the previous running state.
+if ([bool] $state.TunnelRunning) {
+    & $agent tunnel start --runtime-root $RuntimeRoot
+    if ($LASTEXITCODE -ne 0) {
+        throw "AgentDock tunnel 恢复失败，退出码：$LASTEXITCODE"
     }
 }
 
@@ -344,6 +393,6 @@ Remove-Item -LiteralPath $statePath -Force -ErrorAction SilentlyContinue
 [pscustomobject]@{
     RuntimeRoot = $RuntimeRoot
     PackageDir = $PackageDir
-    Cloudflared = $wingetCloudflared
+    Cloudflared = $cloudflared
     Health = if ([bool] $state.CoreRunning) { 'HTTP 200' } else { 'not-started-by-migration' }
 } | Format-List

@@ -1,28 +1,33 @@
 {
-    "version": "0.9.2",
+    "version": "1.1.1",
     "description": "Windows AgentDock with Scoop-managed binaries and a persistent Scoop runtime directory.",
     "homepage": "https://github.com/uvwt/agentdock",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/agentdock.ico",
-    "license": "MIT",
+    "license": "Apache-2.0",
+    "depends": "innounp",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/uvwt/agentdock/releases/download/v0.9.2/agentdock_windows_amd64.zip",
-            "hash": "55c647e6cfe23e32ccd0bb32b204ca554d31ff74a003ea1d68e0a85e16726f06"
+            "url": "https://github.com/uvwt/agentdock/releases/download/v1.1.1/AgentDockSetup-amd64.exe",
+            "hash": "d827881daf824faf5c47279b92a29e2e0deac64f9e75515f2c749d5fc140b4cd"
         }
     },
     "shortcuts": [
         [
-            "agentdock-tray.exe",
+            "control-panel\\agentdock-tray.exe",
             "AgentDock Tray",
             "",
             "agentdock.ico"
         ]
     ],
-    "pre_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase pre -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
+    "pre_install": [
+        "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\unpack.ps1\" -PackageDir $dir -SetupPath \"$dir\\$fname\"",
+        "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase pre -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'"
+    ],
     "post_install": "& \"$bucketsdir\\$bucket\\scripts\\agentdock\\sync.ps1\" -Phase post -PackageDir \"$dir\" -RuntimeRoot 'D:\\Programs\\Scoop\\persist\\agentdock'",
     "notes": [
         "AgentDock 程序由 Scoop 管理，配置和 DPAPI 认证文件保留在 D:\\Programs\\Scoop\\persist\\agentdock。",
-        "Cloudflared 由 Winget 管理，不由此 manifest 更新。",
+        "升级时将现有已签名 cloudflared 导入 AgentDock components；后续由 AgentDock 组件管理器维护。",
+        "Windows Setup 内的官方程序包由 Scoop 解包；托盘所需的 Microsoft 运行库通过上游检查器验证并按需安装。",
         "更新命令：scoop update agentdock"
     ],
     "checkver": {
@@ -32,7 +37,7 @@
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://github.com/uvwt/agentdock/releases/download/v$version/agentdock_windows_amd64.zip"
+                "url": "https://github.com/uvwt/agentdock/releases/download/v$version/AgentDockSetup-amd64.exe"
             }
         }
     }
