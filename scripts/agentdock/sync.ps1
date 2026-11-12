@@ -288,6 +288,9 @@ if ($port -lt 1 -or $port -gt 65535) {
 if ($settings -and $settings.port -ge 1 -and $settings.port -le 65535) {
     $port = [int] $settings.port
 }
+$ensureCore = [bool]$state.CoreRunning -or ([string]$manifest.privilege_mode -eq 'elevated')
+$ensureTunnel = [bool]$state.TunnelRunning -or ([string]$manifest.tunnel_mode -eq 'named')
+$ensureTray = $true
 
 $coreLines = @(
     '$ErrorActionPreference = ''Stop''',
@@ -328,7 +331,7 @@ if ([string] $state.CorePrivilegeMode -eq 'elevated') {
         if ($repair.ExitCode -ne 0) { throw 'AgentDock core scheduled task migration failed.' }
     }
 }
-if ([bool] $state.CoreRunning) {
+if ($ensureCore) {
     if ([string] $state.CorePrivilegeMode -eq 'elevated') {
         & $agent service start --runtime-root $RuntimeRoot
         if ($LASTEXITCODE -ne 0) {
@@ -338,11 +341,11 @@ if ([bool] $state.CoreRunning) {
         Start-HiddenPowerShell -ScriptPath $coreLauncher
     }
 }
-if ([bool] $state.TrayRunning) {
+if ($ensureTray) {
     Start-Process -FilePath $tray -ArgumentList @('--background') -WindowStyle Hidden | Out-Null
 }
 
-if ([bool] $state.CoreRunning) {
+if ($ensureCore) {
     $healthy = $false
     for ($i = 0; $i -lt 40; $i++) {
         try {
@@ -361,7 +364,7 @@ if ([bool] $state.CoreRunning) {
 }
 
 # Core shutdown can terminate its tunnel supervisor; preserve the previous running state.
-if ([bool] $state.TunnelRunning) {
+if ($ensureTunnel) {
     & $agent tunnel start --runtime-root $RuntimeRoot
     if ($LASTEXITCODE -ne 0) {
         throw "AgentDock tunnel 恢复失败，退出码：$LASTEXITCODE"
@@ -400,5 +403,5 @@ Remove-Item -LiteralPath $statePath -Force -ErrorAction SilentlyContinue
     RuntimeRoot = $RuntimeRoot
     PackageDir = $PackageDir
     Cloudflared = $cloudflared
-    Health = if ([bool] $state.CoreRunning) { 'HTTP 200' } else { 'not-started-by-migration' }
+    Health = if ($ensureCore) { 'HTTP 200' } else { 'not-started-by-migration' }
 } | Format-List
