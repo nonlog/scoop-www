@@ -1,0 +1,40 @@
+{
+    "version": "0.1.10",
+    "description": "A fast, local-first Markdown notes app and rich-text editor.",
+    "homepage": "https://github.com/s1dashu/quiet-md",
+    "icon": "https://raw.githubusercontent.com/s1dashu/quiet-md/main/assets/branding/app-icon.ico",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/s1dashu/quiet-md/releases/download/v0.1.10/quiet-md-0.1.10-windows-x64-setup.exe",
+            "hash": "7fe3af8052702e9d1d444fb5ed8273b69184a048ccb0f170d9d6a660d648b501"
+        }
+    },
+    "pre_install": "Expand-InnoArchive -Path \"$dir\\$fname\" -DestinationPath $dir -Removal",
+    "bin": "quiet_md.exe",
+    "shortcuts": [
+        [
+            "quiet_md.exe",
+            "Quiet.md"
+        ]
+    ],
+    "notes": [
+        "Notes and preferences are stored in the Windows Documents folder under Quiet.md and remain after Scoop updates.",
+        "The current Windows build is unsigned."
+    ],
+    "checkver": {
+        "url": "https://github.com/s1dashu/quiet-md/releases/latest",
+        "regex": "/releases/tag/v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/s1dashu/quiet-md/releases/download/v$version/quiet-md-$version-windows-x64-setup.exe",
+                "hash": {
+                    "url": "https://github.com/s1dashu/quiet-md/releases/download/v$version/SHA256SUMS",
+                    "regex": "$sha256\\s+quiet-md-$version-windows-x64-setup\\.exe"
+                }
+            }
+        }
+    }
+}
