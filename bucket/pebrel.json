@@ -1,17 +1,17 @@
 {
-    "version": "2.5.0",
+    "version": "2.5.3",
     "description": "AI-native, GPU-accelerated terminal emulator with SSH, persistent sessions, split panes, and first-class AI CLI workflows.",
     "homepage": "https://github.com/Kuddev/pebrel",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/pebrel.ico",
     "license": "GPL-3.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Kuddev/pebrel/releases/download/v2.5.0/Pebrel-v2.5.0-windows-x64.zip",
-            "hash": "8c7c87d245a60efa9ebd71e26ae3f40a06c3f4ee8c4c69b665f9b2e50e6a1431"
+            "url": "https://github.com/Kuddev/pebrel/releases/download/v2.5.3/Pebrel-v2.5.3-windows-x64.zip",
+            "hash": "c6d7faf53defa32fc43e596d5b8a34963ef6241e95d858762bea450d5f127141"
         },
         "arm64": {
-            "url": "https://github.com/Kuddev/pebrel/releases/download/v2.5.0/Pebrel-v2.5.0-windows-arm64.zip",
-            "hash": "42d87a8de467adc86a5ee8a6a96e098971b05936f162bf0e7810c65dba98bbca"
+            "url": "https://github.com/Kuddev/pebrel/releases/download/v2.5.3/Pebrel-v2.5.3-windows-arm64.zip",
+            "hash": "a0eebce5bfd82b4e6832c5e6b235c1f6e3aa568143587718dbc9b4a7c0d9d91e"
         }
     },
     "pre_install": "Remove-Item \"$dir\\docs\", \"$dir\\skills\" -Force -Recurse -ErrorAction SilentlyContinue",
