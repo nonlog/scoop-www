@@ -1,16 +1,46 @@
 {
-    "version": "0.6.5.3",
+    "version": "0.6.5.4",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "depends": "www/rx",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.5.3/recall-windows-x86_64.zip",
-            "hash": "9820a791e6a763d6495f6b7d46373d60c1b4a634af8533f101d489ad34de7c02"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.5.4/recall-windows-x86_64.zip",
+            "hash": "6a1f384d83210f23cde0c85ad09ba54b4dcab27b6b9d55761e9bc3246bfaa61d"
         }
     },
-    "bin": ["recall.exe"],
+    "bin": [
+        "recall.exe"
+    ],
+    "installer": {
+        "script": [
+            "$name = 'Herdr Agent Icons Max (TrueType)'",
+            "$key = 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'",
+            "$target = \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\\HerdrAgentIconsMax-Regular.ttf\"",
+            "$registered = (Get-ItemProperty -Path $key -Name $name -ErrorAction SilentlyContinue).$name",
+            "if ($registered -and $registered -ne $target -and (Test-Path $registered)) {",
+            "    Write-Host 'Herdr Agent Icons Max is already installed; keeping the existing font.'",
+            "} else {",
+            "    New-Item -ItemType Directory -Force (Split-Path $target) | Out-Null",
+            "    # The font file is locked while a terminal uses it; keep the existing copy then.",
+            "    try { Copy-Item \"$dir\\fonts\\HerdrAgentIconsMax-Regular.ttf\" $target -Force -ErrorAction Stop } catch { if (-not (Test-Path $target)) { throw } }",
+            "    New-ItemProperty -Path $key -Name $name -Value $target -PropertyType String -Force | Out-Null",
+            "}"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            "if ($cmd -eq 'uninstall') {",
+            "    $name = 'Herdr Agent Icons Max (TrueType)'",
+            "    $key = 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'",
+            "    $target = \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\\HerdrAgentIconsMax-Regular.ttf\"",
+            "    $registered = (Get-ItemProperty -Path $key -Name $name -ErrorAction SilentlyContinue).$name",
+            "    if ($registered -eq $target) { Remove-ItemProperty -Path $key -Name $name -ErrorAction SilentlyContinue }",
+            "    Remove-Item $target -Force -ErrorAction SilentlyContinue",
+            "}"
+        ]
+    },
     "checkver": {
         "url": "https://github.com/nonlog/Recall/releases/latest",
         "regex": "/releases/tag/(?:v|V)?([\\d.]+)"
@@ -25,8 +55,8 @@
     "notes": [
         "This package follows the customized nonlog/Recall fork merged through upstream Recall 0.6.5.",
         "TUI source branding keeps distinct colors/icons with Unicode fallbacks.",
-        "Optional Herdr Agent Icons Max logos: configure an icon-capable terminal font and set RECALL_ICON_STYLE=herdr (Windows Terminal: start a new session after setting the user environment variable).",
-        "The user's patched Herdr Agent Icons Max font maps Droid to U+E1BB; RECALL_ICON_STYLE=herdr uses that exact glyph, while plain mode uses the text fallback. A matching patched font is required.",
+        "Herdr Agent Icons Max logos are the default TUI icon style (RECALL_ICON_STYLE=nerd or plain to opt out). The package installs the bundled patched font (Droid at U+E1BB) for the current user unless a Herdr Agent Icons Max font is already registered; the terminal must be able to use it (primary or fallback font). Open a new terminal after the first install.",
+        "Subagent sessions nest under their parent (Ctrl+E toggles); a clickable agent tab bar filters by agent (Alt+Left/Right cycles). Without a saved agent selection, only agents with indexed sessions are enabled.",
         "Droid local Trash/permanent delete validates UUID and session_start.id, and includes only the selected session's settings and backup files.",
         "Droid deletion affects local Factory files only, not Factory cloud-synced copies (cloudSessionSync is enabled by default).",
         "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
