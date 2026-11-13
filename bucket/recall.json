@@ -1,13 +1,13 @@
 {
-    "version": "0.6.5.4",
+    "version": "0.6.5.6",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "depends": "www/rx",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.5.4/recall-windows-x86_64.zip",
-            "hash": "6a1f384d83210f23cde0c85ad09ba54b4dcab27b6b9d55761e9bc3246bfaa61d"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.5.6/recall-windows-x86_64.zip",
+            "hash": "3e0a72e34f0871e0355ce26fa69a4b63f83357f0de2914aac956e715f25a32cf"
         }
     },
     "bin": [
@@ -17,16 +17,12 @@
         "script": [
             "$name = 'Herdr Agent Icons Max (TrueType)'",
             "$key = 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'",
-            "$target = \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\\HerdrAgentIconsMax-Regular.ttf\"",
-            "$registered = (Get-ItemProperty -Path $key -Name $name -ErrorAction SilentlyContinue).$name",
-            "if ($registered -and $registered -ne $target -and (Test-Path $registered)) {",
-            "    Write-Host 'Herdr Agent Icons Max is already installed; keeping the existing font.'",
-            "} else {",
-            "    New-Item -ItemType Directory -Force (Split-Path $target) | Out-Null",
-            "    # The font file is locked while a terminal uses it; keep the existing copy then.",
-            "    try { Copy-Item \"$dir\\fonts\\HerdrAgentIconsMax-Regular.ttf\" $target -Force -ErrorAction Stop } catch { if (-not (Test-Path $target)) { throw } }",
-            "    New-ItemProperty -Path $key -Name $name -Value $target -PropertyType String -Force | Out-Null",
-            "}"
+            "$target = \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\\Recall-HerdrAgentIconsMax-$version.ttf\"",
+            "New-Item -ItemType Directory -Force (Split-Path $target) | Out-Null",
+            "New-Item -Path $key -Force | Out-Null",
+            "if (-not (Test-Path $target)) { Copy-Item \"$dir\\fonts\\HerdrAgentIconsMax-Regular.ttf\" $target -ErrorAction Stop }",
+            "New-ItemProperty -Path $key -Name $name -Value $target -PropertyType String -Force | Out-Null",
+            "Write-Host 'Restart your terminal to load the updated Herdr agent icons.'"
         ]
     },
     "uninstaller": {
@@ -34,10 +30,10 @@
             "if ($cmd -eq 'uninstall') {",
             "    $name = 'Herdr Agent Icons Max (TrueType)'",
             "    $key = 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'",
-            "    $target = \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\\HerdrAgentIconsMax-Regular.ttf\"",
+            "    $target = \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\\Recall-HerdrAgentIconsMax-$version.ttf\"",
             "    $registered = (Get-ItemProperty -Path $key -Name $name -ErrorAction SilentlyContinue).$name",
-            "    if ($registered -eq $target) { Remove-ItemProperty -Path $key -Name $name -ErrorAction SilentlyContinue }",
-            "    Remove-Item $target -Force -ErrorAction SilentlyContinue",
+            "    if ($registered -eq $target) { Remove-ItemProperty -Path $key -Name $name }",
+            "    if (Test-Path $target) { Remove-Item $target -Force -ErrorAction Continue }",
             "}"
         ]
     },
@@ -55,7 +51,7 @@
     "notes": [
         "This package follows the customized nonlog/Recall fork merged through upstream Recall 0.6.5.",
         "TUI source branding keeps distinct colors/icons with Unicode fallbacks.",
-        "Herdr Agent Icons Max logos are the default TUI icon style (RECALL_ICON_STYLE=nerd or plain to opt out). The package installs the bundled patched font (Droid at U+E1BB) for the current user unless a Herdr Agent Icons Max font is already registered; the terminal must be able to use it (primary or fallback font). Open a new terminal after the first install.",
+        "Herdr icons are installed per-user with a versioned filename; restart your terminal after upgrading. Existing user font files are preserved. Set RECALL_ICON_STYLE=plain for Unicode fallbacks.",
         "Subagent sessions nest under their parent (Ctrl+E toggles); a clickable agent tab bar filters by agent (Alt+Left/Right cycles). Without a saved agent selection, only agents with indexed sessions are enabled.",
         "Droid local Trash/permanent delete validates UUID and session_start.id, and includes only the selected session's settings and backup files.",
         "Droid deletion affects local Factory files only, not Factory cloud-synced copies (cloudSessionSync is enabled by default).",
