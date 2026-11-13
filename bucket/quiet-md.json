@@ -1,13 +1,13 @@
 {
-    "version": "0.1.10",
+    "version": "0.1.11",
     "description": "A fast, local-first Markdown notes app and rich-text editor.",
     "homepage": "https://github.com/s1dashu/quiet-md",
     "icon": "https://raw.githubusercontent.com/s1dashu/quiet-md/main/assets/branding/app-icon.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/s1dashu/quiet-md/releases/download/v0.1.10/quiet-md-0.1.10-windows-x64-setup.exe",
-            "hash": "7fe3af8052702e9d1d444fb5ed8273b69184a048ccb0f170d9d6a660d648b501"
+            "url": "https://github.com/s1dashu/quiet-md/releases/download/v0.1.11/quiet-md-0.1.11-windows-x64-setup.exe",
+            "hash": "b91413b5caf4c5c09052b505894521464cd9744e99171cb8b470ad73c6d6460a"
         }
     },
     "pre_install": "Expand-InnoArchive -Path \"$dir\\$fname\" -DestinationPath $dir -Removal",
