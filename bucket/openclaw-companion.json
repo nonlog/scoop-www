@@ -1,17 +1,17 @@
 {
-    "version": "2026.11.1",
+    "version": "2026.11.3",
     "description": "Windows companion suite for OpenClaw, including its system tray app, node, and PowerToys Command Palette extension.",
     "homepage": "https://github.com/openclaw/openclaw-windows-node",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/openclaw-companion.ico",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/openclaw/openclaw-windows-node/releases/download/v2026.11.1/OpenClawTray-2026.11.1-win-x64.zip",
-            "hash": "f1bc8ad6e6b8cd1b4b5a4d9c576a38cb2088b4198ea89f81b367324d3741fef9"
+            "url": "https://github.com/openclaw/openclaw-windows-node/releases/download/v2026.11.3/OpenClawTray-2026.11.3-win-x64.zip",
+            "hash": "fdb9abab1b39d864f73653aac6d62657ab0bedaea9eb7a2dadb71652e8a1cd89"
         },
         "arm64": {
-            "url": "https://github.com/openclaw/openclaw-windows-node/releases/download/v2026.11.1/OpenClawTray-2026.11.1-win-arm64.zip",
-            "hash": "59bc56fe32bbf741d70712c9def6ccad486cfae50a0d6b6413a51007ab7e04dd"
+            "url": "https://github.com/openclaw/openclaw-windows-node/releases/download/v2026.11.3/OpenClawTray-2026.11.3-win-arm64.zip",
+            "hash": "04445328c6883817d4b00b2fcbdf904c0f4d1d4c42e82644b75b7aa0eeb70e1b"
         }
     },
     "bin": "OpenClaw.Tray.WinUI.exe",
