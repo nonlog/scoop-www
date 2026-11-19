@@ -1,0 +1,40 @@
+{
+    "version": "1.1.0",
+    "description": "Tray and taskbar widget showing the battery level of wireless mice, headsets, keyboards and controllers.",
+    "homepage": "https://github.com/krisgfx9/Wireless-Device-Battery-Monitor",
+    "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/batteryhub.ico",
+    "license": "GPL-3.0",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/krisgfx9/Wireless-Device-Battery-Monitor/releases/download/v1.1.0/BatteryHub-1.1.0-portable.zip",
+            "hash": "7a97a1ff0aefa895386077093b23a714df549a08fad3b1b9c37ccf2100a27026"
+        }
+    },
+    "bin": "BatteryHub.exe",
+    "shortcuts": [
+        [
+            "BatteryHub.exe",
+            "BatteryHub"
+        ]
+    ],
+    "notes": [
+        "BatteryHub runs in the tray. Tick 'Start with Windows' in its tray menu to start it at sign-in.",
+        "Settings and device aliases live in HKCU\\Software\\WirelessBattery and survive Scoop upgrades.",
+        "The portable build never replaces itself: update with 'scoop update batteryhub'. Quit the running instance first, e.g. 'batteryhub --quit'."
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/krisgfx9/Wireless-Device-Battery-Monitor/releases/latest",
+        "jsonpath": "$.tag_name",
+        "regex": "v([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/krisgfx9/Wireless-Device-Battery-Monitor/releases/download/v$version/BatteryHub-$version-portable.zip"
+            }
+        },
+        "hash": {
+            "url": "$baseurl/SHA256SUMS.txt"
+        }
+    }
+}
