@@ -1,13 +1,13 @@
 {
-    "version": "0.6.5.6",
+    "version": "0.6.5.10",
     "description": "Local-first search, resume, handoff, usage tracking, and bulk session management for AI coding sessions.",
     "homepage": "https://github.com/nonlog/Recall",
     "license": "MIT",
     "depends": "www/rx",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.5.6/recall-windows-x86_64.zip",
-            "hash": "3e0a72e34f0871e0355ce26fa69a4b63f83357f0de2914aac956e715f25a32cf"
+            "url": "https://github.com/nonlog/Recall/releases/download/v0.6.5.10/recall-windows-x86_64.zip",
+            "hash": "2523b17e35a849c89f634fa65043c230635265b9dbce068a4c8a34ed36a14543"
         }
     },
     "bin": [
@@ -55,7 +55,7 @@
         "Subagent sessions nest under their parent (Ctrl+E toggles); a clickable agent tab bar filters by agent (Alt+Left/Right cycles). Without a saved agent selection, only agents with indexed sessions are enabled.",
         "Droid local Trash/permanent delete validates UUID and session_start.id, and includes only the selected session's settings and backup files.",
         "Droid deletion affects local Factory files only, not Factory cloud-synced copies (cloudSessionSync is enabled by default).",
-        "Delete moves selected/current sessions to Recall trash; Ctrl+D permanently deletes them. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
+        "Delete moves selected/current sessions to Recall trash; Ctrl+D moves them to trash and Ctrl+Shift+D permanently deletes them. Use `recall session trash list`, `restore`, and `empty --yes` to manage entries. Bulk selection uses Insert, Ctrl+Space, or Space while the search box is empty.",
         "Native-aware deletion now covers every source currently indexed on LOG: stale paths are re-resolved only inside trusted stores; Copilot Chat/CLI and Grok use source-specific file/directory rules; ZCode Trash uses a verified SQLite backup before native row deletion.",
         "Scoop persists both trash and data across upgrades; recall.db lives under the persisted data directory on Windows.",
         "Codex native titles follow state_5.sqlite plus the latest session_index.jsonl rename.",
