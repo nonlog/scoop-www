@@ -1,13 +1,13 @@
 {
-    "version": "0.4.0",
+    "version": "0.4.1",
     "description": "Modern GPUI music player focused on design and performance.",
     "homepage": "https://github.com/hummingbird-player/hummingbird",
     "icon": "https://raw.githubusercontent.com/nonlog/scoop-www/master/icons/hummingbird.ico",
     "license": "Apache-2.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/hummingbird-player/hummingbird/releases/download/0.4.0/Hummingbird-x86_64.exe",
-            "hash": "bb2a19c640f1fe1355193728789d85c4ccdb1e259dbc430bd1f41c18a368a2fb"
+            "url": "https://github.com/hummingbird-player/hummingbird/releases/download/0.4.1/Hummingbird-x86_64.exe",
+            "hash": "c8f6a485c55bc180ecafaa97eee0f82e8642dce6fe30cae9cafbf54eec965318"
         }
     },
     "bin": [
